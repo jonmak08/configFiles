@@ -1,0 +1,81 @@
+#Liferay
+alias repos='cd "/Volumes/Projects/liferay/repos/"'
+alias lpw='cd portal-web'
+alias lpi='cd portal-impl'
+alias lps='cd portal-service'
+
+#Plugins EE Folder
+function ee() {
+	set ${1}
+	if [ "${1}" == "lfr" ]; then
+		cd "/Volumes/Projects/liferay/Trunk/pluginsEE/portlets/"
+	else
+		if [ "${1}" == "ee" ]; then
+			cd "/Volumes/Projects/liferay/TrunkEE/pluginsEE/portlets/"
+		else
+			cd "/Volumes/Projects/liferay/${1}/pluginsEE/portlets/"
+		fi
+	fi
+}
+
+#Plugins Folder
+function plg() {
+	set ${1}
+	if [ "${1}" == "lfr" ]; then
+		cd "/Volumes/Projects/liferay/Trunk/plugins/portlets/"
+	else
+		if [ "${1}" == "ee" ]; then
+			cd "/Volumes/Projects/liferay/TrunkEE/plugins/portlets/"
+		else
+			cd "/Volumes/Projects/liferay/${1}/plugins/portlets/"
+		fi
+	fi
+}
+
+#Portal Folder
+function ptl() {
+	set ${1}
+	if [ "${1}" == "lfr" ]; then
+		cd "/Volumes/Projects/liferay/Trunk/portal"
+	else
+		if [ "${1}" == "ee" ]; then
+			cd "/Volumes/Projects/liferay/TrunkEE/portal/"
+		else
+			cd "/Volumes/Projects/liferay/${1}/portal/"
+		fi
+	fi
+}
+
+#Project Folder
+function prj() {
+	set ${1}
+	if [ "${1}" == "lfr" ]; then
+		cd "/Volumes/Projects/liferay/Trunk/"
+	else
+		if [ "${1}" == "ee" ]; then
+			cd "/Volumes/Projects/liferay/TrunkEE/"
+		else
+			cd "/Volumes/Projects/liferay/${1}/"
+		fi
+	fi
+}
+
+#Repository Folder
+function repo() {
+	set ${1}
+	if [ "${1}" == "ptl" ]; then
+		cd "/Volumes/Projects/liferay/repos/liferay-portal"
+	else
+		if [ "${1}" == "ee" ]; then
+			cd "/Volumes/Projects/liferay/repos/liferay-portal-ee"
+		else
+			if [ "${1}" == "plg" ]; then
+				cd "/Volumes/Projects/liferay/repos/liferay-plugins"
+			else
+				if [ "${1}" == "plgee" ]; then
+					cd "/Volumes/Projects/liferay/repos/liferay-plugins-ee"
+				fi
+			fi
+		fi
+	fi
+}

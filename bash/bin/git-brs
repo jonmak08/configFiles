@@ -1,0 +1,3 @@
+#!/bin/bash
+desc=${1}
+git for-each-ref --sort=${desc}committerdate refs/heads/ --format='%(refname) - %(committerdate:relative) - %(author) %(subject)' | cut -d / -f 3- | awk -F" - " '{print "\033[33m" $1 "\033[39m - \033[36m" $2 "\033[32m " $3}'

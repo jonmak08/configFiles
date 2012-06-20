@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cur_dir=$(pwd);
+
+branch_name="master";
+if [[ $cur_dir =~ -(ee-)?[0-9]+\.[^.]\.x/? ]]; then
+	repo_path=$(echo $cur_dir | perl -pe 's#-(ee-)?([0-9]+\.[^.]+\.x)/.*#-\1\2#')
+	cur_dir=$(echo $cur_dir | perl -pe 's#^.*?-(ee-)?([0-9]+\.[^.]+\.x)(/.*)?#\1\2#')
+
+	git show-ref --quiet "$cur_dir" && branch_name="$cur_dir"
+	[[ -f "$repo_path/.git/refs/heads/$cur_dir" ]] && branch_name="$cur_dir"
+fi;
+
+echo $branch_name

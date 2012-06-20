@@ -1,0 +1,234 @@
+#!/usr/bin/env node
+
+var child = require('child_process');
+var http = require('https');
+var fs = require('fs');
+var cli = require('./cli.js');
+var program = require('./commander.js');
+
+var options = cli.parse(
+	{
+		force: ['f', 'Force delete'],
+		local: ['l', 'Delete only local branches', 'boolean', false],
+		remote: ['r', 'Delete only remote branches', 'boolean', false],
+		msg: ['m', 'Delete branches where the head commit contains a message pattern', 'string', '']
+	}
+);
+
+var args = cli.args;
+
+// Process references
+var	exec = child.exec;
+var	spawn = child.spawn;
+
+var pattern = args[0] || '.*';
+
+var force = options.force;
+var localOnly = options.local;
+var remoteOnly = options.remote;
+
+var msgPattern = options.msg;
+
+var all = (localOnly == remoteOnly);
+
+var REGEX = new RegExp(pattern);
+var REGEX_ORIGIN = new RegExp(pattern.replace(/^\^?/, '^origin/'));
+var REGEX_MSG = new RegExp(msgPattern);
+
+var MSG_NO_BRANCHES_FOUND = "No branches found matching: " + pattern;
+
+var detailsArr = [];
+
+if (args.length || msgPattern) {
+
+var cleanUp = function() {
+	process.stdin.destroy();
+};
+
+var processBranches = function(locals, remotes) {
+	var branches = [];
+
+	if (all || localOnly) {
+		branches = branches.concat(locals);
+	}
+
+	if (all || remoteOnly) {
+		branches = branches.concat(remotes);
+	}
+
+	var length = branches.length;
+
+	if (length) {
+		console.log('--------');
+		//console.log(branches.join('\n'));
+		branches.forEach(
+			function(item, index, collection) {
+				console.log(item + ' - ' + detailsArr[index]);
+			}
+		);
+		console.log('--------');
+
+		program.confirm(
+			'Delete ' + (length == 1 ? 'this 1 branch' : 'these ' + length + ' branches') + '? (y/n): ',
+			function(confirm){
+				if (confirm) {
+					console.log('delete stuff');
+
+					//console.log(remotes);
+					console.log(branches);
+					console.log('------');
+					//console.log(':' + remotes.join(' :'));
+					//console.log(confirm('test'));
+
+					if (remotes.length) {
+						cli.exec('git br -d -r ' + remotes.join(' '));
+					}
+
+					if (locals.length) {
+						cli.exec('git br -d ' + locals.join(' '));
+					}
+
+					//console.log('git br -d ' + branches.join(' '));
+					//console.log('remotes: git br -d ' + remotes.join(' '));
+					//console.log('locals: git br -d ' + locals.join(' '));
+
+					//cli.exec('git br -d ' + branches.join(' '));
+
+					console.log(length + ' ' + ((length == 1) ? + 'branch' : 'branches') + ' deleted');
+				}
+				else {
+					console.log('No branches deleted');
+				}
+
+				//process.stdin.destroy();
+				cleanUp();
+			}
+		);
+	}
+	else {
+		console.error(MSG_NO_BRANCHES_FOUND);
+	}
+};
+
+//console.log(args, 'git for-each-ref --format="%(refname:short)" | grep -E "' + pattern + '"', force, localOnly, remoteOnly);
+	cli.exec(
+		'git for-each-ref --format="%(refname:short) DBGREP_SUBJECT: %(subject) DBGREP_DETAILS: %(committerdate:relative) <%(authorname)>"',
+		function(branches) {
+			//var remotes = branches.filter(
+			//	function(item, index, collection) {
+			//		return item && item.indexOf('origin/') === 0;
+			//	}
+			//);
+
+			var remotes = [];
+			var locals = [];
+
+			branches.forEach(
+				function(item, index, collection) {
+					if (typeof item != 'string') {
+						return;
+					}
+
+					var pieces = item.split(' DBGREP_SUBJECT: ');
+					var branchName = pieces[0];
+					var subject = (pieces[1] || '').split(' DBGREP_DETAILS: ');
+
+					var details = subject[1];
+
+					subject = subject[0];
+
+					if (msgPattern && !REGEX_MSG.test(subject)) {
+						return;
+					}
+
+					var isLocal = REGEX.test(branchName);
+					var isRemote = REGEX_ORIGIN.test(branchName);
+
+					if (isLocal || isRemote) {
+						if (isRemote) {
+							remotes.push(branchName);
+						}
+						else if (isLocal) {
+							locals.push(branchName);
+						}
+
+						detailsArr.push(subject + ' - ' + details);
+					}
+				}
+			);
+
+			processBranches(locals, remotes);
+return;
+			var out = [];
+
+			if (all || localOnly) {
+				out = out.concat(locals);
+			}
+
+			if (all || remoteOnly) {
+				out = out.concat(remotes);
+			}
+
+
+			//console.log(REGEX_ORIGIN);
+		},
+		function(error) {
+			console.error(MSG_NO_BRANCHES_FOUND);
+		}
+	);
+}
+
+function escapeRegEx(str) {
+	return str.replace(/([.*+?^$(){}|[\]\/\\])/g, '\\$1');
+}
+//cli.fatal('---');
+return;
+//exec('git for-each-ref --format="%(refname:short)" | grep -E "' + pattern + '"', function(error, stdout, stderror) {
+//	//console.log(arguments);
+//	var branches = stdout.trim();
+
+//	if (!branches.length) {
+//		exit("No branches found matching: " + pattern);
+//	}
+//	else {
+//		branches = branches.split('\n');
+
+//		//var origins = branches.filter(
+//		//	function(item, index, collection) {
+//		//		return item && item.indexOf('origin/') === 0;
+//		//	}
+//		//);
+
+//		var origins = [];
+
+//		var locals = branches.filter(
+//			function(item, index, collection) {
+//				var isLocal = REGEX.test(item) && !REGEX_ORIGIN.test(item);
+
+//				if (!isLocal) {
+//					origins.push(item);
+//				}
+
+//				return isLocal;
+//			}
+//		);
+
+//		//console.log(REGEX_ORIGIN);
+
+//		console.log(branches.length);
+//		console.log(locals.join(' :'));
+//		console.log(origins.join(' :'));
+//	}
+//});
+
+//function exit(msg) {
+//	if (msg) {
+//		console.error('\nError: ' + msg);
+//	}
+
+//	process.exit(1);
+//}
+
+//function escapeRegEx(str) {
+//	return str.replace(/([.*+?^$(){}|[\]\/\\])/g, '\\$1');
+//}

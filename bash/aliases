@@ -1,0 +1,356 @@
+# Ant
+alias aa="ant -Dlint.failonerror=false all"
+alias aba="ant build-alloy"
+alias abm="ant build-modules"
+alias abt='ant build-themes'
+alias abs='ant build-skins'
+alias acd='ant clean deploy'
+alias ad='ant deploy'
+alias ar="ant release"
+complete -C ~/dotfiles/bash/complete-ant-cmd.pl build.sh ant
+
+# Utility
+alias sub='open -a "Sublime Text 2"' # Open Sublime Text 2
+
+alias reload='source ~/.bash_profile'
+
+function sbp() {
+	source ~/.bash_profile
+	echo "Refreshed ~/.bash_profile"
+}
+
+# Find file by name
+alias fn='find . -name '
+
+#alias ea="$EDITOR ~/dotfiles/bash/aliases && reload" # Edit aliases
+#alias ee="$EDITOR ~/dotfiles/bash/env" # Edit env
+
+alias ..="cd .."
+alias ...="cd ../.."
+
+# Git
+# AutoComplete
+source ~/dotfiles/bash/git-completion.bash
+complete -o default -o nospace -F _git g
+
+alias g="git"
+
+alias upAll="upM; up61x; upEE61x; up6110; up60x"
+alias upM="git checkout master; git pull upstream master; git push origin master"
+alias up61x="git checkout 6.1.x; git pull upstream 6.1.x; git push origin 6.1.x"
+alias upEE61x="git checkout ee-6.1.x; git pull upstream ee-6.1.x; git push origin ee-6.1.x"
+alias upEE6110="git checkout ee-6.1.10; git pull upstream ee-6.1.10; git push origin ee-6.1.10"
+alias upEE60x="git checkout ee-6.0.x; git pull upstream ee-6.0.x; git push origin ee-6.0.x"
+
+alias upEE15x="git checkout ee-1.5.x; git pull upstream ee-1.5.x; git push origin ee-1.5.x"
+alias up15x="git checkout 1.5.x; git pull upstream 1.5.x; git push origin 1.5.x"
+alias upEE10x="git checkout ee-1.0.x; git pull upstream ee-1.0.x; git push origin ee-1.0.x"
+
+# Get Last JIRA ID from the git logs
+function jid {
+	git log -1 --oneline | grep -Eo "([A-Z]{3,}-)([0-9]+)"
+}
+
+function gdel() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no branch selected"
+	else 
+		git push origin :${1}
+		git branch -D ${1}
+	fi
+}
+
+function gfd() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no search string entered"
+	else 
+		git log --grep=${1}
+	fi
+}
+
+function gpl() {
+	set ${1}
+	set ${2}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no git selected"
+	else 
+		if [ "${2}" == "" ]; then
+			clear
+			echo "Error $? - no branch selected"
+		else
+			git pull git://github.com/${1} ${2}
+		fi
+	fi
+}
+
+function gps() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no branch selected"
+	else 
+		git checkout ${1}
+		git push origin ${1}
+	fi
+}
+
+function gup() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else 
+		if [ "${1}" == "lfr" ]; then
+			pt lfr
+		else
+			if [ "${1}" == "at" ]; then
+				a t
+			else 
+				if [ "${1}" == "aee" ]; then
+					a ee
+				else
+					pt ${1}
+				fi
+			fi
+		fi
+
+		updateMaster
+	fi
+}
+
+# Pull Request (https://github.com/greneholt/git-pull-request)
+alias gpullrequest="source /Volumes/Projects/liferay/git-tools/git-pull-request/git-pull-request.sh"
+
+alias gpr="gpullrequest"
+
+function gitpr() {
+	set ${1}
+	set ${2}
+
+	if [ "${1}" == "" ]; then
+		gpr help
+	else 
+		if [ "${1}" == "st" ]; then
+			gpr stats
+		else
+			if [ "${1}" == "f" ]; then
+				gpr fetch ${2}
+			else 
+				if [ "${1}" == "c" ]; then
+					gpr close
+				else
+					if [ "${1}" == "i" ]; then
+						gpr info
+					else
+						if [ "${1}" == "m" ]; then
+							gpr merge
+						fi
+					fi
+				fi
+			fi
+		fi
+	fi
+}
+
+# ant deploy-fast
+function df() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else 
+		if [ "${1}" == "lfr" ]; then
+			ptl lfr
+		else
+			if [ "${1}" == "ee" ]; then
+				ptl ee
+			else
+				ptl ${1}
+			fi
+		fi
+
+		cd "portal-web" && ant deploy-fast
+	fi
+}
+
+# build
+function bl() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else 
+		if [ "${1}" == "lfr" ]; then
+			cn lfr && ptl lfr && ant deploy
+		else
+			if [ "${1}" == "ee" ]; then
+				cn ee && ptl ee && ant deploy
+			else
+				if [ "${1}" == "at" ]; then
+					cop t && ptl lfr && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
+				else
+					if [ "${1}" == "aee" ]; then
+						cop ee && ptl 6.0.x && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
+					else
+						cn ${1} && ptl ${1} && ant deploy
+					fi
+				fi
+			fi
+		fi
+	fi
+}
+
+# clean
+function cn() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else
+		if [ "${1}" == "lfr" ]; then
+			prj lfr
+		else
+			if [ "${1}" == "ee" ]; then
+				prj ee
+			else
+				prj ${1}
+			fi
+		fi
+
+		cd "tomcat/" && rm -rf temp && rm -rf work && rm -rf temphsperfdata_jmak
+	fi
+}
+
+# reset
+function rt() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else
+		if [ "${1}" == "lfr" ]; then
+			cn lfr && rm -rf webapps && prj lfr && rm -rf data && ptl lfr && ant all
+		else
+			if [ "${1}" == "ee" ]; then
+				cn ee && rm -rf webapps && prj ee && rm -rf data && ptl ee && ant all
+			else
+				cn ${1} && rm -rf webapps && prj ${1} && rm -rf data && ptl ${1} && ant all
+			fi
+		fi
+	fi
+}
+
+# restart
+function rs() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else
+		if [ "${1}" == "lfr" ]; then
+			cn lfr && bl lfr && st lfr
+		else
+			if [ "${1}" == "ee" ]; then
+				cn ee && bl ee && st ee
+			else
+				cn ${1} && bl ${1} && st ${1}
+			fi
+		fi
+	fi
+}
+
+# start
+function st() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else 
+		if [ "${1}" == "lfr" ]; then
+			prj lfr && cd "tomcat/bin"
+		else
+			if [ "${1}" == "ee" ]; then
+				prj ee && cd "tomcat/bin"
+			else
+				prj ${1} && cd "tomcat/bin"
+			fi
+		fi
+
+		./catalina.sh run
+	fi
+}
+
+# start & build
+function sb() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else 
+		if [ "${1}" == "lfr" ]; then
+			bl lfr && st lfr
+		else
+			if [ "${1}" == "ee" ]; then
+				bl ee && st ee
+			else
+				if [ "${1}" == "at" ]; then
+					bl at && st lfr
+				else
+					if [ "${1}" == "aee" ]; then
+						bl aee && st 6.0.x
+					else
+						bl ${1} && st ${1}
+					fi
+				fi
+			fi
+		fi
+	fi
+}
+
+# AlloyUI alias'
+function a() {
+	set ${1}
+	if [ "${1}" == "t" ]; then
+		cd "/Volumes/Projects/liferay/AlloyTrunk/"
+	else
+		if [ "${1}" == "ee" ]; then
+			cd "/Volumes/Projects/liferay/AlloyEE/"
+		else
+			if [ "${1}" == "1.5" ]; then
+				cd "/Volumes/Projects/liferay/AlloyEE${1}/"
+			fi
+		fi
+	fi
+}
+
+function cop (){
+	set ${1}
+	if [ "${1}" == "t" ]; then
+		a t && cp alloy-1.5.0.zip /Volumes/Projects/liferay/Trunk/portal/portal-web/third-party/
+	else
+		if [ "${1}" == "ee" ]; then
+			a ee && cp alloy-1.0.2.zip /Volumes/Projects/liferay/6.0.x/portal/portal-web/third-party/ 
+		fi
+	fi
+}
+
+
+function rel (){
+	set ${1}
+	if [ "${1}" == "at" ]; then
+		a t && ar && cp alloy-1.5.0.zip /Volumes/Projects/liferay/Trunk/portal/portal-web/third-party/
+	else
+		if [ "${1}" == "aee" ]; then
+			a ee && ar && cp alloy-1.0.2.zip /Volumes/Projects/liferay/6.0.x/portal/portal-web/third-party/ 
+		fi
+	fi
+}
+
+# MySQL alias'
+alias mysql="/usr/local/mysql/bin/mysql -u root"
+alias mysqladmin="/usr/local/mysql/bin/mysqladmin"
