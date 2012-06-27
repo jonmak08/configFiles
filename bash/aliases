@@ -1,4 +1,5 @@
 # Ant
+######
 alias aa="ant -Dlint.failonerror=false all"
 alias aba="ant build-alloy"
 alias abm="ant build-modules"
@@ -7,11 +8,10 @@ alias abs='ant build-skins'
 alias acd='ant clean deploy'
 alias ad='ant deploy'
 alias ar="ant release"
-complete -C ~/dotfiles/bash/complete-ant-cmd.pl build.sh ant
+complete -C ~/configFiles/bash/complete-ant-cmd.pl build.sh ant
 
 # Utility
-alias sub='open -a "Sublime Text 2"' # Open Sublime Text 2
-
+######
 alias reload='source ~/.bash_profile'
 
 function sbp() {
@@ -19,22 +19,30 @@ function sbp() {
 	echo "Refreshed ~/.bash_profile"
 }
 
-# Find file by name
-alias fn='find . -name '
-
-#alias ea="$EDITOR ~/dotfiles/bash/aliases && reload" # Edit aliases
-#alias ee="$EDITOR ~/dotfiles/bash/env" # Edit env
-
-alias ..="cd .."
-alias ...="cd ../.."
-
 # Git
-# AutoComplete
-source ~/dotfiles/bash/git-completion.bash
+######
+# "g" to "git" command, but preserving git-completion
+#source ~/configFiles/bash/git-completion.bash
+alias g="git"
 complete -o default -o nospace -F _git g
 
-alias g="git"
+# Git help
+alias gh="git help"
 
+function mygithelp {
+	local cur
+	_get_comp_words_by_ref -n =: cur
+	__git_compute_porcelain_commands
+	__gitcomp "$__git_porcelain_commands $(__git_aliases)"
+}
+
+complete -o default -o nospace -F mygithelp gh
+
+function git_track() {
+	echo "\n[branch \"$1\"]\n\tremote = origin\n\tmerge = refs/heads/$1" >> ".git/config"
+}
+
+# Update git branches
 alias upAll="upM; up61x; upEE61x; up6110; up60x"
 alias upM="git checkout master; git pull upstream master; git push origin master"
 alias up61x="git checkout 6.1.x; git pull upstream 6.1.x; git push origin 6.1.x"
@@ -46,21 +54,214 @@ alias upEE15x="git checkout ee-1.5.x; git pull upstream ee-1.5.x; git push origi
 alias up15x="git checkout 1.5.x; git pull upstream 1.5.x; git push origin 1.5.x"
 alias upEE10x="git checkout ee-1.0.x; git pull upstream ee-1.0.x; git push origin ee-1.0.x"
 
+# MySQL
+######
+# MySQL alias'
+alias mysqladmin="/usr/local/mysql/bin/mysqladmin"
+
+function mysqlexec {
+	mysql -u root -p -e "$1";
+}
+
+function createdb {
+	mysqlexec "create database \`$1\` CHARACTER SET utf8;";
+}
+
+function dropdb {
+	mysqlexec "drop database if exists \`$1\`;";
+}
+
+function cleardb {
+	mysqlexec "drop database if exists \`$1\`; create database \`$1\`
+CHARACTER SET utf8;"
+}
+
+# Navigation
+######
+
+function cdl {
+	cd $1;
+	ls -l
+}
+
+function upl {
+	cdl ..
+}
+
+# Move up N levels of the directory tree
+# Or by typing in some dir in the PWD
+# eg. Assuming your PWD is "/Volumes/Users/natecavanaugh/Documents/stuff"
+# 	  `up 2` moves up 2 directories to "/Volumes/Users/natecavanaugh"
+#	  `up 2/` and pressing tab will autocomplete the dirs in "/Volumes/Users/natecavanaugh"
+#	  `up Users` navigate to "/Volumes/Users"
+#	  `up us` and pressing tab will autocomplete to "/Volumes/Users"
+function up {
+	dir="../"
+	if [ -n "$1" ]; then
+		if [[ $1 =~ ^[0-9]+$ ]]; then
+			strpath=$( printf "%${1}s" );
+			dir=" ${strpath// /$dir}"
+		else
+			dir=${PWD%/$1/*}/$1
+		fi
+	fi
+
+	cd $dir
+}
+
+function _get_up {
+	local cur
+	local dir
+	local results
+	COMPREPLY=()
+	#Variable to hold the current word
+	cur="${COMP_WORDS[COMP_CWORD]}"
+
+	local lower_cur=`echo ${cur##*/} | tr [:upper:] [:lower:]`
+
+	# Is the arg a number or number followed by a slash
+	if [[ $cur =~ ^[0-9]+/? ]]; then
+		dir="../"
+		strpath=$( printf "%${cur%%/*}s" );
+		dir=" ${strpath// /$dir}"
+
+		# Is the arg just a number?
+		if [[ $cur =~ ^[0-9]+$ ]]; then
+			COMPREPLY=($(compgen -W "${dir}"))
+		else
+			if [[ $cur =~ /.*$ ]]; then
+				cur="${cur##*/}"
+			fi
+
+			results=$(for t in `cd $dir && ls -d */`; do if [[ `echo $t | tr [:upper:] [:lower:]` == "$lower_cur"* ]]; then echo "${t}"; fi done)
+
+			COMPREPLY=($(compgen -P "$dir" -W "${results}"))
+			# COMPREPLY=($(compgen -P "$dir" -W "${results}" $cur))
+		fi
+	else
+		# Is the arg a word that we can look for in the PWD
+		results=""
+		cur_pwd=${PWD%/*}
+
+		for t in `echo $cur_pwd | tr "/" "\n"`; do
+			if [[ `echo $t | tr [:upper:] [:lower:]` == "$lower_cur"* ]]; then
+				results="$results ${t}";
+			fi
+		done
+
+		COMPREPLY=($(compgen -W "${results}"))
+	fi	
+}
+
+#Assign the auto-completion function _get for our command get.
+complete -F _get_up up
+
+# Misc
+######
+# Process finder
+# @argument name of process
+function pf {
+	ps ax | grep "$1" | grep -v grep | awk '{ print $1 }'
+}
+
+# Process killer
+# @argument name of process
+function pfkill {
+	pf $1 | xargs kill -9
+	#ps -ef | grep PROCESS | grep -v grep | awk '{print $2}' | xargs kill -9
+}
+
+# Kill java :(
+function pfkj {
+	pfkill "java"
+}
+
+# Simpler grep
+# @argument (optional) path
+function gr {
+	grep -R "$1" "${2:-.}"
+	# echo $1 ${2:.}
+}
+
+# Find file by name
+alias fn='find . -name '
+
+# Search history
+alias hs="history|grep"
+
+# QuickLook file
+alias qlf='qlmanage -p "$@" >& /dev/null'
+
+# Open Sublime Text 2
+alias subl='open -a "Sublime Text 2"'
+
+# Functions
+######
+
+# Extract Git commit ID from generated alloy zip
+# @argument path to zip
+function az {
+	if [[ ! $1 =~ '.zip'$ ]]; then
+		echo "This command only works with zip files :)"
+		return 1;
+	fi
+
+	delfile=0
+
+	name=$1
+	if [[ $1 == *:* ]]; then
+		treeish=$1
+		name="/tmp/alloy_${RANDOM}.zip"
+		delfile=1
+		git show -p $treeish > $name
+	fi
+
+	unzip -z $name;
+	
+	[[ $delfile == 1 ]] && rm $name;
+}
+
+function auis_impl {
+	cd $1;
+	git log -1 --format="%h" | tr -d '\n'
+}
+
+function auis () {
+	auis_impl ${AUI_TRUNK_PATH}
+}
+
+function auisee () {
+	auis_impl ${AUI_EE_PATH}
+}
+
+function auic () {
+	sha=$(auis)
+	echo $sha | tr -d '\n' | pbcopy && echo "Copied $sha to clipboard."
+}
+
+function auicee () {
+	sha=$(auisee)
+	echo $sha | tr -d '\n' | pbcopy && echo "Copied $sha to clipboard."
+}
+
 # Get Last JIRA ID from the git logs
 function jid {
 	git log -1 --oneline | grep -Eo "([A-Z]{3,}-)([0-9]+)"
 }
 
-function gdel() {
-	set ${1}
-	if [ "${1}" == "" ]; then
-		clear
-		echo "Error $? - no branch selected"
-	else 
-		git push origin :${1}
-		git branch -D ${1}
-	fi
+function mjid {
+	echo "`jid` - ${1:-Source formatting}"
 }
+
+function jspfcss () {
+	cd "${LFR_TRUNK_PORTAL_HTML_PATH}/portal/css";
+	filelist=''
+	for f in `ls -R | grep -E '.jspf'`; do 
+		filelist="$filelist '$f',";
+	done
+	echo $filelist
+}
+
 
 function gfd() {
 	set ${1}
@@ -124,38 +325,7 @@ function gup() {
 }
 
 # Pull Request (https://github.com/greneholt/git-pull-request)
-alias gpullrequest="source /Volumes/Projects/liferay/git-tools/git-pull-request/git-pull-request.sh"
-
-alias gpr="gpullrequest"
-
-function gitpr() {
-	set ${1}
-	set ${2}
-
-	if [ "${1}" == "" ]; then
-		gpr help
-	else 
-		if [ "${1}" == "st" ]; then
-			gpr stats
-		else
-			if [ "${1}" == "f" ]; then
-				gpr fetch ${2}
-			else 
-				if [ "${1}" == "c" ]; then
-					gpr close
-				else
-					if [ "${1}" == "i" ]; then
-						gpr info
-					else
-						if [ "${1}" == "m" ]; then
-							gpr merge
-						fi
-					fi
-				fi
-			fi
-		fi
-	fi
-}
+alias gitpr="source /Volumes/Projects/liferay/repos/git-tools/git-pull-request/git-pull-request.sh"
 
 # ant deploy-fast
 function df() {
@@ -270,18 +440,8 @@ function st() {
 	if [ "${1}" == "" ]; then
 		clear
 		echo "Error $? - no project selected"
-	else 
-		if [ "${1}" == "lfr" ]; then
-			prj lfr && cd "tomcat/bin"
-		else
-			if [ "${1}" == "ee" ]; then
-				prj ee && cd "tomcat/bin"
-			else
-				prj ${1} && cd "tomcat/bin"
-			fi
-		fi
-
-		./catalina.sh run
+	else
+		./liferay ${1}
 	fi
 }
 
@@ -316,41 +476,12 @@ function sb() {
 function a() {
 	set ${1}
 	if [ "${1}" == "t" ]; then
-		cd "/Volumes/Projects/liferay/AlloyTrunk/"
+		cd ${AUI_TRUNK_PATH}
 	else
 		if [ "${1}" == "ee" ]; then
-			cd "/Volumes/Projects/liferay/AlloyEE/"
+			cd ${AUI_15EE_PATH}
 		else
-			if [ "${1}" == "1.5" ]; then
-				cd "/Volumes/Projects/liferay/AlloyEE${1}/"
-			fi
+			cd ${AUI_$1EE_PATH}
 		fi
 	fi
 }
-
-function cop (){
-	set ${1}
-	if [ "${1}" == "t" ]; then
-		a t && cp alloy-1.5.0.zip /Volumes/Projects/liferay/Trunk/portal/portal-web/third-party/
-	else
-		if [ "${1}" == "ee" ]; then
-			a ee && cp alloy-1.0.2.zip /Volumes/Projects/liferay/6.0.x/portal/portal-web/third-party/ 
-		fi
-	fi
-}
-
-
-function rel (){
-	set ${1}
-	if [ "${1}" == "at" ]; then
-		a t && ar && cp alloy-1.5.0.zip /Volumes/Projects/liferay/Trunk/portal/portal-web/third-party/
-	else
-		if [ "${1}" == "aee" ]; then
-			a ee && ar && cp alloy-1.0.2.zip /Volumes/Projects/liferay/6.0.x/portal/portal-web/third-party/ 
-		fi
-	fi
-}
-
-# MySQL alias'
-alias mysql="/usr/local/mysql/bin/mysql -u root"
-alias mysqladmin="/usr/local/mysql/bin/mysqladmin"

@@ -1,61 +1,57 @@
 #Liferay
-alias repos='cd "/Volumes/Projects/liferay/repos/"'
+alias repos='cd ${LFR_PATH_REPOS}'
 alias lpw='cd portal-web'
 alias lpi='cd portal-impl'
 alias lps='cd portal-service'
 
 #Plugins EE Folder
 function ee() {
-	set ${1}
 	if [ "${1}" == "lfr" ]; then
-		cd "/Volumes/Projects/liferay/Trunk/pluginsEE/portlets/"
+		cd ${LFR_TRUNK_PLUGINSEE_PATH}
 	else
 		if [ "${1}" == "ee" ]; then
-			cd "/Volumes/Projects/liferay/TrunkEE/pluginsEE/portlets/"
+			cd ${LFR_TRUNKEE_PLUGINSEE_PATH}
 		else
-			cd "/Volumes/Projects/liferay/${1}/pluginsEE/portlets/"
+			cd ${LFR_PATH}/${1}/pluginsEE
 		fi
 	fi
 }
 
 #Plugins Folder
 function plg() {
-	set ${1}
 	if [ "${1}" == "lfr" ]; then
-		cd "/Volumes/Projects/liferay/Trunk/plugins/portlets/"
+		cd ${LFR_TRUNK_PLUGINS_PATH}
 	else
 		if [ "${1}" == "ee" ]; then
-			cd "/Volumes/Projects/liferay/TrunkEE/plugins/portlets/"
+			cd ${LFR_TRUNKEE_PLUGINS_PATH}
 		else
-			cd "/Volumes/Projects/liferay/${1}/plugins/portlets/"
+			cd ${LFR_PATH}/${1}/plugins
 		fi
 	fi
 }
 
 #Portal Folder
 function ptl() {
-	set ${1}
 	if [ "${1}" == "lfr" ]; then
-		cd "/Volumes/Projects/liferay/Trunk/portal"
+		cd ${LFR_TRUNK_PORTAL_PATH}
 	else
 		if [ "${1}" == "ee" ]; then
-			cd "/Volumes/Projects/liferay/TrunkEE/portal/"
+			cd ${LFR_TRUNKEE_PORTAL_PATH}
 		else
-			cd "/Volumes/Projects/liferay/${1}/portal/"
+			cd ${LFR_PATH}/${1}/portal
 		fi
 	fi
 }
 
 #Project Folder
 function prj() {
-	set ${1}
 	if [ "${1}" == "lfr" ]; then
-		cd "/Volumes/Projects/liferay/Trunk/"
+		cd ${LFR_TRUNK_PATH}
 	else
 		if [ "${1}" == "ee" ]; then
-			cd "/Volumes/Projects/liferay/TrunkEE/"
+			cd ${LFR_TRUNKEE_PATH}
 		else
-			cd "/Volumes/Projects/liferay/${1}/"
+			cd ${LFR_PATH}/${1}
 		fi
 	fi
 }
@@ -64,16 +60,16 @@ function prj() {
 function repo() {
 	set ${1}
 	if [ "${1}" == "ptl" ]; then
-		cd "/Volumes/Projects/liferay/repos/liferay-portal"
+		cd "${LFR_PATH_REPOS}/liferay-portal"
 	else
 		if [ "${1}" == "ee" ]; then
-			cd "/Volumes/Projects/liferay/repos/liferay-portal-ee"
+			cd "${LFR_PATH_REPOS}/liferay-portal-ee"
 		else
 			if [ "${1}" == "plg" ]; then
-				cd "/Volumes/Projects/liferay/repos/liferay-plugins"
+				cd "${LFR_PATH_REPOS}/liferay-plugins"
 			else
 				if [ "${1}" == "plgee" ]; then
-					cd "/Volumes/Projects/liferay/repos/liferay-plugins-ee"
+					cd "${LFR_PATH_REPOS}/liferay-plugins-ee"
 				fi
 			fi
 		fi

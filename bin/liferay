@@ -1,0 +1,21 @@
+#!/bin/sh
+
+base_path="${LFR_PATH}"
+
+if [[ -n "$1" ]]; then
+	if [[ $1 == "lfr" ]]; then
+		base_path="${LFR_TRUNK_PATH}"
+	elif [[ $1 == "ee" ]]; then
+		base_path="${LFR_TRUNKEE_PORTAL_PATH}"
+	elif [[ $1 == "61x" ]]; then
+		base_path="${LFR_61_PATH}"
+	elif [[ $1 == "60x" ]]; then
+		base_path="${LFR_60EE_PATH}"
+	elif [[ $1 == "52x" ]]; then
+		base_path="${LFR_52EE_PATH}"
+	fi
+fi
+
+base_path="${base_path}/tomcat/bin/catalina.sh run"
+
+$base_path

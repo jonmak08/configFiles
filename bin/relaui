@@ -1,0 +1,73 @@
+#!/bin/bash
+# Argument = -m test -r server -p password -v
+
+usage()
+{
+cat << EOF
+usage: $0 options
+
+This script run the test1 or test2 over a machine.
+
+OPTIONS:
+   -h      Show this message
+   -c      Just copy the Alloy zip, dont run the release
+   -C      Just copy the Alloy zip, dont build anything
+EOF
+}
+
+ALLOY_GIT=1
+LIFERAY_DEVELOPMENT=1
+BUILD=1
+while getopts "cC" OPTION
+do
+     case $OPTION in
+         h)
+             usage
+             exit 1
+             ;;
+         c)
+             BUILD=0
+             ;;
+         C)
+             BUILD=-1
+             ;;
+         ?)
+             usage
+             exit
+             ;;
+     esac
+done
+
+base_aui_path="AUI_TRUNK_PATH"
+base_liferay_path="${LFR_TRUNK_PORTAL_PATH}"
+
+if [[ -n $1 ]]; then
+    base_aui_path="NC_ALLOY_$1EE"
+
+    if [[ $1 == 1 ]]; then
+        base_liferay_path="${LFR_60EE_PORTAL_PATH}"
+    elif [[ $1 == 15 ]]; then
+        # Should be uncommented soon
+        # base_liferay_path="${NC_BRANCHES_PATH}/6.1.x"
+        # echo "should be set to ${NC_BRANCHES_PATH}/6.1.x" soon
+        base_liferay_path="${LFR_61_PORTAL_PATH}"
+    fi
+fi
+
+base_aui_path=$(eval "echo \${$(echo ${base_aui_path})_PATH}")
+
+cd $base_aui_path;
+
+if [[ $BUILD > 0 ]]; then
+	ant release;
+fi
+
+cp alloy-*.zip "${base_liferay_path}/portal-web/third-party/";
+
+if [[ $BUILD -ge 0 ]]; then
+	cd "${base_liferay_path}/portal-web/";
+
+	ant build-alloy;
+
+    touch -c "${base_liferay_path}/portal-web/docroot/html/portal/css.jsp"
+fi

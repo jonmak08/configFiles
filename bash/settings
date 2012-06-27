@@ -1,0 +1,113 @@
+# Liferay paths
+
+export LFR_PATH="/Volumes/Projects/liferay"
+
+export LFR_PATH_REPOS="${LFR_PATH}/repos"
+
+export LFR_TRUNK_PATH="${LFR_PATH}/Trunk"
+
+export LFR_TRUNK_PORTAL_PATH="${LFR_TRUNK_PATH}/portal"
+
+export LFR_TRUNK_PLUGINS_PATH="${LFR_TRUNK_PATH}/plugins"
+
+export LFR_TRUNK_PLUGINSEE_PATH="${LFR_TRUNK_PATH}/pluginsEE"
+
+export LFR_TRUNK_PORTAL_HTML_PATH="${LFR_TRUNK_PORTAL_PATH}/portal-web/docroot/html"
+
+export LFR_TRUNKEE_PATH="${LFR_PATH}/TrunkEE"
+
+export LFR_TRUNKEE_PORTAL_PATH="${LFR_TRUNKEE_PATH}/portal"
+
+export LFR_TRUNKEE_PLUGINS_PATH="${LFR_TRUNKEE_PATH}/plugins"
+
+export LFR_TRUNKEE_PLUGINSEE_PATH="${LFR_TRUNKEE_PATH}/pluginsEE"
+
+export LFR_TRUNKEE_PORTAL_HTML_PATH="${LFR_TRUNKEE_PATH}/portal-web/docroot/html"
+
+export LFR_61x_PATH="${LFR_PATH}/61x"
+
+export LFR_61x_PORTAL_PATH="${LFR_61x_PATH}/portal"
+
+export LFR_61x_PLUGINS_PATH="${LFR_61x_PATH}/plugins"
+
+export LFR_61x_PLUGINS_EE_PATH="${LFR_61x_PATH}/pluginsEE"
+
+export LFR_61x_PORTAL_HTML_PATH="${LFR_61x_PATH}/portal-web/docroot/html"
+
+export LFR_61xEE_PATH="${LFR_PATH}/61xEE"
+
+export LFR_61xEE_PORTAL_PATH="${LFR_61xEE_PATH}/portal"
+
+export LFR_61xEE_PLUGINS_PATH="${LFR_61xEE_PATH}/plugins"
+
+export LFR_61xEE_PLUGINS_EE_PATH="${LFR_61xEE_PATH}/pluginsEE"
+
+export LFR_61xEE_PORTAL_HTML_PATH="${LFR_61xEE_PATH}/portal-web/docroot/html"
+
+export LFR_60x_PATH="${LFR_PATH}/6.0.x"
+
+export LFR_60x_PORTAL_PATH="${LFR_60x_PATH}/portal"
+
+export LFR_60x_PLUGINS_PATH="${LFR_60x_PATH}/plugins"
+
+export LFR_60x_PLUGINSEE_PATH="${LFR_60x_PATH}/pluginsEE"
+
+export LFR_60x_PORTAL_HTML_PATH="${LFR_60x_PATH}/portal-web/docroot/html"
+
+export LFR_52x_PATH="${LFR_PATH}/5.2.x"
+
+export LFR_52x_PORTAL_PATH="${LFR_52x_PATH}/portal"
+
+export LFR_52x_PLUGINS_PATH="${LFR_52x_PATH}/plugins"
+
+export LFR_52x_PLUGINSEE_PATH="${LFR_52x_PATH}/pluginsEE"
+
+export LFR_52x_PORTAL_HTML_PATH="${LFR_52x_PATH}/portal-web/docroot/html"
+
+export AUI_TRUNK_PATH="${LFR_PATH}/AlloyTrunk"
+
+export AUI_15EE_PATH="${LFR_PATH}/AlloyEE"
+
+export AUI_10EE_PATH="${LFR_PATH}/Alloy1.0EE"
+
+# Exports
+export ANT_OPTS=-Xmx512m
+
+export BASH_COMPLETION_PATH=`brew --prefix 2>/dev/null`/etc/bash_completion
+
+export BIN_HOME="${HOME}/bin"
+
+#export EDITOR="vi";
+export EDITOR="subl -w";
+
+export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home
+
+export GIT_HOME="/usr/local/bin/git"
+
+export GREP_OPTIONS="--exclude=\*.git\*"
+
+export HISTCONTROL=erasedups
+shopt -s histappend
+
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/mysql/bin:$HOME/configFiles/bin:${LFR_PATH_REPOS}/git-tools:$PATH
+
+export UNAME=$(uname)
+
+# Git
+
+export hd="HEAD"
+
+export m="master"
+
+# Git autocompletition
+# Show branch dirty state in git autocompletion script
+
+export GIT_PS1_SHOWDIRTYSTATE="true";
+
+# Show upstream state
+export GIT_PS1_SHOWUPSTREAM="verbose"
+
+# Config settings
+
+# better tab complete
+bind 'TAB:menu-complete'
