@@ -4,6 +4,10 @@
 	excluldesfile = ~/.gitignore
 	quotepath = false
 
+[include]
+	path = /Volumes/Projects/liferay/repos/git-tools/gitconfig
+	path = gitconfig_private
+
 [alias]
 	## Branches
 	##--------
@@ -19,10 +23,6 @@
 	fp = format-patch -o patch_files
 	# Save patch
 	save = stash save --patch
-
-[include]
-	path = /Volumes/Projects/liferay/repos/git-tools/gitconfig
-	path = gitconfig_private
 
 [color]
 	ui = true
