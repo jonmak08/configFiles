@@ -481,7 +481,7 @@ function a() {
 		if [ "${1}" == "ee" ]; then
 			cd ${AUI_15EE_PATH}
 		else
-			cd ${AUI_$1EE_PATH}
+			cd ${AUI_10EE_PATH}
 		fi
 	fi
 }
