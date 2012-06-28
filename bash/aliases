@@ -444,7 +444,7 @@ function st() {
 		clear
 		echo "Error $? - no project selected"
 	else
-		./liferay ${1}
+		liferay ${1}
 	fi
 }
 
