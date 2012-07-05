@@ -8,11 +8,13 @@ if [[ -n "$1" ]]; then
 	elif [[ $1 == "ee" ]]; then
 		base_path="${LFR_TRUNKEE_PORTAL_PATH}"
 	elif [[ $1 == "61x" ]]; then
-		base_path="${LFR_61_PATH}"
+		base_path="${LFR_61x_PATH}"
 	elif [[ $1 == "60x" ]]; then
-		base_path="${LFR_60EE_PATH}"
+		base_path="${LFR_60x_PATH}"
 	elif [[ $1 == "52x" ]]; then
-		base_path="${LFR_52EE_PATH}"
+		base_path="${LFR_52x_PATH}"
+	else
+		base_path="${LFR_PATH}/${1}"
 	fi
 fi
 

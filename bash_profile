@@ -1,7 +1,8 @@
-# 
+#
 source ~/configFiles/bash/git-completion.bash
 source ~/configFiles/bash/prompt
 source ~/configFiles/bash/settings
+source ~/configFiles/bash/settings_private
 source ~/configFiles/bash/aliases
 source ~/configFiles/bash/aliases_local
 source ~/configFiles/bash/aliases_private

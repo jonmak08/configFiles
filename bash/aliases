@@ -10,7 +10,7 @@ function sbp() {
 # Git
 ######
 # Pull Request (https://github.com/greneholt/git-pull-request)
-alias gitpr="source /Volumes/Projects/liferay/repos/git-tools/git-pull-request/git-pull-request.sh"
+alias gpr="source /Volumes/Projects/liferay/repos/git-tools/git-pull-request/git-pull-request.sh"
 
 # "g" to "git" command, but preserving git-completion
 #source ~/configFiles/bash/git-completion.bash
@@ -141,7 +141,7 @@ function _get_up {
 		done
 
 		COMPREPLY=($(compgen -W "${results}"))
-	fi	
+	fi
 }
 
 #Assign the auto-completion function _get for our command get.
@@ -208,7 +208,7 @@ function az {
 	fi
 
 	unzip -z $name;
-	
+
 	[[ $delfile == 1 ]] && rm $name;
 }
 
@@ -247,7 +247,7 @@ function mjid {
 function jspfcss () {
 	cd "${LFR_TRUNK_PORTAL_HTML_PATH}/portal/css";
 	filelist=''
-	for f in `ls -R | grep -E '.jspf'`; do 
+	for f in `ls -R | grep -E '.jspf'`; do
 		filelist="$filelist '$f',";
 	done
 	echo $filelist
@@ -260,7 +260,7 @@ function gfd() {
 	if [ "${1}" == "" ]; then
 		clear
 		echo "Error $? - no search string entered"
-	else 
+	else
 		git log --grep=${1}
 	fi
 }
@@ -271,7 +271,7 @@ function gpl() {
 	if [ "${1}" == "" ]; then
 		clear
 		echo "Error $? - no git selected"
-	else 
+	else
 		if [ "${2}" == "" ]; then
 			clear
 			echo "Error $? - no branch selected"
@@ -286,7 +286,7 @@ function gps() {
 	if [ "${1}" == "" ]; then
 		clear
 		echo "Error $? - no branch selected"
-	else 
+	else
 		git checkout ${1}
 		git push origin ${1}
 	fi
@@ -297,13 +297,13 @@ function gup() {
 	if [ "${1}" == "" ]; then
 		clear
 		echo "Error $? - no project selected"
-	else 
+	else
 		if [ "${1}" == "lfr" ]; then
 			pt lfr
 		else
 			if [ "${1}" == "at" ]; then
 				a t
-			else 
+			else
 				if [ "${1}" == "aee" ]; then
 					a ee
 				else
@@ -334,7 +334,7 @@ function df() {
 	if [ "${1}" == "" ]; then
 		clear
 		echo "Error $? - no project selected"
-	else 
+	else
 		if [ "${1}" == "lfr" ]; then
 			ptl lfr
 		else
@@ -357,7 +357,7 @@ function bl() {
 	if [ "${1}" == "" ]; then
 		clear
 		echo "Error $? - no project selected"
-	else 
+	else
 		if [ "${1}" == "lfr" ]; then
 			cn lfr && ptl lfr && ant deploy
 		else
@@ -454,7 +454,7 @@ function sb() {
 	if [ "${1}" == "" ]; then
 		clear
 		echo "Error $? - no project selected"
-	else 
+	else
 		if [ "${1}" == "lfr" ]; then
 			bl lfr && st lfr
 		else
