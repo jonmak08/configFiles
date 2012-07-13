@@ -16,6 +16,11 @@
 	# Rename branch
 	rename = branch -m
 
+	## Pushing
+	##--------
+	pbo = !git push origin -f $(git brn)
+	po = !git push origin
+
 	## Patching
 	##--------
 
@@ -23,6 +28,10 @@
 	fp = format-patch -o patch_files
 	# Save patch
 	save = stash save --patch
+
+	## Status
+	##--------
+	st = status
 
 [color]
 	ui = true
