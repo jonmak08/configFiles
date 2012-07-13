@@ -407,12 +407,12 @@ function rt() {
 		echo "Error $? - no project selected"
 	else
 		if [ "${1}" == "lfr" ]; then
-			cn lfr && rm -rf webapps && prj lfr && rm -rf data && ptl lfr && ant all
+			cn lfr && rm -rf webapps && prj lfr && rm -rf data && ptl lfr && ant all && st lfr
 		else
 			if [ "${1}" == "ee" ]; then
-				cn ee && rm -rf webapps && prj ee && rm -rf data && ptl ee && ant all
+				cn ee && rm -rf webapps && prj ee && rm -rf data && ptl ee && ant all  && st ee
 			else
-				cn ${1} && rm -rf webapps && prj ${1} && rm -rf data && ptl ${1} && ant all
+				cn ${1} && rm -rf webapps && prj ${1} && rm -rf data && ptl ${1} && ant all && st ${1}
 			fi
 		fi
 	fi
