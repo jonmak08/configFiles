@@ -41,9 +41,8 @@ alias upEE61x="git checkout ee-6.1.x; git pull upstream ee-6.1.x; git push origi
 alias upEE6110="git checkout ee-6.1.10; git pull upstream ee-6.1.10; git push origin ee-6.1.10"
 alias upEE60x="git checkout ee-6.0.x; git pull upstream ee-6.0.x; git push origin ee-6.0.x"
 
-alias upEE15x="git checkout ee-1.5.x; git pull upstream ee-1.5.x; git push origin ee-1.5.x"
 alias up15x="git checkout 1.5.x; git pull upstream 1.5.x; git push origin 1.5.x"
-alias upEE10x="git checkout ee-1.0.x; git pull upstream ee-1.0.x; git push origin ee-1.0.x"
+alias up10x="git checkout 1.0.x; git pull upstream 1.0.x; git push origin 1.0.x"
 
 # MySQL
 ######
@@ -221,8 +220,12 @@ function auis () {
 	auis_impl ${AUI_TRUNK_PATH}
 }
 
-function auisee () {
-	auis_impl ${AUI_10EE_PATH}
+function auis15 () {
+	auis_impl ${AUI_15_PATH}
+}
+
+function auis10 () {
+	auis_impl ${AUI_10_PATH}
 }
 
 function auic () {
@@ -230,8 +233,13 @@ function auic () {
 	echo $sha | tr -d '\n' | pbcopy && echo "Copied $sha to clipboard."
 }
 
-function auicee () {
-	sha=$(auisee)
+function auic15 () {
+	sha=$(auis15)
+	echo $sha | tr -d '\n' | pbcopy && echo "Copied $sha to clipboard."
+}
+
+function auic10 () {
+	sha=$(auis10)
 	echo $sha | tr -d '\n' | pbcopy && echo "Copied $sha to clipboard."
 }
 
@@ -367,10 +375,14 @@ function bl() {
 				if [ "${1}" == "at" ]; then
 					cop t && ptl lfr && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
 				else
-					if [ "${1}" == "aee" ]; then
-						cop ee && ptl 6.0.x && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
+					if [ "${1}" == "a15" ]; then
+						cop ee && ptl 6.1.x && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
 					else
-						cn ${1} && ptl ${1} && ant deploy
+						if [ "${1}" == "a10" ]; then
+							cop ee && ptl 6.0.x && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
+						else
+							cn ${1} && ptl ${1} && ant deploy
+						fi
 					fi
 				fi
 			fi
@@ -464,10 +476,14 @@ function sb() {
 				if [ "${1}" == "at" ]; then
 					bl at && st lfr
 				else
-					if [ "${1}" == "aee" ]; then
-						bl aee && st 6.0.x
+					if [ "${1}" == "a15" ]; then
+						bl a15 && st 6.1.x
 					else
-						bl ${1} && st ${1}
+						if [ "${1}" == "a10" ]; then
+							bl a10 && st 6.0.x
+						else
+							bl ${1} && st ${1}
+						fi
 					fi
 				fi
 			fi
@@ -482,10 +498,26 @@ function a() {
 	if [ "${1}" == "t" ]; then
 		cd ${AUI_TRUNK_PATH}
 	else
-		if [ "${1}" == "ee" ]; then
-			cd ${AUI_15EE_PATH}
+		if [ "${1}" == "15" ]; then
+			cd ${AUI_15_PATH}
 		else
-			cd ${AUI_10EE_PATH}
+			cd ${AUI_10_PATH}
+		fi
+	fi
+}
+
+function cop (){
+	set ${1}
+	if [ "${1}" == "t" ]; then
+		a t && cp alloy-1.5.0.zip /Volumes/Projects/liferay/Trunk/portal/portal-web/third-party/
+	else
+		if [ "${1}" == "15" ]; then
+			a ee && cp alloy-1.0.2.zip /Volumes/Projects/liferay/6.1.x/portal/portal-web/third-party/
+		else
+			if [ "${1}" == "10" ]; then
+				a ee && cp alloy-1.0.2.zip /Volumes/Projects/liferay/6.0.x/portal/portal-web/third-party/
+			fi
+		fi
 		fi
 	fi
 }

@@ -66,9 +66,9 @@ export LFR_52x_PORTAL_HTML_PATH="${LFR_52x_PATH}/portal-web/docroot/html"
 
 export AUI_TRUNK_PATH="${LFR_PATH}/AlloyTrunk"
 
-export AUI_15EE_PATH="${LFR_PATH}/AlloyEE"
+export AUI_15_PATH="${LFR_PATH}/Alloy1.5"
 
-export AUI_10EE_PATH="${LFR_PATH}/Alloy1.0EE"
+export AUI_10_PATH="${LFR_PATH}/Alloy1.0"
 
 # Exports
 export ANT_OPTS=-Xmx512m
