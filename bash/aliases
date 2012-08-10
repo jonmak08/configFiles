@@ -17,6 +17,9 @@ alias gpr="source /Volumes/Projects/liferay/repos/git-tools/git-pull-request/git
 alias g="git"
 complete -o default -o nospace -F _git g
 
+# Git ref head
+alias refHead="echo ref: refs/heads/master >.git/HEAD"
+
 # Git help
 alias gh="git help"
 
