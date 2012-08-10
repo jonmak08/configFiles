@@ -521,6 +521,5 @@ function cop (){
 				a ee && cp alloy-1.0.2.zip /Volumes/Projects/liferay/6.0.x/portal/portal-web/third-party/
 			fi
 		fi
-		fi
 	fi
 }
