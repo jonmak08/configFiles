@@ -425,7 +425,7 @@ function rt() {
 			cn lfr && rm -rf webapps && prj lfr && rm -rf data && ptl lfr && ant all && st lfr
 		else
 			if [ "${1}" == "ee" ]; then
-				cn ee && rm -rf webapps && prj ee && rm -rf data && ptl ee && ant all  && st ee
+				cn ee && rm -rf webapps && prj ee && rm -rf data && ptl ee && ant all && st ee
 			else
 				cn ${1} && rm -rf webapps && prj ${1} && rm -rf data && ptl ${1} && ant all && st ${1}
 			fi
@@ -501,7 +501,7 @@ function a() {
 	if [ "${1}" == "t" ]; then
 		cd ${AUI_TRUNK_PATH}
 	else
-		if [ "${1}" == "15" ]; then
+		if [ "${1}" == "1.5.x" ]; then
 			cd ${AUI_15_PATH}
 		else
 			cd ${AUI_10_PATH}
@@ -512,7 +512,7 @@ function a() {
 function cop (){
 	set ${1}
 	if [ "${1}" == "t" ]; then
-		a t && cp alloy-1.5.0.zip /Volumes/Projects/liferay/Trunk/portal/portal-web/third-party/
+		a t && cp alloy-1.6.0.zip /Volumes/Projects/liferay/Trunk/portal/portal-web/third-party/
 	else
 		if [ "${1}" == "15" ]; then
 			a ee && cp alloy-1.0.2.zip /Volumes/Projects/liferay/6.1.x/portal/portal-web/third-party/
