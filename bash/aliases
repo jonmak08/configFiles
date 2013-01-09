@@ -378,11 +378,11 @@ function bl() {
 				if [ "${1}" == "at" ]; then
 					cop t && ptl lfr && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
 				else
-					if [ "${1}" == "a15" ]; then
-						cop ee && ptl 6.1.x && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
+					if [ "${1}" == "a15x" ]; then
+						cop 1.5.x && ptl 6.1.x && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
 					else
-						if [ "${1}" == "a10" ]; then
-							cop ee && ptl 6.0.x && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
+						if [ "${1}" == "a10x" ]; then
+							cop 1.0.x && ptl 6.0.x && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
 						else
 							cn ${1} && ptl ${1} && ant deploy
 						fi
