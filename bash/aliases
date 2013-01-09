@@ -422,12 +422,31 @@ function rt() {
 		echo "Error $? - no project selected"
 	else
 		if [ "${1}" == "lfr" ]; then
-			cn lfr && rm -rf webapps && prj lfr && rm -rf data && ptl lfr && ant all && st lfr
+			cn lfr && rm -rf webapps && prj lfr && rm -rf data && db-hsql lfr && ptl lfr && ant all && st lfr
 		else
 			if [ "${1}" == "ee" ]; then
-				cn ee && rm -rf webapps && prj ee && rm -rf data && ptl ee && ant all && st ee
+				cn ee && rm -rf webapps && prj ee && rm -rf data && db-hsql ee && ptl ee && ant all && st ee
 			else
-				cn ${1} && rm -rf webapps && prj ${1} && rm -rf data && ptl ${1} && ant all && st ${1}
+				cn ${1} && rm -rf webapps && prj ${1} && rm -rf data && db-hsql ${1} && ptl ${1} && ant all && st ${1}
+			fi
+		fi
+	fi
+}
+
+# rebuild database
+function db-hsql() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else
+		if [ "${1}" == "lfr" ]; then
+			ptl lfr && cd sql && ant rebuild-hypersonic
+		else
+			if [ "${1}" == "ee" ]; then
+				ptl ee && cd sql && ant rebuild-hypersonic
+			else
+				ptl ${1} && cd sql && ant rebuild-hypersonic
 			fi
 		fi
 	fi
@@ -514,10 +533,10 @@ function a() {
 function cop (){
 	set ${1}
 	if [ "${1}" == "t" ]; then
-		a t && cp alloy-1.6.0.zip /Volumes/Projects/liferay/Trunk/portal/portal-web/third-party/alloy-1.7.0pr2.zip
+		a t && cp alloy-1.7.0pr3.zip /Volumes/Projects/liferay/Trunk/portal/portal-web/third-party/alloy-1.7.0pr3.zip
 	else
 		if [ "${1}" == "1.5.x" ]; then
-			a 1.5.x && cp alloy-1.5.1.zip /Volumes/Projects/liferay/6.1.x/portal/portal-web/third-party/alloy-1.5.0.zip
+			a 1.5.x && cp alloy-1.5.1.zip /Volumes/Projects/liferay/6.1.xEE/portal/portal-web/third-party/alloy-1.5.1.zip
 		else
 			if [ "${1}" == "1.0.x" ]; then
 				a 1.0.x && cp alloy-1.0.3.zip /Volumes/Projects/liferay/6.0.x/portal/portal-web/third-party/alloy-1.0.3.zip
