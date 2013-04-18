@@ -9,6 +9,8 @@ if [[ -n "$1" ]]; then
 		base_path="${LFR_TRUNKEE_PATH}"
 	elif [[ $1 == "61x" ]]; then
 		base_path="${LFR_61x_PATH}"
+	elif [[ $1 == "61xee" ]]; then
+		base_path="${LFR_61xEE_PATH}"
 	elif [[ $1 == "60x" ]]; then
 		base_path="${LFR_60x_PATH}"
 	elif [[ $1 == "52x" ]]; then
