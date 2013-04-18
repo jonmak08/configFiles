@@ -7,6 +7,25 @@ function sbp() {
 	echo "Refreshed ~/.bash_profile"
 }
 
+# Show file line endings
+function le {
+	perl -p -e 's[\r\n][WIN\n]; s[(?<!WIN)\n][UNIX\n]; s[\r][MAC\n];' ${1:-*}
+}
+
+function showle {
+	perl -p -e 's[\r\n][\\r\\n\n]; s[(?<!WIN)\n][\\n\n]; s[\r][\\r\n];' ${1:-*}
+}
+
+# Convert to Unix line endings
+function le2u {
+	perl -pi -e 's#\r\n#\n#' ${1:-*}
+}
+
+# Convert to Windows line endings
+function le2w {
+	perl -pi -e 's#\n#\r\n#' ${1:-*}
+}
+
 # Git
 ######
 # Pull Request (https://github.com/greneholt/git-pull-request)
@@ -379,7 +398,7 @@ function bl() {
 					cop t && ptl lfr && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
 				else
 					if [ "${1}" == "a15x" ]; then
-						cop 1.5.x && ptl 6.1.x && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
+						cop 1.5.x && ptl 6.1.xEE && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
 					else
 						if [ "${1}" == "a10x" ]; then
 							cop 1.0.x && ptl 6.0.x && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
