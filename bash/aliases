@@ -207,6 +207,22 @@ alias qlf='qlmanage -p "$@" >& /dev/null'
 # Open Sublime Text 2
 alias subl='open -a "Sublime Text 2"'
 
+# Compare files
+function compare () {
+	if [[ -f "$1" && -f "$2" ]]; then
+		file_1=$(md5 "$1" | awk '{ print $4 }')
+		file_2=$(md5 "$2" | awk '{ print $4 }')
+
+		if [[ $file_1 == $file_2 ]]; then
+			echo "Both files are equal ($file_1)"
+		else
+			echo "$1 ($file_1) is different from $2 ($file_2)"
+		fi
+	else
+		echo "One or both of these is not a file"
+	fi
+}
+
 # Functions
 ######
 
