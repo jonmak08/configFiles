@@ -75,6 +75,8 @@ export ANT_OPTS=-Xmx512m
 
 export BASH_COMPLETION_PATH=`brew --prefix 2>/dev/null`/etc/bash_completion
 
+export MYSQL_PS1="(\u@\h) [\d]> "
+
 export BIN_HOME="${HOME}/bin"
 
 #export EDITOR="vi";
