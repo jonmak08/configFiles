@@ -44,7 +44,7 @@ def main(argv=None):
                 output = value
 
         if len(args) > 0:
-            url = "http://issues.liferay.com/rest/api/2.0.alpha1/issue/%s" % (args[0])
+            url = "http://issues.liferay.com/rest/api/2/issue/%s" % (args[0])
 
             try:
                 req = urllib2.Request(url)
@@ -58,7 +58,7 @@ def main(argv=None):
 
             data = json.loads(data)
 
-            print data['fields']['summary']['value']
+            print data['fields']['summary']
 
     except Usage, err:
         print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
