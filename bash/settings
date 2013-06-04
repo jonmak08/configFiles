@@ -66,6 +66,12 @@ export LFR_52x_PORTAL_HTML_PATH="${LFR_52x_PATH}/portal-web/docroot/html"
 
 export AUI_TRUNK_PATH="${LFR_PATH}/AlloyTrunk"
 
+export AUI_20_PATH="${LFR_PATH}/Alloy2.0/aui"
+
+export AUI_20_DEPRECATED_PATH="${LFR_PATH}/Alloy2.0Deprecated/aui"
+
+export AUI_17_PATH="${LFR_PATH}/Alloy1.7"
+
 export AUI_15_PATH="${LFR_PATH}/Alloy1.5"
 
 export AUI_10_PATH="${LFR_PATH}/Alloy1.0"
