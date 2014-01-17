@@ -536,25 +536,32 @@ function sb() {
 
 # Alloy Functions
 ######
+alias gr="grunt"
+alias y="yeti"
+
 function a() {
 	set ${1}
 	if [ "${1}" == "t" ]; then
 		cd ${AUI_TRUNK_PATH}
 	else
-		if [ "${1}" == "2.0.x" ]; then
-			cd ${AUI_20_PATH}
+		if [ "${1}" == "td" ]; then
+			cd ${AUI_TRUNK_DEPRECATED_PATH}
 		else
-			if [ "${1}" == "2.0.xD" ]; then
-				cd ${AUI_20_DEPRECATED_PATH}
+			if [ "${1}" == "2.0.x" ]; then
+				cd ${AUI_20_PATH}
 			else
-				if [ "${1}" == "1.7.x" ]; then
-					cd ${AUI_17_PATH}
+				if [ "${1}" == "1.5.x" ]; then
+					cd ${AUI_15_PATH}
 				else
-					if [ "${1}" == "1.5.x" ]; then
-						cd ${AUI_15_PATH}
+					if [ "${1}" == "1.0.x" ]; then
+						cd ${AUI_10_PATH}
 					else
-						if [ "${1}" == "1.0.x" ]; then
-							cd ${AUI_10_PATH}
+						if [ "${1}" == ".com" ]; then
+							cd ${AUI_DOT_COM_PATH}
+						else
+							if [ "${1}" == "e" ]; then
+								cd ${AUI_EXCERCISES_PATH}
+							fi
 						fi
 					fi
 				fi
@@ -568,15 +575,11 @@ function cop (){
 	if [ "${1}" == "t" ]; then
 		a t && cp alloy-2.0.x.zip /Volumes/Projects/liferay/Trunk/portal/portal-web/third-party/alloy-2.0.x.zip && rm alloy-2.0.x.zip
 	else
-		if [ "${1}" == "t" ]; then
-			a t && cp alloy-1.7.0.zip /Volumes/Projects/liferay/Trunk/portal/portal-web/third-party/alloy-1.7.0.zip && rm alloy-1.7.0.zip
+		if [ "${1}" == "1.5.x" ]; then
+			a 1.5.x && cp alloy-1.5.1.zip /Volumes/Projects/liferay/6.1.xEE/portal/portal-web/third-party/alloy-1.5.1.zip && rm alloy-1.5.1.zip
 		else
-			if [ "${1}" == "1.5.x" ]; then
-				a 1.5.x && cp alloy-1.5.1.zip /Volumes/Projects/liferay/6.1.xEE/portal/portal-web/third-party/alloy-1.5.1.zip && rm alloy-1.5.1.zip
-			else
-				if [ "${1}" == "1.0.x" ]; then
-					a 1.0.x && cp alloy-1.0.3.zip /Volumes/Projects/liferay/6.0.x/portal/portal-web/third-party/alloy-1.0.3.zip && rm alloy-1.0.3.zip
-				fi
+			if [ "${1}" == "1.0.x" ]; then
+				a 1.0.x && cp alloy-1.0.3.zip /Volumes/Projects/liferay/6.0.x/portal/portal-web/third-party/alloy-1.0.3.zip && rm alloy-1.0.3.zip
 			fi
 		fi
 	fi
