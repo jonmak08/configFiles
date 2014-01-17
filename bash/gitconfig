@@ -19,7 +19,10 @@
 	## Pushing
 	##--------
 	pbo = !git push origin -f $(git brn)
+	pbu = !git push upstream  -f $(git brn)
 	po = !git push origin
+	pu = !git push upstream
+
 
 	## Patching
 	##--------
