@@ -24,6 +24,26 @@ export LFR_TRUNKEE_PLUGINSEE_PATH="${LFR_TRUNKEE_PATH}/pluginsEE"
 
 export LFR_TRUNKEE_PORTAL_HTML_PATH="${LFR_TRUNKEE_PATH}/portal-web/docroot/html"
 
+export LFR_62x_PATH="${LFR_PATH}/62x"
+
+export LFR_62x_PORTAL_PATH="${LFR_62x_PATH}/portal"
+
+export LFR_62x_PLUGINS_PATH="${LFR_62x_PATH}/plugins"
+
+export LFR_62x_PLUGINS_EE_PATH="${LFR_62x_PATH}/pluginsEE"
+
+export LFR_62x_PORTAL_HTML_PATH="${LFR_62x_PATH}/portal-web/docroot/html"
+
+export LFR_62xEE_PATH="${LFR_PATH}/62xEE"
+
+export LFR_62xEE_PORTAL_PATH="${LFR_62xEE_PATH}/portal"
+
+export LFR_62xEE_PLUGINS_PATH="${LFR_62xEE_PATH}/plugins"
+
+export LFR_62xEE_PLUGINS_EE_PATH="${LFR_62xEE_PATH}/pluginsEE"
+
+export LFR_62xEE_PORTAL_HTML_PATH="${LFR_62xEE_PATH}/portal-web/docroot/html"
+
 export LFR_61x_PATH="${LFR_PATH}/61x"
 
 export LFR_61x_PORTAL_PATH="${LFR_61x_PATH}/portal"
@@ -64,17 +84,27 @@ export LFR_52x_PLUGINSEE_PATH="${LFR_52x_PATH}/pluginsEE"
 
 export LFR_52x_PORTAL_HTML_PATH="${LFR_52x_PATH}/portal-web/docroot/html"
 
-export AUI_TRUNK_PATH="${LFR_PATH}/AlloyTrunk"
+export AUI_TRUNK_PATH="${LFR_PATH}/AlloyTrunk/aui"
+
+export AUI_TRUNK_DEPRECATED_PATH="${LFR_PATH}/AlloyTrunkDeprecated/aui"
 
 export AUI_20_PATH="${LFR_PATH}/Alloy2.0/aui"
-
-export AUI_20_DEPRECATED_PATH="${LFR_PATH}/Alloy2.0Deprecated/aui"
-
-export AUI_17_PATH="${LFR_PATH}/Alloy1.7"
 
 export AUI_15_PATH="${LFR_PATH}/Alloy1.5"
 
 export AUI_10_PATH="${LFR_PATH}/Alloy1.0"
+
+export AUI_DOT_COM_PATH="${LFR_PATH}/alloyui.com"
+
+export AUI_EXCERCISES_PATH="${LFR_PATH}/AlloyExcercises"
+
+export CKEDITOR_TRUNK="${LFR_PATH}/ckeditor-ee-Trunk"
+
+export CKEDITOR_41x="${LFR_PATH}/ckeditor-ee-4.1.x"
+
+export CKEDITOR_40x="${LFR_PATH}/ckeditor-ee-4.0.x"
+
+export CKEDITOR_36x="${LFR_PATH}/ckeditor-ee-3.6.x"
 
 # Exports
 export ANT_OPTS=-Xmx512m
