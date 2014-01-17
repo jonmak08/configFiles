@@ -584,3 +584,25 @@ function cop (){
 		fi
 	fi
 }
+
+# CKEditor Functions
+######
+
+function cke() {
+	set ${1}
+	if [ "${1}" == "t" ]; then
+		cd ${CKEDITOR_TRUNK}
+	else
+		if [ "${1}" == "4.1.x" ]; then
+			cd ${CKEDITOR_41x}
+		else
+			if [ "${1}" == "4.0.x" ]; then
+				cd ${CKEDITOR_40x}
+			else
+				if [ "${1}" == "3.6.x" ]; then
+					cd ${CKEDITOR_36x}
+				fi
+			fi
+		fi
+	fi
+}
