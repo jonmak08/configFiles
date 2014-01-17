@@ -58,7 +58,11 @@ function git_track() {
 # Update git branches
 alias upAll="upM; up61x; upEE61x; up6110; up60x"
 alias upM="git checkout master; git pull upstream master; git push origin master"
+alias upMD="git checkout master-deprecated; git pull upstream master-deprecated; git push origin master-deprecated"
+alias up62x="git checkout 6.2.x; git pull upstream 6.2.x; git push origin 6.2.x"
 alias up61x="git checkout 6.1.x; git pull upstream 6.1.x; git push origin 6.1.x"
+
+alias upEE62x="git checkout ee-6.2.x; git pull upstream ee-6.2.x; git push origin ee-6.2.x"
 alias upEE61x="git checkout ee-6.1.x; git pull upstream ee-6.1.x; git push origin ee-6.1.x"
 alias upEE6110="git checkout ee-6.1.10; git pull upstream ee-6.1.10; git push origin ee-6.1.10"
 alias upEE60x="git checkout ee-6.0.x; git pull upstream ee-6.0.x; git push origin ee-6.0.x"
@@ -66,6 +70,11 @@ alias upEE60x="git checkout ee-6.0.x; git pull upstream ee-6.0.x; git push origi
 alias up20x="git checkout 2.0.x; git pull upstream 2.0.x; git push origin 2.0.x"
 alias up15x="git checkout 1.5.x; git pull upstream 1.5.x; git push origin 1.5.x"
 alias up10x="git checkout 1.0.x; git pull upstream 1.0.x; git push origin 1.0.x"
+
+function gup() {
+	set ${1}
+	git checkout ${1}; git pull upstream  ${1}; git push origin ${1};
+}
 
 # MySQL
 ######
@@ -336,30 +345,6 @@ function gps() {
 	else
 		git checkout ${1}
 		git push origin ${1}
-	fi
-}
-
-function gup() {
-	set ${1}
-	if [ "${1}" == "" ]; then
-		clear
-		echo "Error $? - no project selected"
-	else
-		if [ "${1}" == "lfr" ]; then
-			pt lfr
-		else
-			if [ "${1}" == "at" ]; then
-				a t
-			else
-				if [ "${1}" == "aee" ]; then
-					a ee
-				else
-					pt ${1}
-				fi
-			fi
-		fi
-
-		updateMaster
 	fi
 }
 
