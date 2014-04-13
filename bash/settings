@@ -98,6 +98,8 @@ export AUI_DOT_COM_PATH="${LFR_PATH}/alloyui.com"
 
 export AUI_EXCERCISES_PATH="${LFR_PATH}/AlloyExcercises"
 
+export AUI_FONT_AWESOME_PATH="${LFR_PATH}/AlloyFontAwesome"
+
 export CKEDITOR_TRUNK="${LFR_PATH}/ckeditor-ee-Trunk"
 
 export CKEDITOR_41x="${LFR_PATH}/ckeditor-ee-4.1.x"
@@ -125,7 +127,10 @@ export GREP_OPTIONS="--exclude=\*.git\*"
 export HISTCONTROL=erasedups
 shopt -s histappend
 
-export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home
+# export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home
+# export JAVA_HOME=/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Home
+
 
 SMARTGIT_MAX_HEAP_SIZE=2048m;
 export SMARTGIT_MAX_HEAP_SIZE=$SMARTGIT_MAX_HEAP_SIZE
