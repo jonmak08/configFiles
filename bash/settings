@@ -100,6 +100,8 @@ export AUI_EXCERCISES_PATH="${LFR_PATH}/AlloyExcercises"
 
 export AUI_FONT_AWESOME_PATH="${LFR_PATH}/AlloyFontAwesome"
 
+export YUI3_PATH="${LFR_PATH}/yui3"
+
 export CKEDITOR_TRUNK="${LFR_PATH}/ckeditor-ee-Trunk"
 
 export CKEDITOR_41x="${LFR_PATH}/ckeditor-ee-4.1.x"

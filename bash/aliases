@@ -610,3 +610,13 @@ function cke() {
 		fi
 	fi
 }
+
+# YUI3 Functions
+######
+
+function yui() {
+	set ${1}
+	if [ "${1}" == "3" ]; then
+		cd ${YUI3_PATH}
+	fi
+}
