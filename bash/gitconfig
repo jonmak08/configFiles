@@ -4,7 +4,8 @@
 	quotepath = false
 
 [include]
-	path = /Volumes/Projects/liferay/repos/git-tools/gitconfig
+	# path = /Volumes/Projects/liferay/repos/git-tools/gitconfig
+	path = gitconfig_custom
 	path = gitconfig_private
 
 [alias]
@@ -36,4 +37,4 @@
 	st = status
 
 [color]
-	ui = true
+	ui = auto
