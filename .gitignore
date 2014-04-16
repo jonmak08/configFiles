@@ -1,3 +1,4 @@
 *_build
 *_private
 .DS_Store
+node_modules
