@@ -1,0 +1,42 @@
+#!/bin/bash
+
+merge_base=$1
+branch_name=$2
+committers=$3
+pull_url=$4
+pull_time=$5
+
+match_jira=
+
+size=$(git diff -U0 --histogram --no-color $merge_base..$branch_name | grep -vE "^(diff|index|---|\+\+\+)" | sed -E 's/@@[^@]+@@.*//' | tr -d '\t' | tr -d ' ' | wc -c | tr -d ' ')
+
+jira_id=$(echo $branch_name | perl -ne '/([A-Z]{3,}-[0-9]+)$/ && print "$1"')
+
+if [[ -z "$jira_id" ]]; then
+	jira_id=$(git log -1 --pretty="%s" "$branch_name" | perl -ne '/\b([A-Z]{3,}-[0-9]+)\b/ && print "$1"')
+fi
+
+if [[ -n "$jira_id" ]]; then
+	echo "JIRA: http://issues.liferay.com/browse/$jira_id"
+fi
+
+if [[ -n "$pull_url" ]]; then
+	echo "Github: $pull_url"
+fi
+
+bg='yellow'
+
+if [[ $size -lt 10000 ]]; then
+	bg='blue'
+fi
+
+if [[ $size -lt 1000 ]]; then
+	bg='green'
+fi
+
+pull_time=$(date -j -f '%Y-%m-%dT%H:%M:%SZ %z' "${pull_time} +0000" +"%b. %d, %y @ %I:%M %p")
+
+echo "Pull request size: $(color_text --bg $bg black " $size ") characters"
+echo "Committers: $committers"
+echo "Diff: $merge_base..$branch_name"
+echo "$(color_text --bg black white " $pull_time ")"

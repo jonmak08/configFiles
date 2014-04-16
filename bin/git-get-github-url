@@ -1,0 +1,67 @@
+#!/bin/bash
+usage()
+{
+cat << EOF
+usage: $0 options
+
+This script will open the specified commit on github
+
+OPTIONS:
+	-h	Show this message
+	-r	use the specified remote (default is origin)
+	-f	load the specified file
+EOF
+}
+
+DEFAULT_REMOTE="origin"
+FILE=""
+
+while getopts ":hr:u:f:" OPTION
+do
+	 case $OPTION in
+		 h)
+			usage
+			exit 1
+			;;
+		 r)
+			DEFAULT_REMOTE=$OPTARG
+			;;
+		 f)
+			FILE="$OPTARG"
+			;;
+		 ?)
+			usage
+			exit
+			;;
+	 esac
+done
+shift $(($OPTIND - 1))
+
+remotes=$(git remote -v)
+commit=${1:-HEAD}
+mode="commit"
+
+if [[ $commit == "head" ]]; then
+	commit="HEAD"
+fi
+
+if git show-ref --verify --quiet refs/heads/$commit; then
+	mode="tree"
+elif [[ ! $commit =~ ^[A-Za-z0-9-]+$ ]]; then
+	mode="compare"
+	commit=$(git get-custom-refspec $1)
+fi
+
+if [[ -n "$FILE" ]]; then
+	mode="blob"
+	git_path="$(git rev-parse --show-toplevel)/"
+	full_file_path=$(python -c "import os,sys; print os.path.realpath(sys.argv[1])" "$FILE")
+	commit="$commit/${full_file_path:${#git_path}}"
+fi
+
+github_url=$(echo "$remotes" | perl -lne "s#^$DEFAULT_REMOTE.*\s.*(?:https://github\.com/|github\.com:|git://github\.com/)(.*)/(.*)(?:\.git).*\$#https://github.com/\$1/\$2/$mode/$commit# && print && exit")
+
+open $github_url
+# echo $github_url
+
+# (matches[0], matches[1], mode, target, new_git_path, file_name, lines)

@@ -1,0 +1,61 @@
+#!/usr/bin/env python
+
+import argparse
+
+def main():
+	"""Return the given text in ANSI colors"""
+
+	colors = (
+		'black', 'red', 'green', 'yellow',
+		'blue', 'magenta', 'cyan', 'white'
+	)
+
+	parser = argparse.ArgumentParser(prog='Color Text', description='Color up some text. Colors available are: %s' % str(colors))
+	parser.add_argument('-b', help='Bold the text', action='store_true', dest='bold')
+	parser.add_argument('--bg', help='Set the background color', dest='bg')
+	parser.add_argument('-u', help='Underline the text', action='store_true', dest='underline')
+	parser.add_argument('color', default='white', nargs='?', help='The color to set the text to')
+	parser.add_argument('text', help='The text to display')
+
+	args = parser.parse_args()
+
+	attr_type = 0
+
+	color_str = "\033[{0}{1}m{2}\033[0m"
+
+	color = args.color
+	text = args.text
+
+	if color not in colors:
+		print 'Colors available are: %s' % str(colors)
+		return
+	else:
+		color_ind = colors.index(color)
+		color_code = color_ind + 30
+
+		if args.bold:
+			attr_type = int(args.bold)
+
+		elif args.underline:
+			attr_type = 4
+
+		bg = args.bg
+
+		if bg and bg in colors:
+			attr_type = colors.index(bg) + 40
+
+		if attr_type:
+			attr_type = '%s;' % attr_type
+
+			text = color_str.format(
+				attr_type,
+				color_code,
+				text)
+
+	print text
+
+if __name__ == "__main__":
+	try:
+		main()
+	except UserWarning, e:
+		sys.exit(1)
