@@ -9,6 +9,8 @@ if [[ $cur_dir =~ -(ee-)?[0-9]+\.[^.]\.x/? ]]; then
 
 	git show-ref --quiet "$cur_dir" && branch_name="$cur_dir"
 	[[ -f "$repo_path/.git/refs/heads/$cur_dir" ]] && branch_name="$cur_dir"
+elif [[ $cur_dir =~ -(deprecated)/? ]]; then
+	branch_name="${branch_name}-deprecated"
 fi;
 
 echo $branch_name
