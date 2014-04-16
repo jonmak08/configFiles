@@ -1,27 +1,86 @@
 #!/bin/bash
+usage()
+{
+cat << EOF
+usage: $0 options
 
-old_head=$(git rev-parse --short head | tr -d '\n')
+This script will sync the specified branch by pulling from upstream and pushing to your origin
+
+OPTIONS:
+	-h	Show this message
+	-c	Checkout the specified branch, sync, and go back to the current branch
+	-u	Specify the remote we should pull changes from
+EOF
+}
+
+CHECKOUT=0
+UPSTREAM="upstream"
+
+while getopts ":hcu:" OPTION
+do
+	 case $OPTION in
+		 h)
+			usage
+			exit 1
+			;;
+		 c)
+			CHECKOUT=1
+			;;
+		 u)
+			UPSTREAM="$OPTARG"
+			;;
+		 ?)
+			usage
+			exit
+			;;
+	 esac
+done
+shift $(($OPTIND - 1))
+
+current_branch=$(git brn)
+update_branch=${1:-$current_branch}
+
+if [[ $current_branch == $update_branch ]]; then
+	CHECKOUT=0
+fi
 
 msg=$(git stash save)
 
-[[ $msg =~ ^'No local changes to save'$ ]] && stashed=0 || stashed=1
+[[ $msg == 'No local changes to save' ]] && stashed=0 || stashed=1
 
-git fetch upstream && git merge upstream/$1 --ff-only && git push origin $1
+if [[ $CHECKOUT == 1 ]]; then
+	git checkout $update_branch
+fi
+
+old_head=$(git rev-parse --short head | tr -d '\n')
+
+git fetch "$UPSTREAM" && git merge "$UPSTREAM"/$update_branch --ff-only && git push origin $update_branch
 
 new_head=$(git rev-parse --short head | tr -d '\n')
 
 [ $old_head != $new_head ] && updated=1 || updated=0
+
+if [[ $CHECKOUT == 1 ]]; then
+	git checkout $current_branch
+fi
 
 if [[ $stashed == 1 ]]; then
 	git stash pop > /dev/null
 fi
 
 if [[ $updated == 1 ]]; then
-	echo "Updated from $old_head to $new_head ($old_head..$new_head)"
+	total=$(git rev-list $old_head..$new_head --count)
+	total_commits="$total commits"
+
+	if [[ "$total" -eq "1" ]]; then
+		total_commits="$total commit"
+	fi
+
+	echo "Updated with $total_commits from $old_head to $new_head ($old_head..$new_head)"
 	echo "---------------------------------------------------"
 
 	git of-interest $old_head..$new_head "" $NC_OF_INTEREST_ENTRIES_CALLBACK
 
 	echo "---------------------------------------------------"
-	echo "Updated from $old_head to $new_head ($old_head..$new_head)"
+	echo "Updated with $total_commits from $old_head to $new_head ($old_head..$new_head)"
 fi

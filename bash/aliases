@@ -1,43 +1,46 @@
 # Utility
 ######
-alias reload='source ~/.bash_profile'
+alias sbp='source ~/.bash_profile'
 
-function sbp() {
-	source ~/.bash_profile
-	echo "Refreshed ~/.bash_profile"
-}
+# Do a checksum comparison of two files to verify if
+# two files are 100% equal. Useful for testing if
+# one file has some invisible character or imperceptible
+# difference.
+# @argument first file
+# @argument second file
 
-# Show file line endings
-function le {
-	perl -p -e 's[\r\n][WIN\n]; s[(?<!WIN)\n][UNIX\n]; s[\r][MAC\n];' ${1:-*}
-}
+function compare () {
+	if [[ -f "$1" && -f "$2" ]]; then
+		file_1=$(md5 "$1" | awk '{ print $4 }')
+		file_2=$(md5 "$2" | awk '{ print $4 }')
 
-function showle {
-	perl -p -e 's[\r\n][\\r\\n\n]; s[(?<!WIN)\n][\\n\n]; s[\r][\\r\n];' ${1:-*}
-}
-
-# Convert to Unix line endings
-function le2u {
-	perl -pi -e 's#\r\n#\n#' ${1:-*}
-}
-
-# Convert to Windows line endings
-function le2w {
-	perl -pi -e 's#\n#\r\n#' ${1:-*}
+		if [[ $file_1 == $file_2 ]]; then
+			echo "Both files are equal ($file_1)"
+		else
+			echo "$1 ($file_1) is different from $2 ($file_2)"
+		fi
+	else
+		echo "One or both of these is not a file"
+	fi
 }
 
 # Git
 ######
+alias myg='cd $GIT_HOME;'
+
 # Pull Request (https://github.com/greneholt/git-pull-request)
-alias gpr="source /Volumes/Projects/liferay/repos/git-tools/git-pull-request/git-pull-request.sh"
+alias gpr="source /Volumes/Projects/repo/git-tools/git-pull-request/git-pull-request.sh"
 
 # "g" to "git" command, but preserving git-completion
 #source ~/configFiles/bash/git-completion.bash
 alias g="git"
-complete -o default -o nospace -F _git g
+complete -o bashdefault -o default -o nospace -F _git g 2>/dev/null || complete -o default -o nospace -F _git g
 
 # Git ref head
 alias refHead="echo ref: refs/heads/master >.git/HEAD"
+
+# Github pull from user
+alias gp='github-pull'
 
 # Git help
 alias gh="git help"
@@ -56,24 +59,9 @@ function git_track() {
 }
 
 # Update git branches
-alias upAll="upM; up61x; upEE61x; up6110; up60x"
-alias upM="git checkout master; git pull upstream master; git push origin master"
-alias upMD="git checkout master-deprecated; git pull upstream master-deprecated; git push origin master-deprecated"
-alias up62x="git checkout 6.2.x; git pull upstream 6.2.x; git push origin 6.2.x"
-alias up61x="git checkout 6.1.x; git pull upstream 6.1.x; git push origin 6.1.x"
-
-alias upEE62x="git checkout ee-6.2.x; git pull upstream ee-6.2.x; git push origin ee-6.2.x"
-alias upEE61x="git checkout ee-6.1.x; git pull upstream ee-6.1.x; git push origin ee-6.1.x"
-alias upEE6110="git checkout ee-6.1.10; git pull upstream ee-6.1.10; git push origin ee-6.1.10"
-alias upEE60x="git checkout ee-6.0.x; git pull upstream ee-6.0.x; git push origin ee-6.0.x"
-
-alias up20x="git checkout 2.0.x; git pull upstream 2.0.x; git push origin 2.0.x"
-alias up15x="git checkout 1.5.x; git pull upstream 1.5.x; git push origin 1.5.x"
-alias up10x="git checkout 1.0.x; git pull upstream 1.0.x; git push origin 1.0.x"
-
 function gup() {
-	set ${1}
-	git checkout ${1}; git pull upstream  ${1}; git push origin ${1};
+	branch=${1-$(git getm)}
+	git checkout ${branch}; git pull upstream ${branch}; git push origin ${branch};
 }
 
 # MySQL
@@ -110,76 +98,156 @@ function upl {
 	cdl ..
 }
 
-# Move up N levels of the directory tree
-# Or by typing in some dir in the PWD
-# eg. Assuming your PWD is "/Volumes/Users/natecavanaugh/Documents/stuff"
-# 	  `up 2` moves up 2 directories to "/Volumes/Users/natecavanaugh"
-#	  `up 2/` and pressing tab will autocomplete the dirs in "/Volumes/Users/natecavanaugh"
-#	  `up Users` navigate to "/Volumes/Users"
-#	  `up us` and pressing tab will autocomplete to "/Volumes/Users"
+# Convenience function for moving up levels in the path to the current working directory.
+# Synopsis:
+#     `up [n]` moves n levels up in the directory hierarchy; default is 1.
+#     `up dirname` changes to the closest ancestral directory by that name, regardless of case.
+#     `up absolutepath` changes to the specified absolute path; primarily used with command completion (see below).
+# Additionally, if command completion via _complete_up() is in effect (<tab> represents pressing the tab key):
+#      `up [n]<tab>` replaces n with the absolute path of the directory n levels up (default is 1).
+#      `up dirnameprefix<tab>` replaces dirnameprefix with the absolute path of the closest ancestral directory whose name starts with the specified name prefix, terminated with '/'.
+#         Whether dirnameprefix is matched case-insensitively or not depends on whether case-insensitive command completion is turned on globally via ~/.inputrc or /etc/inputrc.
+#       In both cases the completed absolute path ends in '/', allowing you to optionally continue completion based on that path's subdirectories.
+# Notes:
+#   - Directory names with characters that need escaping when unquoted (such as spaces) are handled correctly.
+#   - For command completion, to specify names that need escaping when unquoted, specify them escaped rather than quoted;
+#     e.g., `up my \di<tab>' to match 'my dir' in the ancestral path.
 function up {
-	dir="../"
-	if [ -n "$1" ]; then
-		if [[ $1 =~ ^[0-9]+$ ]]; then
-			strpath=$( printf "%${1}s" );
-			dir=" ${strpath// /$dir}"
-		else
-			dir=${PWD%/$1/*}/$1
+
+	local dir='../'   # By default, go up 1 level.
+
+	[[ "$1" == '-h' || "$1" == '--help' ]] && { echo -e "usage:\n\t$FUNCNAME [n]\n\t$FUNCNAME dirname\n  Moves up N levels in the path to the current working directory, 1 by default.\n  If DIRNAME is given, it must be the full name of an ancestral directory (case does not matter).\n  If there are multiple matches, the one *lowest* in the hierarchy is changed to." && return 0; }
+
+	if [[ -n "$1" ]]; then
+		if [[ $1 =~ ^[0-9]+$ ]]; then   # A number, specifying the number of levels to go up.
+			local strpath=$( printf "%${1}s" ) # This creates a string with as many spaces as levels were specified.
+			dir=${strpath// /$dir}  # Create the go-up-multiple-levels cd expression by replacing each space with '../'
+		elif [[ $1 =~ ^/ ]]; then  # Already an absolute path? Use as is. (Typically, this happens as a result of command-line completion invoked via _complete_up().)
+			dir=$1
+		else # Assumed to be the full name of an ancestral directory (regardless of level), though the case needn't match.
+			# Note: On case-insensitive HFS+ volumes on a Mac (the default), you can actually use case-insensitive names with 'cd' and the resulting working directory will be reported in that case(!).
+			#       This behavior is NOT related to whether case-insensitivity is turned on for command completion or not.
+			# !! Strangely, the 'nocasematch' shopt setting has no effect on variable substitution, so we need to roll our own case-insensitive substitution logic here.
+			local wdLower=$(echo -n "$PWD" | tr '[:upper:]' '[:lower:]')
+			local tokenLower=$(echo -n "$1" | tr '[:upper:]' '[:lower:]')
+			local newParentDirLower=${wdLower%/$tokenLower/*}   # If the specified token is a full ancestral directory name (irrespective of case), this substitution will give us its parent path.
+			[[ "$newParentDirLower" == "$wdLower"  ]] && { echo "$FUNCNAME: No ancestral directory named '$1' found." 1>&2; return 1; }
+			local targetDirPathLength=$(( ${#newParentDirLower} + 1 + ${#tokenLower} ))
+			# Get the target directory's name in the exact case it's defined.
+			dir=${PWD:0:$targetDirPathLength}
 		fi
 	fi
 
-	cd $dir
+	# Change to target directory; use of 'pushd' allows use of 'popd' to return to previous working directory.
+	pushd "$dir" 1>/dev/null
 }
 
-function _get_up {
-	local cur
-	local dir
-	local results
-	COMPREPLY=()
-	#Variable to hold the current word
-	cur="${COMP_WORDS[COMP_CWORD]}"
+# Companion function to up(), used for command completion.
+# To install it, run (typically in your bash profile):
+# `complete -o filenames -F _complete_up up`
+# Note: The '-o filenames' option ensures that:
+#   (a) paths of directories returned via $COMPREPLY leave the cursor at the terminating "/" for potential further completion
+#   (b) paths with embeddes spaces and other characters requiring \-escaping are properly escaped.
+function _complete_up {
 
-	local lower_cur=`echo ${cur##*/} | tr [:upper:] [:lower:]`
+	COMPREPLY=() # Initialize the array variable through which completions must be passed out.
 
-	# Is the arg a number or number followed by a slash
-	if [[ $cur =~ ^[0-9]+/? ]]; then
-		dir="../"
-		strpath=$( printf "%${cur%%/*}s" );
-		dir=" ${strpath// /$dir}"
+	# Retrieve the current command-line token, i.e., the one on which completion is being invoked.
+	local curToken=${COMP_WORDS[COMP_CWORD]}
+	# Remove \ chars., presumed to be escape characters in the current token, which is presumed to be *unquoted*. This allows invoking completion on a token with embedded space, e.g., '$FUNCNAME some\ directory'
+	# !! Strictly speaking, we'd have to investigate whether the token was specified with quotes on the command line and, if quoted,  NOT unescape. Given that the purpose of this function is expedience, we
+	# !! assume that the token is NOT quoted and that all backslashes are therefore escape characters to be removed.
+	curToken=${curToken//'\'}
 
-		# Is the arg just a number?
-		if [[ $cur =~ ^[0-9]+$ ]]; then
-			COMPREPLY=($(compgen -W "${dir}"))
-		else
-			if [[ $cur =~ /.*$ ]]; then
-				cur="${cur##*/}"
-			fi
+	if [[ $curToken =~ ^/ ]]; then # Token is an absolute path (typically as a result of a previous completion) -> complete with directory names, similar to 'cd' (although the latter, curiously, also completes *file* names).
 
-			results=$(for t in `cd $dir && ls -d */`; do if [[ `echo $t | tr [:upper:] [:lower:]` == "$lower_cur"* ]]; then echo "${t}"; fi done)
+		local IFS=$'\n' # Make sure that the output of compgen below is only split along lines, not also along spaces (which the default $IFS would do).
+		COMPREPLY=($(compgen -o dirnames -- "$curToken"))
 
-			COMPREPLY=($(compgen -P "$dir" -W "${results}"))
-			# COMPREPLY=($(compgen -P "$dir" -W "${results}" $cur))
+	elif [[ $curToken =~ ^[0-9]+/? ]]; then # Token is a number (optionally followed by a slash) -> replace the token to be completed with the absolute path of the directory N levels above, where N is the number specified.
+
+		# Create a go-up-multiple-levels cd expression that corresponds to the number of levels specified.
+		local strpath=$( printf "%${curToken%%/*}s" ) # This creates a string with as many spaces as levels were specified.
+		local upDirSpec=${strpath// /../}  # Create the go-up-multiple-levels cd expression by replacing each space with '../'
+
+		# Expand to absolute path (ending in '/' to facilitate optional further completion) and return.
+		local dir=$(cd "$upDirSpec"; echo -n "$PWD/")
+		if [[ "$dir" == '//' ]]; then dir='/'; fi # In case the target dir turns out to be the root dir, we've accidentally created '//' in the previous statement; fix it.
+		# !! Note that the path will appear *unquoted* on the command line and must therefore be properly \-escaped (e.g., a ' '  as '\ ').
+		# !! Escaping is performed automatially by virtue of defining the compspec with '-o filenames' (passed to 'complete').
+		COMPREPLY=("$dir")
+
+	else # Token is a name -> look for a prefix match among all the ancestral path components; use the first match found (i.e., the next match up in the hierarchy).
+
+		# Determine if we should do case-insensitive matching or not, depending on whether cases-insensitive completion was turned on globally via ~/.inputrc or /etc/inputrc.
+		# We do this to be consistent with the default command completion behavior.
+		local caseInsensitive=0
+		bind -v | egrep -i '\bcompletion-ignore-case[[:space:]]+on\b' &>/dev/null && caseInsensitive=1
+
+		# If we need to do case-INsensitive matching in this function, we need to make sure the 'nocasematch' shell option is (temporarily) turned on.
+		local nocasematchWasOff=0
+		if (( caseInsensitive )); then
+			nocasematchWasOff=1
+			shopt nocasematch >/dev/null && nocasematchWasOff=0
+			(( nocasematchWasOff )) && shopt -s nocasematch >/dev/null
 		fi
-	else
-		# Is the arg a word that we can look for in the PWD
-		results=""
-		cur_pwd=${PWD%/*}
 
-		for t in `echo $cur_pwd | tr "/" "\n"`; do
-			if [[ `echo $t | tr [:upper:] [:lower:]` == "$lower_cur"* ]]; then
-				results="$results ${t}";
+		local pathSoFar=''
+		local matchingPath=''
+		# Note: By letting the loop iterate over ALL components starting at the root, we end up with the *last* match, i.e. the one *lowest* in the hierarchy (closed to the current working folder).
+		# !! We COULD try to return multiple matches, if applicable, but in practice we assume that there'll rarely be paths whose components have identical names or prefixes.
+		# !! Thus, should there be multiple matches, the user can reinvoke the same command to change to the next-higher match (though the command must be typed again), and so forth.
+		local parentPath=${PWD%/*}
+		local IFS='/' # This will break our parent path into components in the 'for' loop below.
+		local name
+		for name in ${parentPath:1}; do
+			pathSoFar+=/$name
+			if [[ "$name" == "$curToken"* ]]; then
+				matchingPath="$pathSoFar/"
 			fi
 		done
 
-		COMPREPLY=($(compgen -W "${results}"))
+		# Restore the state of 'nocasematch', if necessary.
+		(( caseInsensitive && nocasematchWasOff )) && shopt -u nocasematch >/dev/null
+
+		# If match was found, return its absolute path (ending in / to facilitate optional further completion).
+		# !! Note that the path will appear *unquoted* on the command line and must therefore be properly \-escaped (e.g., a ' '  as '\ ').
+		# !! Escaping is performed automatially by virtue of defining the compspec with '-o filenames' (passed to 'complete').
+		[[ -n "$matchingPath" ]] && COMPREPLY=("$matchingPath")
+
 	fi
 }
 
 #Assign the auto-completion function _get for our command get.
-complete -F _get_up up
+complete -o filenames -F _complete_up up
 
 # Misc
 ######
+
+# details
+# Shows either the file name, alias info, or function definition
+# for a given executable.
+# @argument name of function, alias, or script to list the details for
+function details {
+	if [[ `command -v "$1"` ]]; then
+		cmd_type="$(type -t $1)"
+
+		if [[ $cmd_type == "alias" ]]; then
+			alias "$1" 2> /dev/null
+		elif [[ $cmd_type == "file" ]]; then
+			which "$1" 2> /dev/null
+		elif [[ $cmd_type == "function" ]]; then
+			declare -f "$1" 2> /dev/null
+		else
+			type -a "$1" 2> /dev/null
+		fi
+	else
+		echo "$1 doesn't seem to exist"
+	fi
+
+	return 1
+}
+
 # Process finder
 # @argument name of process
 function pf {
@@ -209,86 +277,22 @@ function gr {
 alias fn='find . -name '
 
 # Search history
-alias hs="history|grep"
+alias hs="history | grep --color=auto"
 
 # QuickLook file
 alias qlf='qlmanage -p "$@" >& /dev/null'
 
 # Open Sublime Text 2
-alias subl='open -a "Sublime Text 2"'
-
-# Compare files
-function compare () {
-	if [[ -f "$1" && -f "$2" ]]; then
-		file_1=$(md5 "$1" | awk '{ print $4 }')
-		file_2=$(md5 "$2" | awk '{ print $4 }')
-
-		if [[ $file_1 == $file_2 ]]; then
-			echo "Both files are equal ($file_1)"
-		else
-			echo "$1 ($file_1) is different from $2 ($file_2)"
-		fi
-	else
-		echo "One or both of these is not a file"
-	fi
-}
+alias so='/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl'
 
 # Functions
 ######
 
-# Extract Git commit ID from generated alloy zip
-# @argument path to zip
-function az {
-	if [[ ! $1 =~ '.zip'$ ]]; then
-		echo "This command only works with zip files :)"
-		return 1;
-	fi
+# Resolves a symlink to determine where it points to
+# @argument path to symlink
 
-	delfile=0
-
-	name=$1
-	if [[ $1 == *:* ]]; then
-		treeish=$1
-		name="/tmp/alloy_${RANDOM}.zip"
-		delfile=1
-		git show -p $treeish > $name
-	fi
-
-	unzip -z $name;
-
-	[[ $delfile == 1 ]] && rm $name;
-}
-
-function auis_impl {
-	cd $1;
-	git log -1 --format="%h" | tr -d '\n'
-}
-
-function auis () {
-	auis_impl ${AUI_TRUNK_PATH}
-}
-
-function auis15 () {
-	auis_impl ${AUI_15_PATH}
-}
-
-function auis10 () {
-	auis_impl ${AUI_10_PATH}
-}
-
-function auic () {
-	sha=$(auis)
-	echo $sha | tr -d '\n' | pbcopy && echo "Copied $sha to clipboard."
-}
-
-function auic15 () {
-	sha=$(auis15)
-	echo $sha | tr -d '\n' | pbcopy && echo "Copied $sha to clipboard."
-}
-
-function auic10 () {
-	sha=$(auis10)
-	echo $sha | tr -d '\n' | pbcopy && echo "Copied $sha to clipboard."
+function resolve {
+	[ ! -h "$1" ] && echo "$1" || (local link="$(expr "$(command ls -ld -- "$1")" : '.*-> \(.*\)$')"; cd $(dirname $1); resolve "$link" | sed "s|^\([^/].*\)\$|$(dirname $1)/\1|");
 }
 
 # Get Last JIRA ID from the git logs
@@ -300,65 +304,27 @@ function mjid {
 	echo "`jid` - ${1:-Source formatting}"
 }
 
-function jspfcss () {
-	cd "${LFR_TRUNK_PORTAL_HTML_PATH}/portal/css";
-	filelist=''
-	for f in `ls -R | grep -E '.jspf'`; do
-		filelist="$filelist '$f',";
-	done
-	echo $filelist
-}
+# Check any website to see if it is running on Liferay
+# as well as what version it is.
+# This assumes they haven't disabled the Liferay-Portal header
+# @argument url
 
-# Liferay & Git Functions
-######
-function gfd() {
-	set ${1}
-	if [ "${1}" == "" ]; then
-		clear
-		echo "Error $? - no search string entered"
-	else
-		git log --grep=${1}
-	fi
-}
-
-function gpl() {
-	set ${1}
-	set ${2}
-	if [ "${1}" == "" ]; then
-		clear
-		echo "Error $? - no git selected"
-	else
-		if [ "${2}" == "" ]; then
-			clear
-			echo "Error $? - no branch selected"
-		else
-			git pull git://github.com/${1} ${2}
-		fi
-	fi
-}
-
-function gps() {
-	set ${1}
-	if [ "${1}" == "" ]; then
-		clear
-		echo "Error $? - no branch selected"
-	else
-		git checkout ${1}
-		git push origin ${1}
-	fi
+function lfrv () {
+	curl -ILs $1 | grep --color=auto "Liferay"
 }
 
 # Ant
 ######
+
 alias aa="ant -Dlint.failonerror=false all"
+alias aa="ant deploy"
 alias aba="ant build-alloy"
 alias abm="ant build-modules"
-alias abt='ant build-themes'
 alias abs='ant build-skins'
 alias acd='ant clean deploy'
 alias ad='ant deploy'
 alias ar="ant release"
-complete -C ~/configFiles/bash/complete-ant-cmd.pl build.sh ant
+# complete -C ~/configFiles/bash/complete-ant-cmd.pl build.sh ant
 
 # ant deploy-fast
 function df() {
@@ -367,22 +333,13 @@ function df() {
 		clear
 		echo "Error $? - no project selected"
 	else
-		if [ "${1}" == "lfr" ]; then
-			ptl lfr
-		else
-			if [ "${1}" == "ee" ]; then
-				ptl ee
-			else
-				ptl ${1}
-			fi
-		fi
-
-		cd "portal-web" && ant deploy-fast
+		to ${1} && pw && ant deploy-fast
 	fi
 }
 
 # Liferay Functions
 ######
+
 # build
 function bl() {
 	set ${1}
@@ -390,27 +347,7 @@ function bl() {
 		clear
 		echo "Error $? - no project selected"
 	else
-		if [ "${1}" == "lfr" ]; then
-			cn lfr && ptl lfr && ant deploy
-		else
-			if [ "${1}" == "ee" ]; then
-				cn ee && ptl ee && ant deploy
-			else
-				if [ "${1}" == "at" ]; then
-					cop t && ptl lfr && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
-				else
-					if [ "${1}" == "a15x" ]; then
-						cop 1.5.x && ptl 6.1.xEE && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
-					else
-						if [ "${1}" == "a10x" ]; then
-							cop 1.0.x && ptl 6.0.x && cd "portal-web" && ant build-alloy && touch -c "/docroot/html/portal/css.jsp"
-						else
-							cn ${1} && ptl ${1} && ant deploy
-						fi
-					fi
-				fi
-			fi
-		fi
+		cn ${1} && to ${1}-portal && ant deploy
 	fi
 }
 
@@ -421,17 +358,7 @@ function cn() {
 		clear
 		echo "Error $? - no project selected"
 	else
-		if [ "${1}" == "lfr" ]; then
-			prj lfr
-		else
-			if [ "${1}" == "ee" ]; then
-				prj ee
-			else
-				prj ${1}
-			fi
-		fi
-
-		cd "tomcat/" && rm -rf temp && rm -rf work && rm -rf temphsperfdata_jmak
+		to ${1}-tomcat && rm -rf temp && rm -rf work && rm -rf temphsperfdata_jmak
 	fi
 }
 
@@ -442,15 +369,7 @@ function rt() {
 		clear
 		echo "Error $? - no project selected"
 	else
-		if [ "${1}" == "lfr" ]; then
-			cn lfr && rm -rf webapps && prj lfr && rm -rf data && db-hsql lfr && ptl lfr && ant all && st lfr
-		else
-			if [ "${1}" == "ee" ]; then
-				cn ee && rm -rf webapps && prj ee && rm -rf data && db-hsql ee && ptl ee && ant all && st ee
-			else
-				cn ${1} && rm -rf webapps && prj ${1} && rm -rf data && db-hsql ${1} && ptl ${1} && ant all && st ${1}
-			fi
-		fi
+		cn ${1} && rm -rf webapps && to ${1} && rm -rf data && db-hsql ${1} && to ${1}-portal && ant all && st ${1} && to ${1}-portal
 	fi
 }
 
@@ -461,15 +380,7 @@ function db-hsql() {
 		clear
 		echo "Error $? - no project selected"
 	else
-		if [ "${1}" == "lfr" ]; then
-			ptl lfr && cd sql && ant rebuild-hypersonic
-		else
-			if [ "${1}" == "ee" ]; then
-				ptl ee && cd sql && ant rebuild-hypersonic
-			else
-				ptl ${1} && cd sql && ant rebuild-hypersonic
-			fi
-		fi
+		to ${1}-portal && cd sql && ant rebuild-hypersonic
 	fi
 }
 
@@ -480,15 +391,7 @@ function rs() {
 		clear
 		echo "Error $? - no project selected"
 	else
-		if [ "${1}" == "lfr" ]; then
-			cn lfr && bl lfr && st lfr
-		else
-			if [ "${1}" == "ee" ]; then
-				cn ee && bl ee && st ee
-			else
-				cn ${1} && bl ${1} && st ${1}
-			fi
-		fi
+		cn ${1} && bl ${1} && st ${1}
 	fi
 }
 
@@ -499,7 +402,7 @@ function st() {
 		clear
 		echo "Error $? - no project selected"
 	else
-		liferay ${1}
+		to ${1}-tomcat && cd bin && ./catalina.sh run
 	fi
 }
 
@@ -510,27 +413,53 @@ function sb() {
 		clear
 		echo "Error $? - no project selected"
 	else
-		if [ "${1}" == "lfr" ]; then
-			bl lfr && st lfr
-		else
-			if [ "${1}" == "ee" ]; then
-				bl ee && st ee
-			else
-				if [ "${1}" == "at" ]; then
-					bl at && st lfr
-				else
-					if [ "${1}" == "a15" ]; then
-						bl a15 && st 6.1.x
-					else
-						if [ "${1}" == "a10" ]; then
-							bl a10 && st 6.0.x
-						else
-							bl ${1} && st ${1}
-						fi
-					fi
-				fi
-			fi
-		fi
+		bl ${1} && st ${1}
+	fi
+}
+
+# Navigate to the portal-web directory of any Liferay repo
+
+function pw () {
+	top_level=$(git rev-parse --show-toplevel 2>/dev/null)
+	if [[ -n "$top_level" && -d "$top_level/portal-web" ]]; then
+		cd "$top_level/portal-web"
+	else
+		echo "Nowhere to go..."
+	fi
+}
+
+# Navigate to the portal-impl directory of any Liferay repo
+
+function pi () {
+	top_level=$(git rev-parse --show-toplevel 2>/dev/null)
+	if [[ -n "$top_level" && -d "$top_level/portal-impl" ]]; then
+		cd "$top_level/portal-impl"
+	else
+		echo "Nowhere to go..."
+	fi
+}
+
+# Navigate to the portal-web directory and run ant build-themes
+
+function abt {
+	start_dir="$PWD"
+
+	pw && ant build-themes
+
+	if [[ "$PWD" != "$start_dir" ]]; then
+		cd "$start_dir";
+	fi
+}
+
+# Navigate to the portal-impl directory and run ant format-source
+
+function afs {
+	start_dir="$PWD"
+
+	pi && ant format-source
+
+	if [[ "$PWD" != "$start_dir" ]]; then
+		cd "$start_dir";
 	fi
 }
 
@@ -538,85 +467,3 @@ function sb() {
 ######
 alias gr="grunt"
 alias y="yeti"
-
-function a() {
-	set ${1}
-	if [ "${1}" == "t" ]; then
-		cd ${AUI_TRUNK_PATH}
-	else
-		if [ "${1}" == "td" ]; then
-			cd ${AUI_TRUNK_DEPRECATED_PATH}
-		else
-			if [ "${1}" == "2.0.x" ]; then
-				cd ${AUI_20_PATH}
-			else
-				if [ "${1}" == "1.5.x" ]; then
-					cd ${AUI_15_PATH}
-				else
-					if [ "${1}" == "1.0.x" ]; then
-						cd ${AUI_10_PATH}
-					else
-						if [ "${1}" == ".com" ]; then
-							cd ${AUI_DOT_COM_PATH}
-						else
-							if [ "${1}" == "e" ]; then
-								cd ${AUI_EXCERCISES_PATH}
-							else
-								if [ "${1}" == "f" ]; then
-									cd ${AUI_FONT_AWESOME_PATH}
-								fi
-							fi
-						fi
-					fi
-				fi
-			fi
-		fi
-	fi
-}
-
-function cop (){
-	set ${1}
-	if [ "${1}" == "t" ]; then
-		a t && cp alloy-2.0.x.zip /Volumes/Projects/liferay/Trunk/portal/portal-web/third-party/alloy-2.0.x.zip && rm alloy-2.0.x.zip
-	else
-		if [ "${1}" == "1.5.x" ]; then
-			a 1.5.x && cp alloy-1.5.1.zip /Volumes/Projects/liferay/6.1.xEE/portal/portal-web/third-party/alloy-1.5.1.zip && rm alloy-1.5.1.zip
-		else
-			if [ "${1}" == "1.0.x" ]; then
-				a 1.0.x && cp alloy-1.0.3.zip /Volumes/Projects/liferay/6.0.x/portal/portal-web/third-party/alloy-1.0.3.zip && rm alloy-1.0.3.zip
-			fi
-		fi
-	fi
-}
-
-# CKEditor Functions
-######
-
-function cke() {
-	set ${1}
-	if [ "${1}" == "t" ]; then
-		cd ${CKEDITOR_TRUNK}
-	else
-		if [ "${1}" == "4.1.x" ]; then
-			cd ${CKEDITOR_41x}
-		else
-			if [ "${1}" == "4.0.x" ]; then
-				cd ${CKEDITOR_40x}
-			else
-				if [ "${1}" == "3.6.x" ]; then
-					cd ${CKEDITOR_36x}
-				fi
-			fi
-		fi
-	fi
-}
-
-# YUI3 Functions
-######
-
-function yui() {
-	set ${1}
-	if [ "${1}" == "3" ]; then
-		cd ${YUI3_PATH}
-	fi
-}

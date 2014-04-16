@@ -68,8 +68,8 @@ function prompt () {
 	status_status="\`if [ \$? = 0 ]; then echo -e '${txtgrn}$SUCCESS${bldgrn}'; else echo -e '${txtred}$ERROR${bldred}'; fi\`$txtrst"
 	status_git="$txtylw\$(__git_ps1 '[%s]')$txtrst"
 	status_time="$txtred\@$txtrst"
-	status_user="$txtcyn\u@\h$txtrst"	
-	
+	status_user="$txtcyn\u@\h$txtrst"
+
 	status_message="$status_location $status_git | $status_status | $status_user | $status_time\n"
 
 	export PS1="$status_message $STARTER "

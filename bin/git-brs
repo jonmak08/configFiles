@@ -1,3 +1,72 @@
 #!/bin/bash
-desc=${1}
-git for-each-ref --sort=${desc}committerdate refs/heads/ --format='%(refname) - %(committerdate:relative) - %(author) %(subject)' | cut -d / -f 3- | awk -F" - " '{print "\033[33m" $1 "\033[39m - \033[36m" $2 "\033[32m " $3}'
+usage()
+{
+cat << EOF
+usage: $0 options
+
+This script will open the files in the specified commit range
+
+OPTIONS:
+   -r      Show only remote branches
+   -n      Allows to filter the remote branches by name
+   -a      Show remotes and local branches
+   -d      Show in descending order
+   -m      Show in descending order
+   -e      Show in descending order
+EOF
+}
+
+REMOTES_ONLY=0
+REMOTE_NAME=""
+ALL=0
+DESC=""
+EMAIL_FILTER=""
+
+while getopts ":hrn:adme:" OPTION
+do
+     case $OPTION in
+         h)
+             usage
+             exit 1
+             ;;
+         a)
+             ALL=1
+             ;;
+         r)
+             REMOTES_ONLY=1
+             ;;
+         n)
+             REMOTES_ONLY=1
+             REMOTE_NAME=$OPTARG
+             ;;
+         d)
+             DESC="-"
+             ;;
+         m)
+             EMAIL_FILTER=$(git config user.email)
+             ;;
+         e)
+             EMAIL_FILTER=$OPTARG
+             ;;
+         ?)
+             usage
+             exit
+             ;;
+     esac
+done
+
+branches=refs/heads/
+
+if [[ $ALL == 1 ]]; then
+	branches="$branches  refs/remotes"
+elif [[ $REMOTES_ONLY == 1 ]]; then
+	branches="refs/remotes/$REMOTE_NAME"
+fi
+
+results=$(git for-each-ref --sort=${DESC}committerdate $(echo $branches) --format='%(refname) - %(committerdate:relative) - %(author) %(subject)' | cut -d / -f 3- | awk -F" - " '{print "\033[33m" $1 "\033[39m - \033[36m" $2 "\033[32m " $3}')
+
+if [[ -n "$EMAIL_FILTER" ]]; then
+    results=$(echo "$results" | grep "$EMAIL_FILTER")
+fi
+
+echo "$results"

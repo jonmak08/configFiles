@@ -1,119 +1,15 @@
 # Liferay paths
 
-export LFR_PATH="/Volumes/Projects/liferay"
+export PROJECTS_PATH="/Volumes/Projects"
 
-export LFR_PATH_REPOS="${LFR_PATH}/repos"
-
-export LFR_TRUNK_PATH="${LFR_PATH}/Trunk"
-
-export LFR_TRUNK_PORTAL_PATH="${LFR_TRUNK_PATH}/portal"
-
-export LFR_TRUNK_PLUGINS_PATH="${LFR_TRUNK_PATH}/plugins"
-
-export LFR_TRUNK_PLUGINSEE_PATH="${LFR_TRUNK_PATH}/pluginsEE"
-
-export LFR_TRUNK_PORTAL_HTML_PATH="${LFR_TRUNK_PORTAL_PATH}/portal-web/docroot/html"
-
-export LFR_TRUNKEE_PATH="${LFR_PATH}/TrunkEE"
-
-export LFR_TRUNKEE_PORTAL_PATH="${LFR_TRUNKEE_PATH}/portal"
-
-export LFR_TRUNKEE_PLUGINS_PATH="${LFR_TRUNKEE_PATH}/plugins"
-
-export LFR_TRUNKEE_PLUGINSEE_PATH="${LFR_TRUNKEE_PATH}/pluginsEE"
-
-export LFR_TRUNKEE_PORTAL_HTML_PATH="${LFR_TRUNKEE_PATH}/portal-web/docroot/html"
-
-export LFR_62x_PATH="${LFR_PATH}/62x"
-
-export LFR_62x_PORTAL_PATH="${LFR_62x_PATH}/portal"
-
-export LFR_62x_PLUGINS_PATH="${LFR_62x_PATH}/plugins"
-
-export LFR_62x_PLUGINS_EE_PATH="${LFR_62x_PATH}/pluginsEE"
-
-export LFR_62x_PORTAL_HTML_PATH="${LFR_62x_PATH}/portal-web/docroot/html"
-
-export LFR_62xEE_PATH="${LFR_PATH}/62xEE"
-
-export LFR_62xEE_PORTAL_PATH="${LFR_62xEE_PATH}/portal"
-
-export LFR_62xEE_PLUGINS_PATH="${LFR_62xEE_PATH}/plugins"
-
-export LFR_62xEE_PLUGINS_EE_PATH="${LFR_62xEE_PATH}/pluginsEE"
-
-export LFR_62xEE_PORTAL_HTML_PATH="${LFR_62xEE_PATH}/portal-web/docroot/html"
-
-export LFR_61x_PATH="${LFR_PATH}/61x"
-
-export LFR_61x_PORTAL_PATH="${LFR_61x_PATH}/portal"
-
-export LFR_61x_PLUGINS_PATH="${LFR_61x_PATH}/plugins"
-
-export LFR_61x_PLUGINS_EE_PATH="${LFR_61x_PATH}/pluginsEE"
-
-export LFR_61x_PORTAL_HTML_PATH="${LFR_61x_PATH}/portal-web/docroot/html"
-
-export LFR_61xEE_PATH="${LFR_PATH}/61xEE"
-
-export LFR_61xEE_PORTAL_PATH="${LFR_61xEE_PATH}/portal"
-
-export LFR_61xEE_PLUGINS_PATH="${LFR_61xEE_PATH}/plugins"
-
-export LFR_61xEE_PLUGINS_EE_PATH="${LFR_61xEE_PATH}/pluginsEE"
-
-export LFR_61xEE_PORTAL_HTML_PATH="${LFR_61xEE_PATH}/portal-web/docroot/html"
-
-export LFR_60x_PATH="${LFR_PATH}/6.0.x"
-
-export LFR_60x_PORTAL_PATH="${LFR_60x_PATH}/portal"
-
-export LFR_60x_PLUGINS_PATH="${LFR_60x_PATH}/plugins"
-
-export LFR_60x_PLUGINSEE_PATH="${LFR_60x_PATH}/pluginsEE"
-
-export LFR_60x_PORTAL_HTML_PATH="${LFR_60x_PATH}/portal-web/docroot/html"
-
-export LFR_52x_PATH="${LFR_PATH}/5.2.x"
-
-export LFR_52x_PORTAL_PATH="${LFR_52x_PATH}/portal"
-
-export LFR_52x_PLUGINS_PATH="${LFR_52x_PATH}/plugins"
-
-export LFR_52x_PLUGINSEE_PATH="${LFR_52x_PATH}/pluginsEE"
-
-export LFR_52x_PORTAL_HTML_PATH="${LFR_52x_PATH}/portal-web/docroot/html"
-
-export AUI_TRUNK_PATH="${LFR_PATH}/AlloyTrunk/aui"
-
-export AUI_TRUNK_DEPRECATED_PATH="${LFR_PATH}/AlloyTrunkDeprecated/aui"
-
-export AUI_20_PATH="${LFR_PATH}/Alloy2.0/aui"
-
-export AUI_15_PATH="${LFR_PATH}/Alloy1.5"
-
-export AUI_10_PATH="${LFR_PATH}/Alloy1.0"
-
-export AUI_DOT_COM_PATH="${LFR_PATH}/alloyui.com"
-
-export AUI_EXCERCISES_PATH="${LFR_PATH}/AlloyExcercises"
-
-export AUI_FONT_AWESOME_PATH="${LFR_PATH}/AlloyFontAwesome"
-
-export YUI3_PATH="${LFR_PATH}/yui3"
-
-export CKEDITOR_TRUNK="${LFR_PATH}/ckeditor-ee-Trunk"
-
-export CKEDITOR_41x="${LFR_PATH}/ckeditor-ee-4.1.x"
-
-export CKEDITOR_40x="${LFR_PATH}/ckeditor-ee-4.0.x"
-
-export CKEDITOR_36x="${LFR_PATH}/ckeditor-ee-3.6.x"
+export REPOS_PATH="${PROJECTS_PATH}/repo"
 
 # Exports
-export ANT_OPTS=-Xmx512m
+export ANT_OPTS="-Xms512m -Xmx1024m -XX:MaxPermSize=512m"
 
-export BASH_COMPLETION_PATH=`brew --prefix 2>/dev/null`/etc/bash_completion
+export BASH_COMPLETION_PATH=`brew --prefix 2>/dev/null`/etc/bash_completion.d/git-completion.bash
+
+export NODE_PATH="/usr/local/lib/node_modules:/usr/local/share/npm/lib/node_modules"
 
 export MYSQL_PS1="(\u@\h) [\d]> "
 
@@ -133,11 +29,13 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home
 # export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home
 # export JAVA_HOME=/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Home
 
+export SMARTGIT_MAX_HEAP_SIZE=2048m
 
-SMARTGIT_MAX_HEAP_SIZE=2048m;
-export SMARTGIT_MAX_HEAP_SIZE=$SMARTGIT_MAX_HEAP_SIZE
+export PATH=$HOME/bin:/usr/bin:/usr/local/bin:/usr/local/mysql/bin:$HOME/configFiles/bin:${LFR_PATH_REPOS}/git-tools:/usr/local/opt/ruby/bin:/usr/local/share/npm/bin:$PATH
 
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/mysql/bin:$HOME/configFiles/bin:${LFR_PATH_REPOS}/git-tools:/usr/local/opt/ruby/bin:/usr/local/share/npm/bin:$PATH
+if [[ -d $HOME/bin_private ]]; then
+	export PATH=$HOME/bin_private:$PATH
+fi
 
 export UNAME=$(uname)
 
@@ -147,7 +45,7 @@ export hd="HEAD"
 
 export m="master"
 
-# Git autocompletion
+# Git auto-completion
 # Show branch dirty state in git autocompletion script
 export GIT_PS1_SHOWDIRTYSTATE="true";
 
