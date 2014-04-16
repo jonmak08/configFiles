@@ -1,0 +1,26 @@
+{
+    "name": "configFiles",
+    "description": "configFiles",
+    "version": "1.0.0",
+    "author": {
+        "name": "Jonathan Mak",
+        "email": "jonathan.mak@liferay.com"
+    },
+    "license": "BSD",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:jonmak08/configFiles.git"
+    },
+    "dependencies": {
+        "async": "~0.2.9",
+        "cli": "~0.4.5",
+        "colors": "~0.6.2",
+        "commander": "~2.2.0",
+        "fs-extra": "~0.8.1",
+        "grunt": "~0.4.2",
+        "optimist": "~0.6.1"
+    },
+    "engines": {
+        "node": ">=0.8 <0.12"
+    }
+}
