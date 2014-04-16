@@ -286,5 +286,13 @@
 	# Reset last commit
 	pop = reset HEAD^
 
+	css = "!f() { ref_spec=$(git get-custom-refspec $1); git diff --stat --name-only $ref_spec | grep -E '.(s)?css$' | xargs check_sf; }; f"
+	js = "!f() { ref_spec=$(git get-custom-refspec $1); git diff --stat --name-only $ref_spec | grep -E '.js$' | xargs check_sf; }; f"
+	jsp = "!f() { ref_spec=$(git get-custom-refspec $1); git diff --stat --name-only $ref_spec | grep -E '.(jsp.?|vm|ftl)$' | xargs check_sf; }; f"
+
+	cssm = "!f() { git css $(git getm)..; }; f"
+	jsm = "!f() { git js $(git getm)..; }; f"
+	jspm = "!f() { git jsp $(git getm)..; }; f"
+
 	# Remove untracked files and directories
 	cln = clean -f -d -x -e build.jmak.properties -e app.server.jmak.properties -e portal-ext.properties -e node_modules
