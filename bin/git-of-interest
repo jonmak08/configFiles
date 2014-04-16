@@ -1,6 +1,6 @@
 #!/bin/bash
 
-default_file_types="*.js *.css *.jsp* *.vm *.ftl"
+default_file_types="*.js *.css *.jsp* *.vm *.ftl *.scss"
 
 if [[ -n $NC_DEFAULT_OF_INTEREST_FILE_TYPES ]]; then
 	default_file_types=$NC_DEFAULT_OF_INTEREST_FILE_TYPES
@@ -23,7 +23,7 @@ ref_spec=$old_head..$new_head;
 
 entries=$(git log -M -C --name-only --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(cyan)<%an>%Creset' --abbrev-commit --date=relative $ref_spec -- $file_types | sed 's/^/  /')
 
-totalstat=$(git diff --numstat --pretty='%H' --no-renames $ref_spec | grep -v "\b$ignore_folder" | xargs -0n1 echo -n | awk '{{print $3}}' | sed -e 's/^.*\.\(.*\)$/\1/' | sort | uniq -c | tr '\n' ',' | sed 's/,$//')
+totalstat=$(git diff --numstat --pretty='%H' --no-renames $ref_spec | grep -v "\b$ignore_folder" | awk '{{print $3}}' | sed -e 's/^.*\.\(.*\)$/\1/' | sort | uniq -c | tr '\n' ',' | sed 's/,$//')
 
 if [[ -z $entries ]]; then
 	echo "There are no changes in ${file_types// /, } across $ref_spec"
