@@ -317,7 +317,6 @@ function lfrv () {
 ######
 
 alias aa="ant -Dlint.failonerror=false all"
-alias aa="ant deploy"
 alias aba="ant build-alloy"
 alias abm="ant build-modules"
 alias abs='ant build-skins'
