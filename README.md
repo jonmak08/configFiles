@@ -29,6 +29,7 @@ This repository is a collection of scripts and other tools used by me.
         * phantomjs
         * pngcrush
         * readline
+        * ruby
         * shellcheck
         * sqlite
         * subversion
