@@ -8,6 +8,9 @@
 	path = gitconfig_custom
 	path = gitconfig_private
 
+[push]
+	default = simple
+
 [alias]
 	## Branches
 	##--------

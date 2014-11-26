@@ -3,7 +3,12 @@
 cur_dir=$(pwd);
 
 branch_name="master";
-if [[ $cur_dir =~ -(ee-)?[0-9]+\.[^.]\.x/? ]]; then
+
+update_branch=$(git config "git-pull-request.${cur_dir}.update-branch")
+
+if [[ -n "$update_branch" ]]; then
+	branch_name="$update_branch"
+elif [[ $cur_dir =~ -(ee-)?[0-9]+\.[^.]\.x/? ]]; then
 	repo_path=$(echo $cur_dir | perl -pe 's#-(ee-)?([0-9]+\.[^.]+\.x)/.*#-\1\2#')
 	cur_dir=$(echo $cur_dir | perl -pe 's#^.*?-(ee-)?([0-9]+\.[^.]+\.x)(/.*)?#\1\2#')
 

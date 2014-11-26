@@ -4,28 +4,41 @@ This repository is a collection of scripts and other tools used by me.
 
 ## Install
 
-1) Install homebrew by copy and pasting this line into your terminal and pressing enter: (a)
+1. Install [Homebrew](http://brew.sh/):
+    * In the terminal, enter ```ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"```
 
-	/usr/bin/ruby -e "$(/usr/bin/curl -fsSL https://raw.github.com/mxcl/homebrew/master/Library/Contributions/install_homebrew.rb)"
+2. Install the following Homebrew packages:
+    * In the terminal, enter ```brew install [package]```
+        * ack
+        * ant
+        * autoconf
+        * autojump
+        * automake
+        * bash-completion
+        * bash-git-prompt
+        * freetype
+        * git
+        * gmp
+        * imagemagick
+        * jpeg
+        * libpng
+        * libtool
+        * mysql
+        * node
+        * openssl
+        * phantomjs
+        * pngcrush
+        * readline
+        * shellcheck
+        * sqlite
+        * subversion
+        * tidy
+        * xz
 
-2) Install git (1.7.10 or higher) from homebrew:
-
-	brew install git
-
-2) Copy and paste this line into your terminal and press enter:
-
-	git clone https://github.com/jonmak08/configFiles.git
-
-2) Update ~/.bash_profile:
-
-	source ~/configFiles/bash_profile
-
-3) Update ~/.gitconfig
-
-[include]
-	path = [path of files from step 2]/configFiles/bash/gitconfig
-
-(a) - https://github.com/mxcl/homebrew/wiki/Installation
+3. Create/update your ```~/.bash_profile```:
+    1. Type ```cd ~/``` to go to your home folder.
+    2. Type ```touch .bash_profile``` to create your new file.
+    3. Enter ```source ~/configFiles/bash_profile``` in this new file.
 
 ##Details
 

@@ -1,9 +1,10 @@
 #
-source ~/configFiles/bash/prompt
+source ~/configFiles/bash/bash_prompt
+source ~/configFiles/bash/git_prompt
 source ~/configFiles/bash/settings
 source ~/configFiles/bash/settings_private
 source ~/configFiles/bash/aliases
-source ~/configFiles/bash/bash_apparix
+# source ~/configFiles/bash/bash_apparix
 
 if [ -f ~/.bashrc ] ; then
 	source ~/.bashrc ;
@@ -13,6 +14,9 @@ if [ -f "$HOME/.bash_profile.$USER" ]; then
 	. "$HOME/.bash_profile.$USER"
 fi
 
-if [ -f "$BASH_COMPLETION_PATH" ]; then
-	. "$BASH_COMPLETION_PATH"
+if [ -f $BASH_COMPLETION_PATH ]; then
+	. $BASH_COMPLETION_PATH
 fi
+
+[[ -s $BASH_AUTOJUMP ]] && . $BASH_AUTOJUMP
+

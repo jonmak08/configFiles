@@ -2,37 +2,13 @@
 ######
 alias sbp='source ~/.bash_profile'
 
-# Do a checksum comparison of two files to verify if
-# two files are 100% equal. Useful for testing if
-# one file has some invisible character or imperceptible
-# difference.
-# @argument first file
-# @argument second file
-
-function compare () {
-	if [[ -f "$1" && -f "$2" ]]; then
-		file_1=$(md5 "$1" | awk '{ print $4 }')
-		file_2=$(md5 "$2" | awk '{ print $4 }')
-
-		if [[ $file_1 == $file_2 ]]; then
-			echo "Both files are equal ($file_1)"
-		else
-			echo "$1 ($file_1) is different from $2 ($file_2)"
-		fi
-	else
-		echo "One or both of these is not a file"
-	fi
-}
-
 # Git
 ######
-alias myg='cd $GIT_HOME;'
 
 # Pull Request (https://github.com/greneholt/git-pull-request)
 alias gpr="source /Volumes/Projects/repo/git-tools/git-pull-request/git-pull-request.sh"
 
 # "g" to "git" command, but preserving git-completion
-#source ~/configFiles/bash/git-completion.bash
 alias g="git"
 complete -o bashdefault -o default -o nospace -F _git g 2>/dev/null || complete -o default -o nospace -F _git g
 
@@ -64,11 +40,14 @@ function gup() {
 	git checkout ${branch}; git pull upstream ${branch}; git push origin ${branch};
 }
 
+# SmartGit
+alias sg="/Applications/SmartGitHg\ 5.app/Contents/MacOS/SmartGit"
+alias sgo="sg --open"
+alias sgl="sg --log"
+alias sgb="sg --blame"
+
 # MySQL
 ######
-# MySQL alias'
-alias mysqladmin="/usr/local/mysql/bin/mysqladmin"
-
 function mysqlexec {
 	mysql -u root -p -e "$1";
 }
@@ -85,141 +64,6 @@ function cleardb {
 	mysqlexec "drop database if exists \`$1\`; create database \`$1\`
 CHARACTER SET utf8;"
 }
-
-# Navigation
-######
-
-function cdl {
-	cd $1;
-	ls -l
-}
-
-function upl {
-	cdl ..
-}
-
-# Convenience function for moving up levels in the path to the current working directory.
-# Synopsis:
-#     `up [n]` moves n levels up in the directory hierarchy; default is 1.
-#     `up dirname` changes to the closest ancestral directory by that name, regardless of case.
-#     `up absolutepath` changes to the specified absolute path; primarily used with command completion (see below).
-# Additionally, if command completion via _complete_up() is in effect (<tab> represents pressing the tab key):
-#      `up [n]<tab>` replaces n with the absolute path of the directory n levels up (default is 1).
-#      `up dirnameprefix<tab>` replaces dirnameprefix with the absolute path of the closest ancestral directory whose name starts with the specified name prefix, terminated with '/'.
-#         Whether dirnameprefix is matched case-insensitively or not depends on whether case-insensitive command completion is turned on globally via ~/.inputrc or /etc/inputrc.
-#       In both cases the completed absolute path ends in '/', allowing you to optionally continue completion based on that path's subdirectories.
-# Notes:
-#   - Directory names with characters that need escaping when unquoted (such as spaces) are handled correctly.
-#   - For command completion, to specify names that need escaping when unquoted, specify them escaped rather than quoted;
-#     e.g., `up my \di<tab>' to match 'my dir' in the ancestral path.
-function up {
-
-	local dir='../'   # By default, go up 1 level.
-
-	[[ "$1" == '-h' || "$1" == '--help' ]] && { echo -e "usage:\n\t$FUNCNAME [n]\n\t$FUNCNAME dirname\n  Moves up N levels in the path to the current working directory, 1 by default.\n  If DIRNAME is given, it must be the full name of an ancestral directory (case does not matter).\n  If there are multiple matches, the one *lowest* in the hierarchy is changed to." && return 0; }
-
-	if [[ -n "$1" ]]; then
-		if [[ $1 =~ ^[0-9]+$ ]]; then   # A number, specifying the number of levels to go up.
-			local strpath=$( printf "%${1}s" ) # This creates a string with as many spaces as levels were specified.
-			dir=${strpath// /$dir}  # Create the go-up-multiple-levels cd expression by replacing each space with '../'
-		elif [[ $1 =~ ^/ ]]; then  # Already an absolute path? Use as is. (Typically, this happens as a result of command-line completion invoked via _complete_up().)
-			dir=$1
-		else # Assumed to be the full name of an ancestral directory (regardless of level), though the case needn't match.
-			# Note: On case-insensitive HFS+ volumes on a Mac (the default), you can actually use case-insensitive names with 'cd' and the resulting working directory will be reported in that case(!).
-			#       This behavior is NOT related to whether case-insensitivity is turned on for command completion or not.
-			# !! Strangely, the 'nocasematch' shopt setting has no effect on variable substitution, so we need to roll our own case-insensitive substitution logic here.
-			local wdLower=$(echo -n "$PWD" | tr '[:upper:]' '[:lower:]')
-			local tokenLower=$(echo -n "$1" | tr '[:upper:]' '[:lower:]')
-			local newParentDirLower=${wdLower%/$tokenLower/*}   # If the specified token is a full ancestral directory name (irrespective of case), this substitution will give us its parent path.
-			[[ "$newParentDirLower" == "$wdLower"  ]] && { echo "$FUNCNAME: No ancestral directory named '$1' found." 1>&2; return 1; }
-			local targetDirPathLength=$(( ${#newParentDirLower} + 1 + ${#tokenLower} ))
-			# Get the target directory's name in the exact case it's defined.
-			dir=${PWD:0:$targetDirPathLength}
-		fi
-	fi
-
-	# Change to target directory; use of 'pushd' allows use of 'popd' to return to previous working directory.
-	pushd "$dir" 1>/dev/null
-}
-
-# Companion function to up(), used for command completion.
-# To install it, run (typically in your bash profile):
-# `complete -o filenames -F _complete_up up`
-# Note: The '-o filenames' option ensures that:
-#   (a) paths of directories returned via $COMPREPLY leave the cursor at the terminating "/" for potential further completion
-#   (b) paths with embeddes spaces and other characters requiring \-escaping are properly escaped.
-function _complete_up {
-
-	COMPREPLY=() # Initialize the array variable through which completions must be passed out.
-
-	# Retrieve the current command-line token, i.e., the one on which completion is being invoked.
-	local curToken=${COMP_WORDS[COMP_CWORD]}
-	# Remove \ chars., presumed to be escape characters in the current token, which is presumed to be *unquoted*. This allows invoking completion on a token with embedded space, e.g., '$FUNCNAME some\ directory'
-	# !! Strictly speaking, we'd have to investigate whether the token was specified with quotes on the command line and, if quoted,  NOT unescape. Given that the purpose of this function is expedience, we
-	# !! assume that the token is NOT quoted and that all backslashes are therefore escape characters to be removed.
-	curToken=${curToken//'\'}
-
-	if [[ $curToken =~ ^/ ]]; then # Token is an absolute path (typically as a result of a previous completion) -> complete with directory names, similar to 'cd' (although the latter, curiously, also completes *file* names).
-
-		local IFS=$'\n' # Make sure that the output of compgen below is only split along lines, not also along spaces (which the default $IFS would do).
-		COMPREPLY=($(compgen -o dirnames -- "$curToken"))
-
-	elif [[ $curToken =~ ^[0-9]+/? ]]; then # Token is a number (optionally followed by a slash) -> replace the token to be completed with the absolute path of the directory N levels above, where N is the number specified.
-
-		# Create a go-up-multiple-levels cd expression that corresponds to the number of levels specified.
-		local strpath=$( printf "%${curToken%%/*}s" ) # This creates a string with as many spaces as levels were specified.
-		local upDirSpec=${strpath// /../}  # Create the go-up-multiple-levels cd expression by replacing each space with '../'
-
-		# Expand to absolute path (ending in '/' to facilitate optional further completion) and return.
-		local dir=$(cd "$upDirSpec"; echo -n "$PWD/")
-		if [[ "$dir" == '//' ]]; then dir='/'; fi # In case the target dir turns out to be the root dir, we've accidentally created '//' in the previous statement; fix it.
-		# !! Note that the path will appear *unquoted* on the command line and must therefore be properly \-escaped (e.g., a ' '  as '\ ').
-		# !! Escaping is performed automatially by virtue of defining the compspec with '-o filenames' (passed to 'complete').
-		COMPREPLY=("$dir")
-
-	else # Token is a name -> look for a prefix match among all the ancestral path components; use the first match found (i.e., the next match up in the hierarchy).
-
-		# Determine if we should do case-insensitive matching or not, depending on whether cases-insensitive completion was turned on globally via ~/.inputrc or /etc/inputrc.
-		# We do this to be consistent with the default command completion behavior.
-		local caseInsensitive=0
-		bind -v | egrep -i '\bcompletion-ignore-case[[:space:]]+on\b' &>/dev/null && caseInsensitive=1
-
-		# If we need to do case-INsensitive matching in this function, we need to make sure the 'nocasematch' shell option is (temporarily) turned on.
-		local nocasematchWasOff=0
-		if (( caseInsensitive )); then
-			nocasematchWasOff=1
-			shopt nocasematch >/dev/null && nocasematchWasOff=0
-			(( nocasematchWasOff )) && shopt -s nocasematch >/dev/null
-		fi
-
-		local pathSoFar=''
-		local matchingPath=''
-		# Note: By letting the loop iterate over ALL components starting at the root, we end up with the *last* match, i.e. the one *lowest* in the hierarchy (closed to the current working folder).
-		# !! We COULD try to return multiple matches, if applicable, but in practice we assume that there'll rarely be paths whose components have identical names or prefixes.
-		# !! Thus, should there be multiple matches, the user can reinvoke the same command to change to the next-higher match (though the command must be typed again), and so forth.
-		local parentPath=${PWD%/*}
-		local IFS='/' # This will break our parent path into components in the 'for' loop below.
-		local name
-		for name in ${parentPath:1}; do
-			pathSoFar+=/$name
-			if [[ "$name" == "$curToken"* ]]; then
-				matchingPath="$pathSoFar/"
-			fi
-		done
-
-		# Restore the state of 'nocasematch', if necessary.
-		(( caseInsensitive && nocasematchWasOff )) && shopt -u nocasematch >/dev/null
-
-		# If match was found, return its absolute path (ending in / to facilitate optional further completion).
-		# !! Note that the path will appear *unquoted* on the command line and must therefore be properly \-escaped (e.g., a ' '  as '\ ').
-		# !! Escaping is performed automatially by virtue of defining the compspec with '-o filenames' (passed to 'complete').
-		[[ -n "$matchingPath" ]] && COMPREPLY=("$matchingPath")
-
-	fi
-}
-
-#Assign the auto-completion function _get for our command get.
-complete -o filenames -F _complete_up up
 
 # Misc
 ######
@@ -282,9 +126,6 @@ alias hs="history | grep --color=auto"
 # QuickLook file
 alias qlf='qlmanage -p "$@" >& /dev/null'
 
-# Open Sublime Text 2
-alias so='/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl'
-
 # Functions
 ######
 
@@ -300,8 +141,12 @@ function jid {
 	git log -1 --oneline | grep -Eo "([A-Z]{3,}-)([0-9]+)"
 }
 
-function mjid {
-	echo "`jid` - ${1:-Source formatting}"
+function cammjid {
+	echo "`jid` - ${1:-Source formatting}" | pbcopy
+}
+
+function cagsjid {
+	echo "`jid` - ${1:-General source formatting}" | pbcopy
 }
 
 # Check any website to see if it is running on Liferay
@@ -322,8 +167,10 @@ alias abm="ant build-modules"
 alias abs='ant build-skins'
 alias acd='ant clean deploy'
 alias ad='ant deploy'
+alias afs="ant format-source"
 alias ar="ant release"
-# complete -C ~/configFiles/bash/complete-ant-cmd.pl build.sh ant
+
+complete -C $ANT_AUTOCOMPLETE build.sh ant
 
 # ant deploy-fast
 function df() {
@@ -346,7 +193,7 @@ function bl() {
 		clear
 		echo "Error $? - no project selected"
 	else
-		cn ${1} && to ${1}-portal && ant deploy
+		cn ${1} && to ${1} && ant deploy
 	fi
 }
 
@@ -357,7 +204,7 @@ function cn() {
 		clear
 		echo "Error $? - no project selected"
 	else
-		to ${1}-tomcat && rm -rf temp && rm -rf work && rm -rf temphsperfdata_jmak
+		to ${1}tcat && rm -rf temp && rm -rf work && rm -rf temphsperfdata_jmak
 	fi
 }
 
@@ -368,7 +215,7 @@ function rt() {
 		clear
 		echo "Error $? - no project selected"
 	else
-		cn ${1} && rm -rf webapps && to ${1} && rm -rf data && db-hsql ${1} && to ${1}-portal && ant all && st ${1} && to ${1}-portal
+		cn ${1} && rm -rf webapps && to ${1} && rm -rf data && db-hsql ${1} && to ${1} && ant all && st ${1} && to ${1}
 	fi
 }
 
@@ -379,7 +226,7 @@ function db-hsql() {
 		clear
 		echo "Error $? - no project selected"
 	else
-		to ${1}-portal && cd sql && ant rebuild-hypersonic
+		to ${1} && cd sql && ant rebuild-hypersonic
 	fi
 }
 
@@ -401,7 +248,7 @@ function st() {
 		clear
 		echo "Error $? - no project selected"
 	else
-		to ${1}-tomcat && cd bin && ./catalina.sh run
+		to ${1}tcat && cd bin && ./catalina.sh run
 	fi
 }
 
@@ -464,5 +311,7 @@ function afs {
 
 # Alloy Functions
 ######
+alias gu="gulp"
 alias gr="grunt"
-alias y="yeti"
+alias ye="yeti"
+alias yo="yogi"

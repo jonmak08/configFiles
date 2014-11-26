@@ -35,44 +35,29 @@ function prompt () {
 	bakwht='\e[47m'   # White
 	txtrst='\e[0m'    # Text Reset
 
-	function print_before_the_prompt {
-		local max_pwd_length=10
-		local small_pwd_length=10
-		local joiner="…"
-
-		NC_PROMPT_USER=""
-
-		git_dir=`git rev-parse --show-toplevel 2>/dev/null || echo $PWD`
-		git_dir=`echo $git_dir | rev | cut -d"/" -f1-2 | rev`
-		echo -ne "\033]0;$git_dir\007"
-
-		NC_PROMPT_PWD="${PWD/$HOME/~}"
-	}
-
-	export PROMPT_COMMAND=print_before_the_prompt
-
 	# Alter prompt
 	SUCCESS="✔"
 	ERROR="✖"
-	STARTER="❯"
-	#STARTER="➔ "
-	#STARTER="⤷ "
+	STARTER="$"
+	#STARTER="❯"
+	#STARTER="➔"
+	#STARTER="⤷"
 
 	if [[ $IS_CYGWIN ]]; then
-		SUCCESS=" √"
-		ERROR=" Χ"
-		STARTER="->"
+		SUCCESS="√"
+		ERROR="Χ"
+		#STARTER="$"
+		#STARTER="->"
 	fi
 
-	status_location="\n$txtwht\w$txtrst"
+	status_location="$txtylw\w$txtrst"
 	status_status="\`if [ \$? = 0 ]; then echo -e '${txtgrn}$SUCCESS${bldgrn}'; else echo -e '${txtred}$ERROR${bldred}'; fi\`$txtrst"
-	status_git="$txtylw\$(__git_ps1 '[%s]')$txtrst"
-	status_time="$txtred\@$txtrst"
+	status_time="$txtred\t$txtrst"
 	status_user="$txtcyn\u@\h$txtrst"
 
-	status_message="$status_location $status_git | $status_status | $status_user | $status_time\n"
+	status_message="$status_status | $status_location | $status_user | $status_time\n"
 
-	export PS1="$status_message $STARTER "
+	export PS1="$status_message$STARTER "
 }
 
 prompt

@@ -1,59 +1,29 @@
 # Liferay paths
 
-export PROJECTS_PATH="/Volumes/Projects"
+export LFR_PROJECTS_PATH="/Volumes/Projects"
 
-export REPOS_PATH="${PROJECTS_PATH}/repo"
+export LFR_REPOS_PATH="$LFR_PROJECTS_PATH/repo"
 
 # Exports
 export ANT_OPTS="-Xms512m -Xmx1024m -XX:MaxPermSize=512m"
 
-export BASH_COMPLETION_PATH=`brew --prefix 2>/dev/null`/etc/bash_completion.d/git-completion.bash
+export ANT_AUTOCOMPLETE=/usr/local/Cellar/ant/1.9.4/bin/complete-ant-cmd.pl
 
-export NODE_PATH="/usr/local/lib/node_modules:/usr/local/share/npm/lib/node_modules"
+export BASH_AUTOJUMP=`brew --prefix`/etc/autojump.sh
 
-export MYSQL_PS1="(\u@\h) [\d]> "
+export BASH_COMPLETION_PATH=$(brew --prefix)/etc/bash_completion
 
-export BIN_HOME="${HOME}/bin"
+export JAVA_HOME="$(/usr/libexec/java_home)"
 
-#export EDITOR="vi";
-export EDITOR="subl -w";
+export SMARTGIT_MAX_HEAP_SIZE="(4096m)"
 
-export GIT_HOME="/usr/local/bin/git"
-
-export GREP_OPTIONS="--exclude=\*.git\*"
-
-export HISTCONTROL=erasedups
-shopt -s histappend
-
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_51.jdk/Contents/Home
-# export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home
-# export JAVA_HOME=/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Home
-
-export SMARTGIT_MAX_HEAP_SIZE=2048m
-
-export PATH=$HOME/bin:/usr/bin:/usr/local/bin:/usr/local/mysql/bin:$HOME/configFiles/bin:${LFR_PATH_REPOS}/git-tools:/usr/local/opt/ruby/bin:/usr/local/share/npm/bin:$PATH
-
-if [[ -d $HOME/bin_private ]]; then
-	export PATH=$HOME/bin_private:$PATH
-fi
-
-export UNAME=$(uname)
+export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:$HOME/configFiles/bin:$LFR_REPOS_PATH/git-tools:/usr/local/opt:/usr/local/share:$PATH
 
 # Git
 
 export hd="HEAD"
 
 export m="master"
-
-# Git auto-completion
-# Show branch dirty state in git autocompletion script
-export GIT_PS1_SHOWDIRTYSTATE="true";
-
-# Show untracked files in git autocompletion script
-export GIT_PS1_SHOWUNTRACKEDFILES="true";
-
-# Show upstream state
-export GIT_PS1_SHOWUPSTREAM="verbose"
 
 # Config settings
 

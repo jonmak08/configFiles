@@ -39,6 +39,7 @@
 	# but automatically creates a message using the last JIRA ticket it can find (if any)
 	# can take one optional parameter which is the message to use after the
 	# ticket ID (by default, this is "Source formatting")
+	cags = "!f() { ticketId=$(git get-latest-jira-id $2); git commit -a -m \"$ticketId - ${1:-General source formatting}\"; }; f"
 	camm = "!f() { ticketId=$(git get-latest-jira-id $2); git commit -a -m \"$ticketId - ${1:-Source formatting}\"; }; f"
 	cimm = "!f() { ticketId=$(git get-latest-jira-id $2); git commit -m \"$ticketId - ${1:-Source formatting}\"; }; f"
 	comm = "!f() { ticketId=$(git get-latest-jira-id $2); ticketTitle=$(git jira-title $ticketId); git commit -a -m \"$ticketId - ${1:-$ticketTitle}\"; }; f"
@@ -124,7 +125,6 @@
 	pum = push upstream $(git getm)
 	pbo = !git push origin $(git brn)
 
-	pu = pull upstream
 	fu = fetch upstream
 
 	## Syncing
@@ -228,7 +228,7 @@
 	# Show all pulls across repos w/ details
 	prid = pull-request info-detailed
 	# Submit pull request and close the current one
-	prcs = !git pr submit -q && git pr close
+	prcs = !git pr submit && git pr close -q
 	# Update the meta data for the pull-request, done after a rebase to track changes correctly
 	prum = pull-request update-meta
 	# Transitions JIRA
@@ -293,6 +293,8 @@
 	cssm = "!f() { git css $(git getm)..; }; f"
 	jsm = "!f() { git js $(git getm)..; }; f"
 	jspm = "!f() { git jsp $(git getm)..; }; f"
+	sfm = "!f() { git diff --stat --name-only $(git getm).. | grep -E '.(jsp.?|vm|ftl|js|(s)?css)$' | tr \"\\n\" \"\\0\" | xargs -0 -J{} check_sf {} $@; }; f"
+	sf = "!f() { ant -f portal-impl/build.xml format-source; git sfm $@; }; f"
 
 	# Remove untracked files and directories
-	cln = clean -f -d -x -e build.jmak.properties -e app.server.jmak.properties -e portal-ext.properties -e node_modules
+	cln = clean -f -d -x -e build.jmak.properties -e app.server.jmak.properties -e portal-ext.properties -e node_modules -e git-pull-request.users
