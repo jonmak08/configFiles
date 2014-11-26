@@ -36,7 +36,6 @@ This repository is a collection of scripts and other tools used by me.
         * subversion
         * tidy
         * xz
-        * yeti
 
 3. Create/update your ```~/.bash_profile```:
     1. Type ```cd ~/``` to go to your home folder.
