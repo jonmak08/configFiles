@@ -2,6 +2,9 @@
 ######
 alias sbp='source ~/.bash_profile'
 
+# alias to node-webkit
+alias nw="/Applications/node-webkit.app/Contents/MacOS/node-webkit"
+
 # Git
 ######
 
