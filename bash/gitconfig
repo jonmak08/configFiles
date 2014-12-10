@@ -1,6 +1,6 @@
 [core]
 	editor = mate -w
-	excluldesfile = ~/.gitignore
+	excludesfile = /Users/jmak/.gitignore_global
 	quotepath = false
 
 [include]
