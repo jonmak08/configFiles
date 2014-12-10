@@ -1,0 +1,7 @@
+#!/bin/bash
+
+jira_private
+
+# cd /Users/jmak/configFiles/bin/jira-cli-3.8.0
+
+# java -jar `dirname $0`/jira-cli-3.8.0/lib/jira-cli-3.8.0.jar --server http://issues.liferay.com --user [username] --password [password] "$@"
