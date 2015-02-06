@@ -13,6 +13,8 @@ export BASH_AUTOJUMP=`brew --prefix`/etc/autojump.sh
 
 export BASH_COMPLETION_PATH=$(brew --prefix)/etc/bash_completion
 
+export EDITOR='subl -w'
+
 export JAVA_HOME="$(/usr/libexec/java_home)"
 
 export SMARTGITHG_MAX_HEAP_SIZE="4096m"
