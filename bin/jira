@@ -1,6 +1,6 @@
 #!/bin/bash
 
-jira_private
+. jira_private
 
 # cd /Users/jmak/configFiles/bin/jira-cli-3.8.0
 
