@@ -42,7 +42,7 @@
 	cags = "!f() { ticketId=$(git get-latest-jira-id $2); git commit -a -m \"$ticketId - ${1:-General source formatting}\"; }; f"
 	camm = "!f() { ticketId=$(git get-latest-jira-id $2); git commit -a -m \"$ticketId - ${1:-Source formatting}\"; }; f"
 	cimm = "!f() { ticketId=$(git get-latest-jira-id $2); git commit -m \"$ticketId - ${1:-Source formatting}\"; }; f"
-	comm = "!f() { ticketId=$(git get-latest-jira-id $2); ticketTitle=$(git jira-title $ticketId); git commit -a -m \"$ticketId - ${1:-$ticketTitle}\"; }; f"
+	comm = "!f() { ticketId=$(git brn $2); ticketTitle=$(git jira-title $ticketId); git commit -a -m \"$ticketId - ${1:-$ticketTitle}\"; }; f"
 
 	## Branches
 	##--------
