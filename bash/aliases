@@ -71,6 +71,9 @@ CHARACTER SET utf8;"
 # Misc
 ######
 
+# autojump
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
+
 # details
 # Shows either the file name, alias info, or function definition
 # for a given executable.
@@ -165,11 +168,13 @@ function lfrv () {
 ######
 
 alias aa="ant -Dlint.failonerror=false all"
+alias aac="ant -Dlint.failonerror=false all clean"
 alias aba="ant build-alloy"
 alias abm="ant build-modules"
 alias abs='ant build-skins'
 alias acd='ant clean deploy'
 alias ad='ant deploy'
+alias adf='ant deploy-fast'
 alias afs="ant format-source"
 alias ar="ant release"
 
@@ -183,6 +188,56 @@ function df() {
 		echo "Error $? - no project selected"
 	else
 		to ${1} && pw && ant deploy-fast
+	fi
+}
+
+# Gradle
+######
+function gradle {
+	local root_level=$(git rev-parse --show-toplevel 2>/dev/null)
+
+	if [[ -n "$root_level" && -f "$root_level/gradlew" ]]; then
+		root_level="$root_level/gradlew"
+	else
+		root_level=$(which gradle)
+	fi
+
+	"$root_level" $@
+}
+
+function grcd() {
+	top_level=$(git rev-parse --show-toplevel 2>/dev/null)
+	if [[ -n "$top_level" ]]; then
+		"$top_level"/gradlew clean deploy
+	else
+		echo "Nowhere to go and nothing to clean and deploy..."
+	fi
+}
+
+function grc() {
+	top_level=$(git rev-parse --show-toplevel 2>/dev/null)
+	if [[ -n "$top_level" ]]; then
+		"$top_level"/gradlew clean
+	else
+		echo "Nowhere to go and nothing to clean..."
+	fi
+}
+
+function grd() {
+	top_level=$(git rev-parse --show-toplevel 2>/dev/null)
+	if [[ -n "$top_level" ]]; then
+		"$top_level"/gradlew deploy
+	else
+		echo "Nowhere to go and nothing to deploy..."
+	fi
+}
+
+function grlang() {
+	top_level=$(git rev-parse --show-toplevel 2>/dev/null)
+	if [[ -n "$top_level" ]]; then
+		"$top_level"/gradlew buildLang
+	else
+		echo "Nowhere to go and no language keys to build..."
 	fi
 }
 
@@ -317,4 +372,4 @@ function afs {
 alias gu="gulp"
 alias gr="grunt"
 alias ye="yeti"
-alias yo="yogi"
+alias yog="yogi"
