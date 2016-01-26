@@ -5,7 +5,7 @@ export LFR_PROJECTS_PATH="/Volumes/Projects"
 export LFR_REPOS_PATH="$LFR_PROJECTS_PATH/repo"
 
 # Exports
-export ANT_OPTS="-Xms512m -Xmx1024m -XX:MaxPermSize=512m"
+export ANT_OPTS="-Xms2048m -Xmx4096m -XX:MaxPermSize=1024m"
 
 export ANT_AUTOCOMPLETE=/usr/local/Cellar/ant/1.9.4/bin/complete-ant-cmd.pl
 
