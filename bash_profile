@@ -19,4 +19,3 @@ if [ -f $BASH_COMPLETION_PATH ]; then
 fi
 
 [[ -s $BASH_AUTOJUMP ]] && . $BASH_AUTOJUMP
-
