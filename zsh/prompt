@@ -1,0 +1,22 @@
+# Powerlevel9k Prompt Customizations (https://github.com/bhilburn/powerlevel9k/blob/master/README.md)
+
+# Number of characters of the changeset / hash to display in the segment.
+POWERLEVEL9K_CHANGESET_HASH_LENGTH=7
+
+# Left Prompt Configuration
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(root_indicator dir vcs)
+
+# Display segments on one line, and print the command prompt below it
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+
+# Right Prompt Configuration
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status time)
+
+# Display changeset / hash in segment.
+POWERLEVEL9K_SHOW_CHANGESET=true
+
+# Status of last commnad
+POWERLEVEL9K_STATUS_VERBOSE=false
+
+# Time format
+POWERLEVEL9K_TIME_FORMAT="%D{%H:%M:%S}"
