@@ -1,0 +1,9 @@
+{
+  // opendiff (FileMerge)
+  "cmd": ["opendiff", "$file1", "$file2"]
+
+  // ss (SmartSynchronize)
+  "cmd": ["ss", "$file1", "$file2"]
+
+  "trim_trailing_white_space_before_diff": true
+}

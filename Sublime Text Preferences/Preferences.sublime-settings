@@ -1,0 +1,43 @@
+{
+	"bold_folder_labels": true,
+	"color_inactive_tabs": true,
+	"draw_minimap_border": true,
+	"draw_white_space": "all",
+	"font_size": 12,
+	"highlight_line": true,
+	"highlight_modified_tabs": true,
+	"ignored_packages":
+	[
+		"JavaScript",
+		"Markdown Extended",
+		"Vintage"
+	],
+	"line_padding_bottom": 1,
+	"open_files_in_new_window": false,
+	"rulers":
+	[
+		80
+	],
+	"show_line_endings": true,
+	"sidebar_size_12": true,
+	"spell_check": true,
+	"trim_trailing_white_space_on_save": true,
+	"word_wrap": "true",
+
+	// Theme
+
+	// Phoenix
+
+	// "phoenix_color_blue": true,
+	// "phoenix_color_expanded_folder": true,
+	// "phoenix_highlight_current_tab": true,
+	// "theme": "Phoenix Dark.sublime-theme",
+	// "color_scheme": "Packages/Color Scheme - Default/Monokai.tmTheme",
+
+	// Afterglow
+	"color_scheme": "Packages/Theme - Afterglow/Afterglow-monokai.tmTheme",
+	"theme": "Afterglow-blue.sublime-theme",
+	"status_bar_brighter": true,
+	"tabs_padding_small": true,
+	"tabs_small": true
+}

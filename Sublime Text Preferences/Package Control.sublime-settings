@@ -1,0 +1,39 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"AdvancedNewFile",
+		"Alignment",
+		"Better JavaScript",
+		"BracketHighlighter",
+		"Color Highlighter",
+		"ColorPicker",
+		"CSScomb",
+		"EditorConfig",
+		"Emmet",
+		"FileDiffs",
+		"Gist",
+		"GitGutter",
+		"Github Tools",
+		"GitHubinator",
+		"JavaScriptNext - ES6 Syntax",
+		"jQuery",
+		"JsFormat",
+		"LESS",
+		"Markdown Extended",
+		"Markdown Preview",
+		"MarkdownEditing",
+		"Package Control",
+		"Sass",
+		"SideBarEnhancements",
+		"SyncedSideBar",
+		"Terminal",
+		"Theme - Afterglow",
+		"Theme - Phoenix",
+		"TrailingSpaces",
+		"Tubsted Color Schemes"
+	]
+}

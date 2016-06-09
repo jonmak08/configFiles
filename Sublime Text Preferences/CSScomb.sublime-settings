@@ -1,0 +1,6 @@
+{
+    "config": {
+        // Unify case of hexadecimal colors.
+        "color-case": "upper"
+    }
+}
