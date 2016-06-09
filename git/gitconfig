@@ -4,7 +4,7 @@
 	quotepath = false
 
 [include]
-	# path = /Volumes/Projects/liferay/repos/git-tools/gitconfig
+	# path = /Users/jmak/configFiles/git-tools/gitconfig
 	path = gitconfig_custom
 	path = gitconfig_private
 
@@ -12,6 +12,10 @@
 	default = simple
 
 [alias]
+	## Sync
+	##--------
+	sync = sync-origin
+
 	## Branches
 	##--------
 	# Display all branches

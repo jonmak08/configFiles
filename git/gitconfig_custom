@@ -216,7 +216,7 @@
 	# Update submodules
 	subu = "!f() { cd $(git rev-parse --show-toplevel) && git submodule update; }; f"
 	# Update submodules and initialize them
-	subi = "!f() { cd $(git rev-parse --show-toplevel) && git submodule update --init; }; f"lize them
+	subi = "!f() { cd $(git rev-parse --show-toplevel) && git submodule update --init; }; f"
 	subi = submodule update --init
 
 	## Submitting Pull Requests
@@ -229,21 +229,21 @@
 	# Show all pulls across repos w/ details
 	prid = pull-request info-detailed
 	# Submit pull request and close the current one
-	prcs = !git pr submit && git pr close -q
+	prcs = "!f() { reviewer=$(git config --get github.reviewer); git pr submit -u ${1:-$reviewer} && git pr close -q; }; f"
 	# Update the meta data for the pull-request, done after a rebase to track changes correctly
 	prum = pull-request update-meta
 	# Transitions JIRA
 	prtj = pull-request transition-jira
 	# Rejects a pull
 	# eg. git prcj joe.bloggs
-	prcj = "!f(){ user=\"$1\"; comment=\"$2\"; ticket=\"${3:-$(git get-latest-jira-id)}\"; if ! [[ $# -ge 2 ]]; then comment=\"$user\"; user=\"\"; read -p \"It doesn't appear that you've passed a user. Who do you want to reassign it to? [Liferay or Github username]: \" user; fi; git pr close \"$comment\" && git pr transition-jira $ticket \"Requires Additional Work\" \"$user\"; }; f"
+	prcj = "!f() { user=\"$1\"; comment=\"$2\"; ticket=\"${3:-$(git get-latest-jira-id)}\"; if ! [[ $# -ge 2 ]]; then comment=\"$user\"; user=\"\"; read -p \"It doesn't appear that you've passed a user. Who do you want to reassign it to? [Liferay or Github username]: \" user; fi; git pr close \"$comment\" && git pr transition-jira $ticket \"Requires Additional Work\" \"$user\"; }; f"
 	#\"$user\" =~ ^[a-zA-Z0-9_-]+\\.[a-zA-Z0-9_-]+$ || \"$user\" =~ ^[a-zA-Z0-9-_]+$
 	#
-	# prcj = "!f(){ user=\"$1\"; comment=\"$2\"; ticket=\"${3:-$(git get-latest-jira-id)}\"; [[ -n \"$comment\" ]] && echo 'has comment'; echo \"user = $user, comment = $comment, ticket = $ticket\"; }; f"
+	# prcj = "!f() { user=\"$1\"; comment=\"$2\"; ticket=\"${3:-$(git get-latest-jira-id)}\"; [[ -n \"$comment\" ]] && echo 'has comment'; echo \"user = $user, comment = $comment, ticket = $ticket\"; }; f"
 	# Sets the update branch based on the current repo directory name (so liferay-portal-ee-6.1.x will have an update branch of ee-6.1.x)
-	set-pr-branch-config = "!f(){ git config "git-pull-request.$(git rev-parse --show-toplevel).$1" "$2"; }; f"
-	set-update-branch = "!f(){ git set-pr-branch-config "update-branch" "${1:-$(git getm)}"; }; f"
-	set-work-dir = "!f(){ git set-pr-branch-config "work-dir" "$1"; }; f"
+	set-pr-branch-config = "!f() { git config "git-pull-request.$(git rev-parse --show-toplevel).$1" "$2"; }; f"
+	set-update-branch = "!f() { git set-pr-branch-config "update-branch" "${1:-$(git getm)}"; }; f"
+	set-work-dir = "!f() { git set-pr-branch-config "work-dir" "$1"; }; f"
 
 	## Misc
 	##--------
@@ -264,7 +264,7 @@
 	get-latest-jira-id = "!f() { git log $1 --oneline | grep -Eo '([A-Z]{3,}-)([0-9]+)' -m 1 | head -n 1; }; f"
 
 	# Open the url to the latest JIRA ticket referenced in the log
-	jira = "!f() { ticketId=$(git get-latest-jira-id $2); open http://issues.liferay.com/browse/$ticketId;  }; f"
+	jira = "!f() { ticketId=$(git get-latest-jira-id $2); open http://issues.liferay.com/browse/$ticketId; }; f"
 
 	# Get a range based commit-ish based on the passed sha. Uses HEAD by default, but if a sha is passed, it creates a range
 	# that refers to one previous. If you pass a range, it will leave it untouched so that you can customize the range yourself.
