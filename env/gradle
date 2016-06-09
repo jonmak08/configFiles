@@ -1,0 +1,50 @@
+# Gradle
+######
+
+function gradle {
+	local root_level=$(git rev-parse --show-toplevel 2>/dev/null)
+
+	if [[ -n "$root_level" && -f "$root_level/gradlew" ]]; then
+		root_level="$root_level/gradlew"
+	else
+		root_level=$(which gradle)
+	fi
+
+	"$root_level" $@
+}
+
+function grcd() {
+	top_level=$(git rev-parse --show-toplevel 2>/dev/null)
+	if [[ -n "$top_level" ]]; then
+		"$top_level"/gradlew clean deploy
+	else
+		echo "Nowhere to go and nothing to clean and deploy..."
+	fi
+}
+
+function grc() {
+	top_level=$(git rev-parse --show-toplevel 2>/dev/null)
+	if [[ -n "$top_level" ]]; then
+		"$top_level"/gradlew clean
+	else
+		echo "Nowhere to go and nothing to clean..."
+	fi
+}
+
+function grd() {
+	top_level=$(git rev-parse --show-toplevel 2>/dev/null)
+	if [[ -n "$top_level" ]]; then
+		"$top_level"/gradlew deploy
+	else
+		echo "Nowhere to go and nothing to deploy..."
+	fi
+}
+
+function grlang() {
+	top_level=$(git rev-parse --show-toplevel 2>/dev/null)
+	if [[ -n "$top_level" ]]; then
+		"$top_level"/gradlew buildLang
+	else
+		echo "Nowhere to go and no language keys to build..."
+	fi
+}

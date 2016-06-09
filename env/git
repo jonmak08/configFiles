@@ -1,0 +1,24 @@
+# Git
+######
+
+# Pull Request (https://github.com/greneholt/git-pull-request)
+alias gpr="/bin/sh $HOME/configFiles/git-tools/git-pull-request/git-pull-request.sh"
+
+# Git ref head
+alias refHead="echo ref: refs/heads/master >.git/HEAD"
+
+# Github pull from user
+alias gp='github-pull'
+
+# function git_track() {
+# 	echo "\n[branch \"$1\"]\n\tremote = origin\n\tmerge = refs/heads/$1" >> ".git/config"
+# }
+
+# SmartGit
+alias sg="/usr/local/bin/SmartGit"
+alias sgo="sg --open"
+alias sgl="sg --log"
+alias sgb="sg --blame"
+
+# SmartSynchronize
+alias ss="/usr/local/bin/SmartSynchronize"

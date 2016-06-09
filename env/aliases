@@ -1,0 +1,104 @@
+# Include other alias files
+
+source $ENV_FILES/alloy-ui
+source $ENV_FILES/ant
+source $ENV_FILES/git
+source $ENV_FILES/gradle
+source $ENV_FILES/liferay
+source $ENV_FILES/mysql
+
+# Utility
+######
+
+# Misc
+######
+
+# details
+# Shows either the file name, alias info, or function definition
+# for a given executable.
+# @argument name of function, alias, or script to list the details for
+function details {
+	if [[ `command -v "$1"` ]]; then
+		cmd_type="$(type -t $1)"
+
+		if [[ $cmd_type == "alias" ]]; then
+			alias "$1" 2> /dev/null
+		elif [[ $cmd_type == "file" ]]; then
+			which "$1" 2> /dev/null
+		elif [[ $cmd_type == "function" ]]; then
+			declare -f "$1" 2> /dev/null
+		else
+			type -a "$1" 2> /dev/null
+		fi
+	else
+		echo "$1 doesn't seem to exist"
+	fi
+
+	return 1
+}
+
+# Process finder
+# @argument name of process
+function pf {
+	ps ax | grep "$1" | grep -v grep | awk '{ print $1 }'
+}
+
+# Process killer
+# @argument name of process
+function pfkill {
+	pf $1 | xargs kill -9
+	#ps -ef | grep PROCESS | grep -v grep | awk '{print $2}' | xargs kill -9
+}
+
+# Kill java :(
+function pfkj {
+	pfkill "java"
+}
+
+# Simpler grep
+# @argument (optional) path
+function gr {
+	grep -R "$1" "${2:-.}"
+	# echo $1 ${2:.}
+}
+
+# Find file by name
+alias fn='find . -name '
+
+# Search history
+alias hs="history | grep --color=auto"
+
+# QuickLook file
+alias qlf='qlmanage -p "$@" >& /dev/null'
+
+# Functions
+######
+
+# Resolves a symlink to determine where it points to
+# @argument path to symlink
+
+function resolve {
+	[ ! -h "$1" ] && echo "$1" || (local link="$(expr "$(command ls -ld -- "$1")" : '.*-> \(.*\)$')"; cd $(dirname $1); resolve "$link" | sed "s|^\([^/].*\)\$|$(dirname $1)/\1|");
+}
+
+# Get Last JIRA ID from the git logs
+function jid {
+	git log -1 --oneline | grep -Eo "([A-Z]{3,}-)([0-9]+)"
+}
+
+function cammjid {
+	echo "`jid` - ${1:-Source formatting}" | pbcopy
+}
+
+function cagsjid {
+	echo "`jid` - ${1:-General source formatting}" | pbcopy
+}
+
+# Check any website to see if it is running on Liferay
+# as well as what version it is.
+# This assumes they haven't disabled the Liferay-Portal header
+# @argument url
+
+function lfrv () {
+	curl -ILs $1 | grep --color=auto "Liferay"
+}

@@ -1,0 +1,19 @@
+# MySQL
+######
+
+function mysqlexec {
+	mysql -u root -p -e "$1";
+}
+
+function createdb {
+	mysqlexec "create database \`$1\` CHARACTER SET utf8;";
+}
+
+function dropdb {
+	mysqlexec "drop database if exists \`$1\`;";
+}
+
+function cleardb {
+	mysqlexec "drop database if exists \`$1\`; create database \`$1\`
+CHARACTER SET utf8;"
+}

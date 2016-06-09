@@ -1,0 +1,135 @@
+# Liferay Functions
+######
+
+# build
+function bl() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else
+		cn ${1} && to ${1} && ant deploy
+	fi
+}
+
+# clean
+function cn() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else
+		to ${1}tcat && rm -rf temp && rm -rf work && rm -rf temphsperfdata_jmak
+	fi
+}
+
+# reset
+function rt() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else
+		cn ${1} && rm -rf webapps && to ${1} && rm -rf data && db-hsql ${1} && to ${1} && ant all && st ${1} && to ${1}
+	fi
+}
+
+# rebuild database
+function db-hsql() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else
+		to ${1} && cd sql && ant rebuild-hypersonic
+	fi
+}
+
+# restart
+function rs() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else
+		cn ${1} && bl ${1} && st ${1}
+	fi
+}
+
+# start
+function st() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else
+		to ${1}tcat && cd bin && ./catalina.sh run
+	fi
+}
+
+# start & build
+function sb() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else
+		bl ${1} && st ${1}
+	fi
+}
+
+# Navigate to the portal-web directory of any Liferay repo
+
+function lp () {
+	top_level=$(git rev-parse --show-toplevel 2>/dev/null)
+
+	if [[ -n "$top_level" && -d "$top_level" ]]; then
+		cd "$top_level"
+	else
+		echo "Nowhere to go..."
+	fi
+}
+
+function pw () {
+	top_level=$(git rev-parse --show-toplevel 2>/dev/null)
+	if [[ -n "$top_level" && -d "$top_level/portal-web" ]]; then
+		cd "$top_level/portal-web"
+	else
+		echo "Nowhere to go..."
+	fi
+}
+
+# Navigate to the portal-impl directory of any Liferay repo
+
+function pi () {
+	top_level=$(git rev-parse --show-toplevel 2>/dev/null)
+	if [[ -n "$top_level" && -d "$top_level/portal-impl" ]]; then
+		cd "$top_level/portal-impl"
+	else
+		echo "Nowhere to go..."
+	fi
+}
+
+# Navigate to the portal-web directory and run ant build-themes
+
+function abt {
+	start_dir="$PWD"
+
+	pw && ant build-themes
+
+	if [[ "$PWD" != "$start_dir" ]]; then
+		cd "$start_dir";
+	fi
+}
+
+# Navigate to the portal-impl directory and run ant format-source
+
+function afs {
+	start_dir="$PWD"
+
+	pi && ant format-source
+
+	if [[ "$PWD" != "$start_dir" ]]; then
+		cd "$start_dir";
+	fi
+}

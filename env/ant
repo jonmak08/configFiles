@@ -1,0 +1,24 @@
+# Ant
+######
+
+alias aa="ant -Dlint.failonerror=false all"
+alias aac="ant -Dlint.failonerror=false all clean"
+alias aba="ant build-alloy"
+alias abm="ant build-modules"
+alias abs='ant build-skins'
+alias acd='ant clean deploy'
+alias ad='ant deploy'
+alias adf='ant deploy-fast'
+alias afs="ant format-source"
+alias ar="ant release"
+
+# ant deploy-fast
+function df() {
+	set ${1}
+	if [ "${1}" == "" ]; then
+		clear
+		echo "Error $? - no project selected"
+	else
+		to ${1} && pw && ant deploy-fast
+	fi
+}

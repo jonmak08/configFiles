@@ -1,0 +1,41 @@
+# Exports
+
+# Ant Opts
+export ANT_OPTS="-Xms2048m -Xmx4096m -XX:MaxPermSize=1024m -XX:-UseGCOverheadLimit"
+
+# Default Editor
+export EDITOR='subl -w'
+
+# Java
+export JAVA_HOME="$(/usr/libexec/java_home)"
+
+# Path
+export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/configFiles/bin:$HOME/configFiles/git-tools/git-pull-request:/usr/local/opt:/usr/local/share:$HOME/npmGlobal/bin:$PATH
+
+# NodeJS
+export NODE_PATH="$NODE_PATH:$HOME/npmGlobal/lib/node_modules"
+
+# SmartGit
+export SMARTGITHG_MAX_HEAP_SIZE="1024m"
+
+# Term
+export TERM=xterm-256color
+
+
+# Set Java version
+# https://davidsimpson.me/2015/08/12/switching-java-versions-easily-on-a-mac/
+function setjdk() {
+	if [ $# -ne 0 ]; then
+		removeFromPath '/System/Library/Frameworks/JavaVM.framework/Home/bin'
+		if [ -n "${JAVA_HOME+x}" ]; then
+			removeFromPath $JAVA_HOME
+		fi
+
+		export JAVA_HOME=`/usr/libexec/java_home -v $@`
+		export PATH=$JAVA_HOME/bin:$PATH
+	fi
+}
+
+function removeFromPath() {
+	export PATH=$(echo $PATH | sed -E -e "s;:$1;;" -e "s;$1:?;;")
+}
