@@ -38,7 +38,7 @@ done
 shift $(($OPTIND - 1))
 
 current_branch=$(git brn)
-update_branch=${1:-$current_branch}
+update_branch=${1:-$(git getm)}
 
 if [[ $current_branch == $update_branch ]]; then
 	CHECKOUT=0
