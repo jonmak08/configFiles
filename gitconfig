@@ -1,0 +1,24 @@
+[include]
+	path = /Users/jmak/configFiles/git/gitconfig
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[filter "media"]
+	clean = git media clean %f
+	smudge = git media smudge %f
+	required = true
+[user]
+	name = Jonathan Mak
+	email = jonathan.mak@liferay.com
+	editor = /Users/jmak/Applications/Sublime Text.app
+[credential]
+	helper = osxkeychain
+[core]
+	excludesfile = /Users/jmak/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /opt/homebrew-cask/Caskroom/sourcetree/2.2.3/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
