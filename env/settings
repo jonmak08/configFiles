@@ -6,6 +6,9 @@ export ANT_OPTS="-Xms2048m -Xmx4096m -XX:MaxPermSize=1024m -XX:-UseGCOverheadLim
 # Default Editor
 export EDITOR='subl -w'
 
+# Homebrew Cask Location
+export HOMEBREW_CASK_OPTS=--caskroom=/opt/homebrew-cask/Caskroom
+
 # Java
 export JAVA_HOME="$(/usr/libexec/java_home)"
 
