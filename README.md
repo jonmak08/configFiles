@@ -74,6 +74,13 @@
 		- [VirtualBox](https://www.virtualbox.org)
 		- [VLC](http://www.videolan.org/)
 
+	* QuickLook
+		- [qlmarkdown](https://github.com/toland/qlmarkdown)
+		- [QLPrettyPatch](https://github.com/atnan/QLPrettyPatch)
+		- [quicklook-csv](https://github.com/p2/quicklook-csv)
+		- [BetterZipQL](https://macitbetter.com/BetterZip-Quick-Look-Generator/)
+		- [qlImageSize](https://github.com/Nyx0uf/qlImageSize)
+
 	* Utilities
 		- [AppCleaner](https://freemacsoft.net/appcleaner/)
 		- [Alfred](https://www.alfredapp.com/)
