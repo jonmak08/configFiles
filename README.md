@@ -15,104 +15,107 @@
 		- Caffeine
 		- Radia
 		- Skitch
-		- Xcode
+		- XCode
 
 	* Utilities
 		- Dash
 		- The Unarchiver
 
-3. Install [Homebrew](http://brew.sh/)
+3. Install [Homebrew](http://brew.sh)
 	* Paste `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"` in a terminal.
 
 4. Install Homebrew extension [Cask](https://github.com/caskroom/homebrew-cask)
 	* Install apps by pasting `brew cask install <app name>` in a terminal.
 
 	* Browsers
-		- [Chrome](https://www.google.com/chrome/)
+		- [Chrome](https://www.google.com/chrome)
 		- [Firefox](https://www.mozilla.org)
 
 	* Cloud
 		- [Box](https://www.box.com)
-		- [DropBox](https://www.dropbox.com/)
-		- [Google Drive](https://www.google.com/drive/)
+		- [DropBox](https://www.dropbox.com)
+		- [Google Drive](https://www.google.com/drive)
 
 	* Communication
-		- [Adium](https://adium.im/)
-		- [Skype](http://www.skype.com/)
+		- [Adium](https://adium.im)
+		- [Skype](http://www.skype.com)
 
 	* Development
-		- [GitHub](https://desktop.github.com/)
+		- [GitHub](https://desktop.github.com)
 		- [Java](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 		- [Java7](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 		- [Java8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-		- [JMeter](http://jmeter.apache.org/)
+		- [JMeter](http://jmeter.apache.org)
 
 	* Editors
 		- [Atom](https://github.com/atom/atom)
-		- [Brackets](http://brackets.io/)
-		- [TextMate](https://macromates.com/)
-		- [Sublime Text 3](https://www.sublimetext.com/)
+		- [Brackets](http://brackets.io)
+		- [TextMate](https://macromates.com)
+		- [Sublime Text](https://www.sublimetext.com)
 			+ [Subl](https://github.com/dhoulb/subl)
+		- [Visual Studio Code](https://code.visualstudio.com)
 
 	* Misc
-		- [Burn](http://burn-osx.<sourceforge class="net">geny </sourceforge>)
-		- [Chicken VNC](http://chicken.sourceforge.net/)
+		- [Burn](http://burn-osx.sourceforge.net)
+		- [Chicken VNC](http://chicken.sourceforge.net)
 		- [Flash](http://www.adobe.com/products/flashruntimes.html)
-		- [FileZilla](https://filezilla-project.org/)
-		- [Genymotion](https://www.genymotion.com/)
-		- [Gimp](https://www.gimp.org/)
-		- [Google Photos Backup](https://photos.google.com/)
-		- [Handbrake](https://handbrake.fr/)
+		- [FileZilla](https://filezilla-project.org)
+		- [Genymotion](https://www.genymotion.com)
+		- [Gimp](https://www.gimp.org)
+		- [Google Photos Backup](https://photos.google.com)
+		- [Handbrake](https://handbrake.fr)
 		- [Jing](https://www.techsmith.com/jing.html)
-		- [Karabiner](https://pqrs.org/osx/karabiner/)
-		- [LibreOffice](https://www.libreoffice.org/download/libreoffice-fresh/)
-		- [Monolingual](https://ingmarstein.github.io/Monolingual/)
-		- [Paintbrush](http://paintbrush.sourceforge.net/)
-		- [Picasa](https://picasa.google.com/)
-		- [Sequel Pro](http://www.sequelpro.com/)
-		- [TeamViewer](http://www.teamviewer.com/)
+		- [Karabiner](https://pqrs.org/osx/karabiner)
+		- [LibreOffice](https://www.libreoffice.org/download/libreoffice-fresh)
+		- [Monolingual](https://ingmarstein.github.io/Monolingual)
+		- [Paintbrush](http://paintbrush.sourceforge.net)
+		- [Picasa](https://picasa.google.com)
+		- [Sequel Pro](http://www.sequelpro.com)
+		- [TeamViewer](http://www.teamviewer.com)
 		- [VirtualBox](https://www.virtualbox.org)
-		- [VLC](http://www.videolan.org/)
+		- [VLC](http://www.videolan.org)
 
 	* QuickLook
 		- [qlmarkdown](https://github.com/toland/qlmarkdown)
 		- [QLPrettyPatch](https://github.com/atnan/QLPrettyPatch)
 		- [quicklook-csv](https://github.com/p2/quicklook-csv)
-		- [BetterZipQL](https://macitbetter.com/BetterZip-Quick-Look-Generator/)
+		- [BetterZipQL](https://macitbetter.com/BetterZip-Quick-Look-Generator)
 		- [qlImageSize](https://github.com/Nyx0uf/qlImageSize)
 
 	* Utilities
-		- [AppCleaner](https://freemacsoft.net/appcleaner/)
-		- [Alfred](https://www.alfredapp.com/)
-		- [iTerm2](https://www.iterm2.com/)
-		- [HyperDock](https://bahoom.com/hyperdock/)
-		- [Licecap](http://www.cockos.com/licecap/)
+		- [AppCleaner](https://freemacsoft.net/appcleaner)
+		- [Alfred](https://www.alfredapp.com)
+		- [iTerm2](https://www.iterm2.com)
+		- [HyperDock](https://bahoom.com/hyperdock)
+		- [Licecap](http://www.cockos.com/licecap)
 		- [MacVim](https://github.com/macvim-dev/macvim)
 		- [SecondBar](http://blog.boastr.net/?p=3)?
-		- [TCL](https://tcl.tk/)
-		- [TotalFinder](http://totalfinder.binaryage.com/)
-		- [Quicksilver](https://qsapp.com/)**
+		- [TCL](https://tcl.tk)
+		- [TotalFinder](http://totalfinder.binaryage.com)
+		- [Quicksilver](https://qsapp.com)**
 
 	* Version Control
-		- [SmartGit](http://www.syntevo.com/smartgit/)
-		- [SmartSynchronize](http://www.syntevo.com/smartsynchronize/)
-		- [SourceTree](https://www.sourcetreeapp.com/)
+		- [SmartGit](http://www.syntevo.com/smartgit)
+		- [SmartSynchronize](http://www.syntevo.com/smartsynchronize)
+		- [SourceTree](https://www.sourcetreeapp.com)
 
 	* Web Development
-		- [Anvil](http://anvilformac.com/)
+		- [Anvil](http://anvilformac.com)
 
 5. Tap [Homebrew Cask Versions](https://github.com/caskroom/homebrew-versions)
 	* Paste `brew tap caskroom/versions` in a terminal.
 	* Install apps by pasting `brew tap cask <app name>` in a terminal.
 
 	* Misc
-		- [VMWare Fusion](https://www.vmware.com/products/fusion/)
+		- [VMWare Fusion](https://www.vmware.com/products/fusion)
 
 6. Install Homebrew packages
 	* ack
 	* ant
+	* autoconf
 	* bash-completion
 	* bash-git-prompt
+		- gdbm
 	* freetype
 		- libpng
 	* git
@@ -121,16 +124,19 @@
 		- libtiff
 		- libtool
 		- xz
-	* jenv
+	* jmeter
+	* jpeg
 	* maven
 	* mysql
 		- openssl
+		- sphinx-doc
 	* node
 	* phantomjs
 	* pngcrush
 	* rbenv
 		- autoconf
 		- pkg-config
+			+ pcre
 		- ruby-build
 	* rbenv-default-gems
 	* ruby
@@ -138,9 +144,10 @@
 		- readline
 	* shellcheck
 	* tidy-html5
+		- cmake
 	* wget
 
-7. Install zsh (http://www.zsh.org/)
+7. Install zsh (http://www.zsh.org)
 	* Paste `brew install zsh` in a terminal.
 	* Change the default terminal from `bash` to `zsh`
 		- Paste `chsh -s $(which zsh)` in a terminal.
@@ -158,10 +165,10 @@
 	* Paste `ln -s ~/configFiles/bash_profile ~/.bash_profile` in a terminal.
 	* Paste `ln -s ~/configFiles/editorconfig ~/.editorconfig` in a terminal.
 
-10. Setup [Apache Server](http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan/)
+10. Setup [Apache Server](http://coolestguidesontheplanet.com/get-apache-mysql-php-and-phpmyadmin-working-on-osx-10-11-el-capitan)
 
 11. Install Sublime Text Packages
-	* [Package Control](https://packagecontrol.io/)
+	* [Package Control](https://packagecontrol.io)
 
 12. Configure Sublime Text Packages.
 
@@ -169,7 +176,7 @@
 
 14. Install Automator scripts.
 
-15. Install npm packages (https://www.npmjs.com/)
+15. Install npm packages (https://www.npmjs.com)
 	* bower
 	* check-source-formatting
 	* grunt
