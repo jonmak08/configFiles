@@ -44,7 +44,7 @@ def main(argv=None):
                 output = value
 
         if len(args) > 0:
-            url = "http://issues.liferay.com/rest/api/2/issue/%s" % (args[0])
+            url = "http://issues.liferay.com/rest/api/latest/issue/%s" % (args[0])
 
             try:
                 req = urllib2.Request(url)
