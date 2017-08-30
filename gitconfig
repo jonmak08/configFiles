@@ -11,7 +11,7 @@
 [user]
 	name = Jonathan Mak
 	email = jonathan.mak@liferay.com
-	editor = /Users/jmak/Applications/Sublime Text.app
+	editor = /Applications/Sublime Text.app
 [credential]
 	helper = osxkeychain
 [core]
