@@ -35,7 +35,7 @@ source $ENV_FILES/settings
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(ant brew brew-cask colored-man-pages command-not-found common-aliases git gitfast gradle grunt gulp history jira node npm osx sublime sudo textmate z zsh-syntax-highlighting)
+plugins=(ant brew brew-cask colored-man-pages common-aliases copydir copyfile git gitfast gradle grunt gulp history jira node npm osx sublime sudo textmate z zsh-syntax-highlighting)
 
 # User configuration
 
