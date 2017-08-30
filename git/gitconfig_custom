@@ -261,7 +261,7 @@
 	brn = "!git branch $* | grep '^*' | sed 's/^* //'"
 
 	# Get the last mentioned JIRA ticket id from the commit log
-	get-latest-jira-id = "!f() { git log $1 --oneline | grep -Eo '([A-Z]{3,}-)([0-9]+)' -m 1 | head -n 1; }; f"
+	get-latest-jira-id = "!f() { git log $1 --oneline | grep -Eo '([A-Z]{2,}-)([0-9]+)' -m 1 | head -n 1; }; f"
 
 	# Open the url to the latest JIRA ticket referenced in the log
 	jira = "!f() { ticketId=$(git get-latest-jira-id $2); open http://issues.liferay.com/browse/$ticketId; }; f"
