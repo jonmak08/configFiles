@@ -15,10 +15,18 @@ function gradle {
 
 function grcd() {
 	top_level=$(git rev-parse --show-toplevel 2>/dev/null)
+	if [[ -e settings.gradle ]]; then
+		mv settings.gradle settings.gradle.tmp
+	fi
+	echo $top_level
 	if [[ -n "$top_level" ]]; then
 		"$top_level"/gradlew clean deploy
 	else
 		echo "Nowhere to go and nothing to clean and deploy..."
+	fi
+
+	if [[ -e settings.gradle.tmp ]]; then
+		mv settings.gradle.tmp settings.gradle
 	fi
 }
 
