@@ -1,7 +1,8 @@
 # Liferay Functions
 ######
 
-# build
+# Build Liferay portal
+
 function bl() {
 	set ${1}
 	if [ "${1}" == "" ]; then
@@ -12,7 +13,8 @@ function bl() {
 	fi
 }
 
-# clean
+# Clean Liferay portal
+
 function cn() {
 	set ${1}
 	if [ "${1}" == "" ]; then
@@ -23,7 +25,8 @@ function cn() {
 	fi
 }
 
-# reset
+# Reset Liferay portal
+
 function rt() {
 	set ${1}
 	if [ "${1}" == "" ]; then
@@ -34,7 +37,8 @@ function rt() {
 	fi
 }
 
-# rebuild database
+# Rebuild HSQL Database
+
 function db-hsql() {
 	set ${1}
 	if [ "${1}" == "" ]; then
@@ -45,7 +49,8 @@ function db-hsql() {
 	fi
 }
 
-# restart
+# Restart Liferay portal
+
 function rs() {
 	set ${1}
 	if [ "${1}" == "" ]; then
@@ -56,7 +61,8 @@ function rs() {
 	fi
 }
 
-# start
+# Start Liferay portal
+
 function st() {
 	set ${1}
 	if [ "${1}" == "" ]; then
@@ -67,7 +73,8 @@ function st() {
 	fi
 }
 
-# start & build
+# Start & Build Liferay portal
+
 function sb() {
 	set ${1}
 	if [ "${1}" == "" ]; then
@@ -132,4 +139,10 @@ function afs {
 	if [[ "$PWD" != "$start_dir" ]]; then
 		cd "$start_dir";
 	fi
+}
+
+# Remove node_modules directories from folders versioned in Git
+
+fixnpm() {
+	git ls-files modules | grep -F package.json | xargs -I {} dirname {} | xargs -I {} rm -rf {}/node_modules
 }
