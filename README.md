@@ -131,6 +131,7 @@
 		- openssl
 		- sphinx-doc
 	* node
+		- icu4c
 	* phantomjs
 	* pngcrush
 	* rbenv
@@ -146,6 +147,7 @@
 	* tidy-html5
 		- cmake
 	* wget
+		- openssl@1.1
 
 7. Install zsh (http://www.zsh.org)
 	* Paste `brew install zsh` in a terminal.
