@@ -1,0 +1,7 @@
+{
+    "all":
+    {
+        // Indent with tabs, overrides `indent_size` and `indent_char`
+        "indent_with_tabs": true
+    },
+}
