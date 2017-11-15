@@ -11,7 +11,7 @@ export GRADLE_OPTS="-Dorg.gradle.workers.max=4"
 export EDITOR='subl -w'
 
 # Homebrew Cask Location
-export HOMEBREW_CASK_OPTS=--caskroom=/opt/homebrew-cask/Caskroom
+#export HOMEBREW_CASK_OPTS=--caskroom=/opt/homebrew-cask/Caskroom
 
 # Java
 export JAVA_HOME="$(/usr/libexec/java_home)"
