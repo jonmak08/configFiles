@@ -1,7 +1,11 @@
 # Exports
 
 # Ant Opts
-export ANT_OPTS="-Xms2048m -Xmx4096m -XX:MaxPermSize=1024m -XX:-UseGCOverheadLimit"
+#export ANT_OPTS="-Xms2048m -Xmx4096m -XX:MaxPermSize=1024m -XX:-UseGCOverheadLimit"
+export ANT_OPTS="-Xms2048m -Xmx2048m -XX:MaxPermSize=512m -XX:-UseGCOverheadLimit -Dorg.gradle.workers.max=4"
+
+# Gradle Opts
+export GRADLE_OPTS="-Dorg.gradle.workers.max=4"
 
 # Default Editor
 export EDITOR='subl -w'
