@@ -3,6 +3,9 @@
 	excludesfile = /Users/jmak/.gitignore_global
 	quotepath = false
 
+[gc]
+	autodetach = false
+
 [include]
 	# path = /Users/jmak/configFiles/git-tools/gitconfig
 	path = gitconfig_custom
