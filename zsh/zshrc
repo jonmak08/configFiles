@@ -27,6 +27,7 @@ source $ENV_FILES/aliases
 
 # Global Settings
 source $ENV_FILES/settings
+source $ENV_FILES/settings_private
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
