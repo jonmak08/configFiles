@@ -1,0 +1,80 @@
+#!/bin/sh
+#
+# Copyright (c) 2012 Dustin Barker
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+all=.git-trim-all
+keep=.git-trim-keep
+
+cleanup() {
+  rm $all $keep
+}
+
+if [ $# -eq 0 ]
+then
+  branches=`git branch`
+else
+  branches=`git ls-remote --heads $1 | awk '{print $2}' | awk 'BEGIN { FS = "/" } ; {print $3}'`
+fi
+
+if [ $? != 0 ]; then
+  exit 1
+fi
+
+if [[ ! $EDITOR ]]; then
+  EDITOR=vim
+fi
+
+echo "$branches" | grep -v '^*' | sed 's/^  //' | tee $all $keep > /dev/null
+
+if [ `cat $all | wc -l` == 0 ]; then
+  echo "No branches found to delete (cannot delete current branch)."
+  cleanup
+  exit 0
+fi
+
+cat >> $keep << EOF
+
+#  Remove the branches you would like to delete.
+
+EOF
+
+eval $EDITOR $keep
+
+if [ $? != 0 ]; then
+  echo "Unable to open editor '$EDITOR'. Check value of \$EDITOR and try again."
+  cleanup
+  exit 1
+fi
+
+delete=`diff --suppress-common-lines $all $keep | grep '^< ' | awk '{print $2}'`
+
+if [ $# -eq 0 ]
+then
+  echo $delete | xargs git branch -D
+else
+  for branch in $delete
+  do
+    git push $1 :$branch
+  done
+fi
+
+cleanup
+
