@@ -186,8 +186,8 @@
 	* grunt-cli
 	* gulp
 	* gulp-cli
-	* n
 	* npm
+	* nvm
 	* phantomjs
 	* shifter
 	* webpack

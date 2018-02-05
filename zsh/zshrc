@@ -1,7 +1,7 @@
 # Path to your config files.
 export CONFIG_FILES=$HOME/configFiles
 
-# Path to environemnt files.
+# Path to environment files.
 export ENV_FILES=$CONFIG_FILES/env
 
 # Path to your oh-my-zsh installation.
@@ -36,7 +36,7 @@ source $ENV_FILES/settings_private
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(ant brew brew-cask colored-man-pages common-aliases copydir copyfile git gitfast gradle grunt gulp history jira node npm osx sublime sudo textmate z zsh-syntax-highlighting)
+plugins=(ant brew brew-cask colored-man-pages common-aliases copydir copyfile git gitfast gradle grunt gulp history jira node npm nvm osx sublime sudo textmate z zsh-syntax-highlighting)
 
 # User configuration
 
@@ -72,3 +72,27 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+
+# Calling nvm use automatically in a directory with a .nvmrc file
+# place this after nvm initialization!
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local node_version="$(nvm version)"
+  local nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$node_version" ]; then
+      nvm use
+    fi
+  elif [ "$node_version" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
