@@ -74,6 +74,7 @@
 		- [TeamViewer](http://www.teamviewer.com)
 		- [VirtualBox](https://www.virtualbox.org)
 		- [VLC](http://www.videolan.org)
+		- [Yarn](https://yarnpkg.com)
 
 	* QuickLook
 		- [qlmarkdown](https://github.com/toland/qlmarkdown)
