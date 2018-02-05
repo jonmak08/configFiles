@@ -17,10 +17,10 @@ export EDITOR='subl -w'
 export JAVA_HOME="$(/usr/libexec/java_home)"
 
 # Path
-export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/configFiles/bin:$HOME/configFiles/git-tools/git-pull-request:/usr/local/opt:/usr/local/share:$HOME/npmGlobal/bin:$PATH
+export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/configFiles/bin:$HOME/configFiles/git-tools/git-pull-request:/usr/local/opt:/usr/local/share:$PATH
 
 # NodeJS
-export NODE_PATH="$NODE_PATH:$HOME/npmGlobal/lib/node_modules"
+# export NODE_PATH="$NODE_PATH:$HOME/npmGlobal/lib/node_modules"
 
 # SmartGit
 export SMARTGITHG_MAX_HEAP_SIZE="1024m"
