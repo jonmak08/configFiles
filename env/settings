@@ -17,7 +17,7 @@ export EDITOR='subl -w'
 export JAVA_HOME="$(/usr/libexec/java_home)"
 
 # Path
-export PATH=$HOME/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/configFiles/bin:$HOME/configFiles/git-tools/git-pull-request:/usr/local/opt:/usr/local/share:$PATH
+export PATH=$HOME/bin:/usr/local/bin:/usr/local/opt/python/libexec/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/configFiles/bin:$HOME/configFiles/git-tools/git-pull-request:/usr/local/opt:/usr/local/share:$PATH
 
 # NodeJS
 # export NODE_PATH="$NODE_PATH:$HOME/npmGlobal/lib/node_modules"

@@ -135,6 +135,10 @@
 		- icu4c
 	* phantomjs
 	* pngcrush
+	* python
+		- readline
+		- sqlite
+		- gdbm
 	* rbenv
 		- autoconf
 		- pkg-config
