@@ -34,6 +34,7 @@
 	* Cloud
 		- [Box](https://www.box.com)
 		- [DropBox](https://www.dropbox.com)
+		- [Google Backup and Sync](https://photos.google.com/apps)
 		- [Google Drive](https://www.google.com/drive)
 
 	* Communication
@@ -62,14 +63,12 @@
 		- [FileZilla](https://filezilla-project.org)
 		- [Genymotion](https://www.genymotion.com)
 		- [Gimp](https://www.gimp.org)
-		- [Google Photos Backup](https://photos.google.com)
 		- [Handbrake](https://handbrake.fr)
 		- [Jing](https://www.techsmith.com/jing.html)
 		- [Karabiner](https://pqrs.org/osx/karabiner)
 		- [LibreOffice](https://www.libreoffice.org/download/libreoffice-fresh)
 		- [Monolingual](https://ingmarstein.github.io/Monolingual)
 		- [Paintbrush](http://paintbrush.sourceforge.net)
-		- [Picasa](https://picasa.google.com)
 		- [Sequel Pro](http://www.sequelpro.com)
 		- [TeamViewer](http://www.teamviewer.com)
 		- [VirtualBox](https://www.virtualbox.org)
