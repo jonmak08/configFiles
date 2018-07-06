@@ -13,7 +13,13 @@ source $ENV_FILES/mysql
 # Misc
 ######
 
-# details
+# Homebrew Dependencies
+# List all the homebrew formulas and it's dependencies
+function brewdeps {
+	brew list | while read cask; do echo -n $fg[blue] $cask $fg[white]; brew deps $cask | awk '{printf(" %s ", $0)}'; echo ""; done
+}
+
+# Details
 # Shows either the file name, alias info, or function definition
 # for a given executable.
 # @argument name of function, alias, or script to list the details for
