@@ -1,11 +1,11 @@
 # Path to your config files.
-export CONFIG_FILES=$HOME/configFiles
+export CUSTOM_CONFIG_FILES=$HOME/configFiles
 
 # Path to environemnt files.
-export ENV_FILES=$CONFIG_FILES/env
+export ENV_FILES=$CUSTOM_CONFIG_FILES/env
 
 # Path to your bash root folder.
-export BASH_ROOT=$CONFIG_FILES/bash
+export BASH_ROOT=$CUSTOM_CONFIG_FILES/bash
 
 # Included Bash files
 

@@ -6,7 +6,7 @@
 > /tmp/git-pull-request-chdir
 
 PR=`dirname "$BASH_SOURCE"`
-"${CONFIG_FILES}/git-tools/git-pull-request/git-pull-request.py" "$@"
+"${CUSTOM_CONFIG_FILES}/git-tools/git-pull-request/git-pull-request.py" "$@"
 
 DIR=`cat /tmp/git-pull-request-chdir`
 
