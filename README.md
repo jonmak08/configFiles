@@ -5,7 +5,6 @@
 
 	* Cloud
 		- CloudApp
-		- Evernote
 		- OneDrive
 
 	* Editors
@@ -34,6 +33,7 @@
 	* Cloud
 		- [Box](https://www.box.com)
 		- [DropBox](https://www.dropbox.com)
+		- [Evernote](https://evernote.com)
 		- [Google Backup and Sync](https://photos.google.com/apps)
 		- [Google Drive](https://www.google.com/drive)
 
@@ -46,7 +46,6 @@
 		- [Java](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 		- [Java7](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 		- [Java8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-		- [JMeter](http://jmeter.apache.org)
 
 	* Editors
 		- [Atom](https://github.com/atom/atom)
@@ -91,6 +90,7 @@
 		- [MacVim](https://github.com/macvim-dev/macvim)
 		- [SecondBar](http://blog.boastr.net/?p=3)?
 		- [TCL](https://tcl.tk)
+		- [Telnet](https://opensource.apple.com)
 		- [TotalFinder](http://totalfinder.binaryage.com)
 		- [Quicksilver](https://qsapp.com)**
 
@@ -112,46 +112,68 @@
 6. Install Homebrew packages
 	* ack
 	* ant
-	* autoconf
 	* bash-completion
 	* bash-git-prompt
-		- gdbm
 	* freetype
 		- libpng
+	* gdbm
+	* gettext
 	* git
+	* icu4c
 	* imagemagick
+		- freetype
 		- jpeg
+		- libpng
 		- libtiff
 		- libtool
 		- xz
-	* jmeter
 	* jpeg
+	* libidn2
+		- gettext
+		- libunistring
+	* libpng
+	* libtiff
+		- jpeg
+	* libtool
+	* libunistring
 	* maven
 	* mysql
 		- openssl
-		- sphinx-doc
 	* node
 		- icu4c
+	* openssl
+	* openssl@1.1
+	* pcre
 	* phantomjs
+		- openssl
 	* pngcrush
 	* python
+		- gdbm
+		- openssl
 		- readline
 		- sqlite
+		- xz
+	* python@2
 		- gdbm
-	* rbenv
-		- autoconf
-		- pkg-config
-			+ pcre
-		- ruby-build
-	* rbenv-default-gems
-	* ruby
-		- libyaml
+		- openssl
 		- readline
+		- sqlite
+	* readline
 	* shellcheck
+	* sqlite
+		- readline
+	* svgo
+		- icu4c
+		- node
 	* tidy-html5
-		- cmake
 	* wget
-		- openssl@1.1
+		- gettext
+		- libidn2
+		- libunistring
+		- openssl
+	* xz
+	* zsh
+	* zsh-completions
 
 7. Install zsh (http://www.zsh.org)
 	* Paste `brew install zsh` in a terminal.
