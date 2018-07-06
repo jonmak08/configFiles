@@ -1,14 +1,14 @@
-# Path to your config files.
-export CONFIG_FILES=$HOME/configFiles
+# Path to your custom config files.
+export CUSTOM_CONFIG_FILES=$HOME/configFiles
 
 # Path to environment files.
-export ENV_FILES=$CONFIG_FILES/env
+export ENV_FILES=$CUSTOM_CONFIG_FILES/env
 
 # Path to your oh-my-zsh installation.
-export ZSH=$CONFIG_FILES/.oh-my-zsh
+export ZSH=$CUSTOM_CONFIG_FILES/.oh-my-zsh
 
 # Path to your zsh root folder.
-export ZSH_ROOT=$CONFIG_FILES/zsh
+export ZSH_ROOT=$CUSTOM_CONFIG_FILES/zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -73,6 +73,11 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Autoload Ruby
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+# if which rbenv > /dev/null; then
+# 	eval "$(rbenv init -)";
+# fi
 
 # Calling nvm use automatically in a directory with a .nvmrc file
 # place this after nvm initialization!
