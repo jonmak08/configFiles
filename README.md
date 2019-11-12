@@ -1,24 +1,16 @@
 1. Upgrade software from AppStore
 2. Install software from AppStore
-	* Communication
-		- Slack
-
 	* Cloud
-		- CloudApp
 		- OneDrive
 
 	* Editors
 		- TextWrangler
 
 	* Misc
-		- Caffeine
-		- Radia
-		- Skitch
 		- XCode
 
 	* Utilities
 		- Dash
-		- The Unarchiver
 
 3. Install [Homebrew](http://brew.sh)
 	* Paste `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"` in a terminal.
@@ -31,15 +23,18 @@
 		- [Firefox](https://www.mozilla.org)
 
 	* Cloud
+		- [Amazon Photos](https://www.amazon.com/Amazon-Photos/b?node=13234696011)
 		- [Box](https://www.box.com)
+		- [CloudApp](https://www.getcloudapp.com)
 		- [DropBox](https://www.dropbox.com)
 		- [Evernote](https://evernote.com)
 		- [Google Backup and Sync](https://photos.google.com/apps)
-		- [Google Drive](https://www.google.com/drive)
+		- [One Drive](https://onedrive.live.com)
 
 	* Communication
 		- [Adium](https://adium.im)
 		- [Skype](http://www.skype.com)
+		- [Slack](https://slack.com)
 
 	* Development
 		- [GitHub](https://desktop.github.com)
@@ -57,6 +52,7 @@
 
 	* Misc
 		- [Burn](http://burn-osx.sourceforge.net)
+		- [Caffeine](http://lightheadsw.com/caffeine)
 		- [Chicken VNC](http://chicken.sourceforge.net)
 		- [Flash](http://www.adobe.com/products/flashruntimes.html)
 		- [FileZilla](https://filezilla-project.org)
@@ -69,6 +65,7 @@
 		- [Monolingual](https://ingmarstein.github.io/Monolingual)
 		- [Paintbrush](http://paintbrush.sourceforge.net)
 		- [Sequel Pro](http://www.sequelpro.com)
+		- [Skitch](https://evernote.com/products/skitch)
 		- [TeamViewer](http://www.teamviewer.com)
 		- [VirtualBox](https://www.virtualbox.org)
 		- [VLC](http://www.videolan.org)
@@ -91,6 +88,7 @@
 		- [SecondBar](http://blog.boastr.net/?p=3)?
 		- [TCL](https://tcl.tk)
 		- [Telnet](https://opensource.apple.com)
+		- [The Unarchiver](https://theunarchiver.com)
 		- [TotalFinder](http://totalfinder.binaryage.com)
 		- [Quicksilver](https://qsapp.com)**
 
@@ -147,6 +145,7 @@
 	* phantomjs
 		- openssl
 	* pngcrush
+	* prettier
 	* python
 		- gdbm
 		- openssl
@@ -207,6 +206,7 @@
 15. Install npm packages (https://www.npmjs.com)
 	* bower
 	* check-source-formatting
+	* gatsby-cli
 	* grunt
 	* grunt-cli
 	* gulp
@@ -214,6 +214,7 @@
 	* npm
 	* nvm
 	* phantomjs
+	* prettier
 	* shifter
 	* webpack
 	* yogi
