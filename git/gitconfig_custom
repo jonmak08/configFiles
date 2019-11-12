@@ -298,4 +298,4 @@
 	sf = "!f() { ant format-source; git sfm $@; }; f"
 
 	# Remove untracked files and directories
-	cln = clean -f -d -x -e build.jmak.properties -e app.server.jmak.properties -e portal-ext.properties -e node_modules -e git-pull-request.users
+	cln = clean -f -d -x -e build.jmak.properties -e app.server.jmak.properties -e portal-ext.properties -e node_modules -e git-pull-request.users -e .nvmrc
