@@ -20,8 +20,12 @@
 		- [Firefox](https://www.mozilla.org)
 
 	* Cloud
+		- [Box Drive](https://www.box.com/drive)
 		- [CloudApp](https://www.getcloudapp.com)
+		- [DropBox](https://www.dropbox.com)
 		- [Evernote](https://evernote.com)
+		- [Google Drive](https://www.google.com/drive/)
+		- [One Drive](https://onedrive.live.com)
 
 	* Communication
 		- [Adium](https://adium.im)
