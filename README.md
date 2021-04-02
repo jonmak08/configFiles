@@ -1,8 +1,5 @@
 1. Upgrade software from AppStore
 2. Install software from AppStore
-	* Cloud
-		- OneDrive
-
 	* Editors
 		- TextWrangler
 
@@ -16,20 +13,15 @@
 	* Paste `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"` in a terminal.
 
 4. Install Homebrew extension [Cask](https://github.com/caskroom/homebrew-cask)
-	* Install apps by pasting `brew cask install <app name>` in a terminal.
+	* Install apps by pasting `brew install <app name>` in a terminal.
 
 	* Browsers
 		- [Chrome](https://www.google.com/chrome)
 		- [Firefox](https://www.mozilla.org)
 
 	* Cloud
-		- [Amazon Photos](https://www.amazon.com/Amazon-Photos/b?node=13234696011)
-		- [Box](https://www.box.com)
 		- [CloudApp](https://www.getcloudapp.com)
-		- [DropBox](https://www.dropbox.com)
 		- [Evernote](https://evernote.com)
-		- [Google Backup and Sync](https://photos.google.com/apps)
-		- [One Drive](https://onedrive.live.com)
 
 	* Communication
 		- [Adium](https://adium.im)
@@ -38,13 +30,8 @@
 
 	* Development
 		- [GitHub](https://desktop.github.com)
-		- [Java](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-		- [Java7](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-		- [Java8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 
 	* Editors
-		- [Atom](https://github.com/atom/atom)
-		- [Brackets](http://brackets.io)
 		- [TextMate](https://macromates.com)
 		- [Sublime Text](https://www.sublimetext.com)
 			+ [Subl](https://github.com/dhoulb/subl)
@@ -54,22 +41,16 @@
 		- [Burn](http://burn-osx.sourceforge.net)
 		- [Caffeine](http://lightheadsw.com/caffeine)
 		- [Chicken VNC](http://chicken.sourceforge.net)
-		- [Flash](http://www.adobe.com/products/flashruntimes.html)
-		- [FileZilla](https://filezilla-project.org)
-		- [Genymotion](https://www.genymotion.com)
-		- [Gimp](https://www.gimp.org)
+		- [Flash](http://www.adobe.com/products/flashruntimes.html) ?
 		- [Handbrake](https://handbrake.fr)
 		- [Jing](https://www.techsmith.com/jing.html)
 		- [Karabiner](https://pqrs.org/osx/karabiner)
-		- [LibreOffice](https://www.libreoffice.org/download/libreoffice-fresh)
 		- [Monolingual](https://ingmarstein.github.io/Monolingual)
 		- [Paintbrush](http://paintbrush.sourceforge.net)
 		- [Sequel Pro](http://www.sequelpro.com)
 		- [Skitch](https://evernote.com/products/skitch)
 		- [TeamViewer](http://www.teamviewer.com)
-		- [VirtualBox](https://www.virtualbox.org)
 		- [VLC](http://www.videolan.org)
-		- [Yarn](https://yarnpkg.com)
 
 	* QuickLook
 		- [qlmarkdown](https://github.com/toland/qlmarkdown)
@@ -81,20 +62,17 @@
 	* Utilities
 		- [AppCleaner](https://freemacsoft.net/appcleaner)
 		- [Alfred](https://www.alfredapp.com)
+		- [Bitwarden](https://bitwarden.com)
 		- [iTerm2](https://www.iterm2.com)
 		- [HyperDock](https://bahoom.com/hyperdock)
 		- [Licecap](http://www.cockos.com/licecap)
 		- [MacVim](https://github.com/macvim-dev/macvim)
-		- [SecondBar](http://blog.boastr.net/?p=3)?
 		- [TCL](https://tcl.tk)
-		- [Telnet](https://opensource.apple.com)
 		- [The Unarchiver](https://theunarchiver.com)
 		- [TotalFinder](http://totalfinder.binaryage.com)
-		- [Quicksilver](https://qsapp.com)**
 
 	* Version Control
 		- [SmartGit](http://www.syntevo.com/smartgit)
-		- [SmartSynchronize](http://www.syntevo.com/smartsynchronize)
 		- [SourceTree](https://www.sourcetreeapp.com)
 
 	* Web Development
@@ -102,62 +80,84 @@
 
 5. Tap [Homebrew Cask Versions](https://github.com/caskroom/homebrew-versions)
 	* Paste `brew tap caskroom/versions` in a terminal.
-	* Install apps by pasting `brew tap cask <app name>` in a terminal.
+	* Install apps by pasting `brew install <app name>` in a terminal.
 
 	* Misc
 		- [VMWare Fusion](https://www.vmware.com/products/fusion)
 
 6. Install Homebrew packages
 	* ack
+	* adns
 	* ant
+		- openjdk
+	* ant@1.9
+	* automake
+		- autoconf
+		- m4
 	* bash-completion
 	* bash-git-prompt
+	* bitwarden-cli
+		- icu4c
+		- node
 	* freetype
 		- libpng
 	* gdbm
-	* gettext
 	* git
-	* icu4c
+		- gettext
+		- pcre2
 	* imagemagick
+		- aom
+		- docbook
+		- docbook-xsl
 		- freetype
+		- gdbm
+		- gettext
+		- ghostscript
+		- glib
+		- gnu-getopt
+		- ilmbase
 		- jpeg
+		- libde265
+		- libffi
+		- libheif
+		- liblqr
+		- libomp
 		- libpng
 		- libtiff
 		- libtool
+		- little-cms2
+		- m4
+		- mpdecimal
+		- openexr
+		- openjpeg
+		- openssl@1.1
+		- pcre
+		- python@3.9
+		- readline
+		- shared-mime-info
+		- sqlite
+		- webp
+		- x265
+		- xmlto
 		- xz
-	* jpeg
-	* libidn2
-		- gettext
-		- libunistring
-	* libpng
-	* libtiff
-		- jpeg
-	* libtool
-	* libunistring
 	* maven
+		- openjdk
 	* mysql
-		- openssl
+		- openssl@1.1
+		- protobuf
 	* node
 		- icu4c
-	* openssl
-	* openssl@1.1
-	* pcre
-	* phantomjs
-		- openssl
 	* pngcrush
 	* prettier
-	* python
+		- icu4c
+		- node
+	* python@3.9
 		- gdbm
-		- openssl
+		- mpdecimal
+		- openssl@1.1
 		- readline
 		- sqlite
 		- xz
-	* python@2
-		- gdbm
-		- openssl
-		- readline
-		- sqlite
-	* readline
 	* shellcheck
 	* sqlite
 		- readline
@@ -169,9 +169,12 @@
 		- gettext
 		- libidn2
 		- libunistring
-		- openssl
+		- openssl@1.1
 	* xz
+	* yarn
 	* zsh
+		- ncurses
+		- pcre
 	* zsh-completions
 
 7. Install zsh (http://www.zsh.org)
@@ -213,7 +216,6 @@
 	* gulp-cli
 	* npm
 	* nvm
-	* phantomjs
 	* prettier
 	* shifter
 	* webpack
