@@ -54,7 +54,7 @@ fi
 
 old_head=$(git rev-parse --short head | tr -d '\n')
 
-git fetch "$UPSTREAM" && git merge "$UPSTREAM"/$update_branch --ff-only && git push origin $update_branch
+git fetch --no-tags "$UPSTREAM" && git merge "$UPSTREAM"/$update_branch --ff-only && git push origin $update_branch
 
 new_head=$(git rev-parse --short head | tr -d '\n')
 
