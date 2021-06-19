@@ -10,3 +10,6 @@
 [submodule "themes/fonts"]
 	path = themes/fonts
 	url = git@github.com:powerline/fonts.git
+[submodule "themes/dracula-theme"]
+	path = themes/dracula-theme
+	url = git@github.com:dracula/dracula-theme.git
