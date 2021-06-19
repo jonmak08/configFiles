@@ -4,3 +4,6 @@
 [submodule "themes/powerlevel9k"]
 	path = themes/powerlevel9k
 	url = git@github.com:Powerlevel9k/powerlevel9k.git
+[submodule "git-tools"]
+	path = git-tools
+	url = git@github.com:jonmak08/git-tools.git
