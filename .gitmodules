@@ -7,3 +7,6 @@
 [submodule "git-tools"]
 	path = git-tools
 	url = git@github.com:jonmak08/git-tools.git
+[submodule "themes/fonts"]
+	path = themes/fonts
+	url = git@github.com:powerline/fonts.git
