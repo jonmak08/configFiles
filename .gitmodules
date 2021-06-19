@@ -1,3 +1,6 @@
 [submodule "plugins/zsh-syntax-highlighting"]
 	path = plugins/zsh-syntax-highlighting
 	url = git@github.com:zsh-users/zsh-syntax-highlighting.git
+[submodule "themes/powerlevel9k"]
+	path = themes/powerlevel9k
+	url = git@github.com:Powerlevel9k/powerlevel9k.git
