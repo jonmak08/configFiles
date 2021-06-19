@@ -20,12 +20,9 @@
 		- [Firefox](https://www.mozilla.org)
 
 	* Cloud
-		- [Box Drive](https://www.box.com/drive)
 		- [CloudApp](https://www.getcloudapp.com)
 		- [DropBox](https://www.dropbox.com)
 		- [Evernote](https://evernote.com)
-		- [Google Drive](https://www.google.com/drive/)
-		- [One Drive](https://onedrive.live.com)
 
 	* Communication
 		- [Adium](https://adium.im)
@@ -71,6 +68,7 @@
 		- [HyperDock](https://bahoom.com/hyperdock)
 		- [Licecap](http://www.cockos.com/licecap)
 		- [MacVim](https://github.com/macvim-dev/macvim)
+		- [Onyx](https://www.titanium-software.fr/en/onyx.html)
 		- [TCL](https://tcl.tk)
 		- [The Unarchiver](https://theunarchiver.com)
 		- [TotalFinder](http://totalfinder.binaryage.com)
