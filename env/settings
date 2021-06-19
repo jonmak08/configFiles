@@ -5,7 +5,8 @@
 export ANT_OPTS="-Xms2048m -Xmx4096m -XX:MaxPermSize=512m -XX:-UseGCOverheadLimit -Dorg.gradle.workers.max=4"
 
 # Gradle Opts
-export GRADLE_OPTS="-Dorg.gradle.workers.max=4"
+#export GRADLE_OPTS="-Dorg.gradle.workers.max=4"
+export GRADLE_OPTS="-Xmx4g"
 
 # Default Editor
 export EDITOR='subl -w'
@@ -17,7 +18,17 @@ export EDITOR='subl -w'
 export JAVA_HOME="$(/usr/libexec/java_home)"
 
 # Path
-export PATH=$HOME/bin:/usr/local/bin:/usr/local/opt/python/libexec/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/configFiles/bin:$HOME/configFiles/git-tools/git-pull-request:/usr/local/opt:/usr/local/share:$PATH
+export PATH=/usr/local/opt/ant@1.9/bin:/Users/jmak/.rvm/gems/ruby-2.4.1/bin:$HOME/bin:/usr/local/bin:/usr/local/opt/python/libexec/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/configFiles/bin:$HOME/configFiles/git-tools/git-pull-request:/usr/local/opt:/usr/local/share:$PATH
+
+# LDFlags for OpenSSL
+export LDFLAGS="-L/usr/local/opt/openssl/lib"
+# export LDFLAGS="-L/usr/local/opt/libffi/lib"
+
+# CPPFlags for OpenSSL
+export CPPFLAGS="-I/usr/local/opt/openssl/include"
+
+#PKG Config Path for OpenSSL
+export PKG_CONFIG_PATH="/usr/local/opt/openssl/lib/pkgconfig"
 
 # NodeJS
 # export NODE_PATH="$NODE_PATH:$HOME/npmGlobal/lib/node_modules"
@@ -27,7 +38,6 @@ export SMARTGITHG_MAX_HEAP_SIZE="1024m"
 
 # Term
 export TERM=xterm-256color
-
 
 # Set Java version
 # https://davidsimpson.me/2015/08/12/switching-java-versions-easily-on-a-mac/
