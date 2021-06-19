@@ -13,3 +13,6 @@
 [submodule "themes/dracula-theme"]
 	path = themes/dracula-theme
 	url = git@github.com:dracula/dracula-theme.git
+[submodule ".oh-my-zsh"]
+	path = .oh-my-zsh
+	url = git@github.com:ohmyzsh/ohmyzsh.git
