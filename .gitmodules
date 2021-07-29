@@ -16,3 +16,6 @@
 [submodule "themes/textmate"]
 	path = themes/textmate
 	url = git@github.com:dracula/textmate.git
+[submodule "themes/visual-studio-code"]
+	path = themes/visual-studio-code
+	url = git@github.com:dracula/visual-studio-code.git
