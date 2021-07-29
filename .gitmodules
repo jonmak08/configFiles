@@ -4,3 +4,6 @@
 [submodule "themes/alfred"]
 	path = themes/alfred
 	url = git@github.com:dracula/alfred.git
+[submodule "themes/iterm"]
+	path = themes/iterm
+	url = git@github.com:dracula/iterm.git
