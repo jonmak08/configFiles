@@ -1,0 +1,34 @@
+# Path to your config files.
+export CONFIG_FILES_ROOT=$HOME/configFiles
+
+# Path to your bash root folder.
+export BASH_ROOT=$CONFIG_FILES_ROOT/bash
+
+# Include Bash files
+source $BASH_ROOT/bash_prompt
+source $BASH_ROOT/git_prompt
+source $BASH_ROOT/settings
+source $BASH_ROOT/aliases
+
+# Path to environment root folder.
+export ENV_ROOT=$CONFIG_FILES_ROOT/env
+
+# Include Environment files
+source $ENV_ROOT/default
+
+# Include .bashrc file if it exists
+if [ -f $BASHRC ] ; then
+	source $BASHRC ;
+fi
+
+# Include .bash_profile.username file if it exists
+if [ -f $BASH_PROFILE_USERNAME ]; then
+	. $BASH_PROFILE_USERNAME
+fi
+
+# Include .bash_completion file if it exists
+if [ -f $BASH_COMPLETION_PATH ]; then
+	. $BASH_COMPLETION_PATH
+fi
+
+#[[ -r $BASH_COMPLETION_PATH ]] && . $BASH_COMPLETION_PATH

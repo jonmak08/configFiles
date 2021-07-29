@@ -1,0 +1,14 @@
+# Utility
+######
+
+# fn
+# Find file by name
+alias fn='find . -name '
+
+# hs
+# Search history
+alias hs="history | grep --color=auto"
+
+# qlf
+# QuickLook file
+alias qlf='qlmanage -p '$@' >& /dev/null'

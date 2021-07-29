@@ -1,0 +1,6 @@
+# Include all alias files
+
+source $ENV_FOLDER/aliases
+source $ENV_FOLDER/functions
+source $ENV_FOLDER/git
+source $ENV_FOLDER/settings

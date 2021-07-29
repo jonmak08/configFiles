@@ -1,0 +1,62 @@
+# Functions
+######
+
+# brewdeps
+# List all the Homebrew formulas and it's dependencies.
+# @arguments N/A
+function brewdeps {
+	brew list | while read cask; do echo -n $fg[blue] $cask $fg[white]; brew deps $cask | awk '{printf(" %s ", $0)}'; echo ""; done
+}
+
+# details
+# Shows either the file name, alias info, or function definition for a given executable.
+# @arguments name of function, alias, or script to list the details for
+function details {
+	if [[ `command -v "$1"` ]]; then
+		cmd_type="$(type -t $1)"
+
+		if [[ $cmd_type == "alias" ]]; then
+			alias "$1" 2> /dev/null
+		elif [[ $cmd_type == "file" ]]; then
+			which "$1" 2> /dev/null
+		elif [[ $cmd_type == "function" ]]; then
+			declare -f "$1" 2> /dev/null
+		else
+			type -a "$1" 2> /dev/null
+		fi
+	else
+		echo "$1 doesn't seem to exist"
+	fi
+
+	return 1
+}
+
+# pf
+# Find a process that is currently running.
+# @arguments name of process
+function pf {
+	ps ax | grep "$1" | grep -v grep | awk '{ print $1 }'
+}
+
+# pkill
+# Kill a process that is currently running.
+# @arguments name of process
+function pkill {
+	pf $1 | xargs kill -9
+	#ps -ef | grep PROCESS | grep -v grep | awk '{print $2}' | xargs kill -9
+}
+
+# gr
+# A simple grep to finding.
+# @arguments (optional) path
+function gr {
+	grep -R '$1' '${2:-.}'
+	# echo $1 ${2:.}
+}
+
+# resolve
+# Find the original source of a symlink
+# @arguments path to symlink
+function resolve {
+	[ ! -h '$1' ] && echo '$1' || (local link='$(expr '$(command ls -ld -- '$1')' : '.*-> \(.*\)$')'; cd $(dirname $1); resolve '$link' | sed 's|^\([^/].*\)\$|$(dirname $1)/\1|');
+}

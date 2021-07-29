@@ -1,0 +1,14 @@
+#!/bin/bash
+
+USER="$1"
+BRANCH="$2"
+
+REPO_NAME=$(basename $(git remote show -n origin | grep Fetch | cut -d: -f2-))
+
+
+if [[ $BRANCH != *:* ]]; then
+	LOCAL_BRANCH_NAME="${3:-${USER}-$BRANCH}"
+	BRANCH="$BRANCH:$LOCAL_BRANCH_NAME"
+fi
+
+git fetch git@github.com:$USER/$REPO_NAME $BRANCH && git checkout ${BRANCH/#*:/}

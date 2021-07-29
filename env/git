@@ -1,0 +1,5 @@
+# Git
+######
+
+# Git ref head
+# alias refHead='echo ref: refs/heads/master >.git/HEAD'

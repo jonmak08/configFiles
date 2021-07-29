@@ -1,0 +1,59 @@
+#!/bin/bash
+
+usage()
+{
+cat << EOF
+usage: $0 options
+
+This script will list the difference stats between two git commits
+
+OPTIONS:
+	-h	Show this message
+	-f	Show the filenames that were modified
+	-r	Show the filenames that were modified relative to the current directory
+EOF
+}
+
+NAMES=0
+RELATIVE=0
+
+while getopts ":hrf" OPTION
+do
+	 case $OPTION in
+		 h)
+			usage
+			exit 1
+			;;
+		 f)
+			NAMES=1
+			;;
+		 r)
+			RELATIVE=1
+			;;
+		 ?)
+			usage
+			exit
+			;;
+	 esac
+done
+shift $(($OPTIND - 1))
+
+ref_spec=$1
+
+if [[ $NAMES == 0 ]]; then
+	git diff --stat $ref_spec
+else
+	files=$(git diff --numstat $ref_spec | awk '{ print $3 }')
+
+	if [[ $RELATIVE == 0 ]]; then
+		echo "$files"
+	else
+		top_level=$(git rev-parse --show-toplevel)
+
+		# for file in $files; do
+		# 	python -c "import os.path; print os.path.relpath('$top_level/$file', '$PWD')"
+		# done
+
+		python -c "import os.path; pwd = '$GIT_PREFIX'; top_level = '$top_level'; files = '''$files'''; files = files.split('\n'); print '\n'.join([os.path.relpath('$top_level/' + i, pwd) for i in files])"
+	fi
+fi

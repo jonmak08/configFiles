@@ -1,0 +1,7 @@
+[include]
+	path = /Users/jon.mak/configFiles/git/gitconfig_custom
+	path = /Users/jon.mak/configFiles/git/gitconfig_private
+
+[user]
+	email = 860951+jonmak08@users.noreply.github.com
+	name = Jonathan Mak

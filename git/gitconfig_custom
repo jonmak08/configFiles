@@ -1,0 +1,329 @@
+[alias]
+	## Branches
+	##--------
+
+	# Checkout
+	co = checkout
+
+	# Checkout last branch
+	col = checkout -
+
+	# Branch
+	br = branch
+
+	# Create a branch by name, or if it exists, checkout the branch
+	cb = "!f() { git checkout -b $1 2> /dev/null && echo Created new branch $1 || `git checkout $1`; }; f"
+
+	# "Refreshes" the current branch (deletes the local and remote, and recreates it)
+	refresh = "!f() { git co $(git getm) && git db-all $1; git cb $1; }; f"
+	
+	# Move all commits after the passed one to a new branch
+	# eg. git split 5c29ab4 custom-feature
+	split = "!f() { git checkout -b $2 && msg=$(git stash save) && git checkout - && git reset --hard $1 && git checkout $2 && [[ ! $msg =~ ^'No local changes to save'$ ]] && git stash pop; }; f"
+
+	# Rename branch
+	rename = branch -m
+
+	## Committing
+	##--------
+	
+	# Commit
+	ci = commit
+
+	# Commit w/ message
+	cim = commit -m
+	
+	# Amend commit
+	cia = commit --amend
+	
+	# Amend commit w/message
+	ciam = commit --amend -m
+	
+	# Add changed files and then commit w/message
+	cam = commit -a -m
+	
+	# Commit and add files
+	ca = commit -a
+	
+	# These are the same as cam, ca and squish, except it adds new files as well
+	acam = !git add -A && git commit -m
+	aca = !git add -A && git commit
+	asquish = !git add -A && git commit --amend -C HEAD
+	
+	# Adds all changed files into the last commit
+	squish = commit -a --amend -C HEAD
+	
+	# Adds only staged files into the last commit
+	squeeze = commit --amend -C HEAD
+
+	## Deleting
+	##--------
+
+	# Delete a local branch
+	db = branch -D
+
+	# Delete a remote branch
+	db-remote = !sh -c 'git push origin :$0'
+
+	# Delete both the local and remote branches
+	db-all = !sh -c 'git db $0 && git db-remote $0'
+
+	# Delete the current local branch and checkout master
+	dbc = "!f() { local bn=$1; [[ -z $bn ]] && bn=$(git brn); master=$(git getm); [[ $bn == $master ]] && echo Cannot remove "$master" && exit; git co $master && git db $bn; }; f"
+
+	## Diffing
+	##--------
+
+	dt = difftool
+	dtc = difftool --cached
+
+	# Diff current changes that are different from master
+	diffm = !git diff $(git getm)..
+
+	# List the filenames and diff stats for a commit/treeish
+	dl = "!f() { ref_spec=$(git get-custom-refspec $1); git get-diffstats $ref_spec; }; f"
+
+	# List the filenames and diff stats for changes against the master branch
+	dlm = "!f() { git get-diffstats -f $(git getm)..; }; f"
+
+	# List the filenames and diff stats relative to the current directory for changes against the master branch
+	dlmr = "!f() { git get-diffstats -f -r $(git getm)..; }; f"
+
+	# Show the patch for a commit/treeish
+	delta = "!f() { ref_spec=$(git get-custom-refspec $1); git diff $ref_spec; }; f"
+
+	# Show *just* the file names that have been changed for a commit/treeish
+	ldl = "!f() { local ref_spec=$(git get-custom-refspec $1); git diff --pretty='format:' --name-only $ref_spec; }; f"
+
+	## Fetching
+	##--------
+
+	# Fetch the current branch from upstream
+	fu = fetch upstream
+
+	## Logging
+	##--------
+
+	# Pretty graph
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(cyan)<%an>%Creset' --abbrev-commit --date=relative
+
+	lgd = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(cyan)<%an>%Creset' --abbrev-commit --date=default
+	
+	# Log graph with the names of the files that have changed
+	lgst = !git lg --stat $@
+	
+	# Log graph with the changes between the current branch and master
+	lgm = !git lg $(git getm)..
+	
+	# Log graph with grepping on the log
+	lgg = "!f() { git lg --grep=\"$1\"; }; f"
+	
+	# Log graph with searching the changes
+	lgs = "!f() { git lg -S\"$1\"; }; f"
+	
+	# Log graph of just the latest commit
+	hd = !git --no-pager log --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(cyan)<%an>%Creset' --abbrev-commit --date=relative -1
+	
+	hdd = !git lgd -1
+	head = !git log -n1
+	tip = !git log --format=format:%h | head -1
+	tipl = !git log --format=format:%H | head -1
+
+	## Merging
+	##--------
+
+	# Merge
+	mg = merge
+
+	# Merge abort
+	mga = merge --abort
+	
+	# Merge master into current branch
+	mm = !git merge $(git getm)
+
+	## Open changed files
+	##--------
+
+	# Open batch of files
+	bopen = "!f() { local ref_spec=$(git get-custom-refspec $1); editor=`git config --get user.editor`;files=`git diff --pretty=format: --name-only $ref_spec`;useopen=`command -v open`; usecygwin=`command -v cygstart`; [[ -n $useopen ]] && open -a \"$editor\" $files && exit $?; [[ -n $usecygwin ]] && editor=$(cygpath -d $editor); for i in $files; do echo opening $i; $usecygwin $editor $i; done }; f"
+
+	# Open all files that are different from master
+	openm = "!f() { git open \"$@\" $(git getm)..; }; f"
+
+	## Misc
+	##--------
+
+	# Same as add, but uses the verbose option since git add doesn't inform you of what exactly you just added
+	aa = add -v
+
+	# Get the current branch name
+	brn = "!git branch $* | grep '^*' | sed 's/^* //'"
+	
+	# Cherry-pick
+	cp = cherry-pick
+
+	# Shortcut for help
+	h = help
+
+	# List ignored files
+	ls-ignored = ls-files --exclude-standard --ignored --others
+
+	# Checkout master branch
+	m = !git co $(git getm)
+
+	# Remove last commit
+	pop = reset HEAD^
+
+	# Show status of current branch
+	st = status
+
+	# Get a range based commit-ish based on the passed sha. Uses HEAD by default, but if a sha is passed, it creates a range
+	# that refers to one previous. If you pass a range, it will leave it untouched so that you can customize the range yourself.
+	# Used in many aliases
+	# eg. git get-custom-refspec					# prints HEAD^..HEAD
+	#     git get-custom-refspec ^					# prints HEAD^..
+	#     git get-custom-refspec 81c35e1			# prints 81c35e1^..81c35e1
+	#     git get-custom-refspec 5250022..master	# prints 5250022..master
+	get-custom-refspec = "!f() { to_rev=${1:-HEAD}; [[ $to_rev == ^ ]] && to_rev=HEAD^..; old_head=${to_rev}^; new_head=$to_rev; if [[ $to_rev == *..* ]]; then old_head=${to_rev%%..*}; new_head=${to_rev#*..*}; fi; ref_spec=$old_head..$new_head; echo $ref_spec; }; f"
+
+	# Display all changed CSS files against a commit/treeish
+	css = "!f() { ref_spec=$(git get-custom-refspec $1); git diff --stat --name-only $ref_spec | grep -E '.(s)?css$' | xargs check_sf; }; f"
+
+	# Display all change JS files against a commit/treeish
+	js = "!f() { ref_spec=$(git get-custom-refspec $1); git diff --stat --name-only $ref_spec | grep -E '.js$' | xargs check_sf; }; f"
+
+	# Display all change CSS files against the master branch
+	cssm = "!f() { git css $(git getm)..; }; f"
+
+	# Display all change JS files against the master branch
+	jsm = "!f() { git js $(git getm)..; }; f"
+
+	## Patching
+	##--------
+
+	# Create patch from files and save them to a directory called patch_files
+	fp = format-patch -o patch_files
+
+	# Save patch
+	save = stash save --patch
+
+	## Pushing
+	##--------
+
+	# Syncs from upstream, then pushes the master branch to origin and upstream
+	push-allm = "!master=$(git getm); git sync-origin $master && git push origin $master && git push upstream $master;"
+
+	# Syncs from upstream, then pushes the master branch to origin and upstream
+	push-all = "!f() { current_branch=$(git brn); git sync-origin $current_branch && git push origin $current_branch && git push upstream $current_branch; }; f"
+
+	# Push the current branch to origin and upstream
+	pa = !git push-all
+
+	# Push the master branch to origin and upstream
+	pam = !git push-allm
+
+	# Push to origin
+	po = push origin
+
+	# Push the master branch to upstream
+	pum = push upstream $(git getm)
+	
+	# Force push the current branch to origin
+	pbo = !git push -f origin $(git brn)
+
+	## Rebasing
+	##--------
+
+	# Rebase
+	rb = rebase
+
+	# Abort rebase
+	rba = rebase --abort
+
+	# Continue rebase
+	rbc = rebase --continue
+
+	# Skip patch
+	rbs = rebase --skip
+
+	# Rebase interactively
+	rbi = rebase -i
+
+	# Rebase on top of master
+	rbm = !git rebase $(git getm)
+
+	# Rebase on top of master interactively
+	rbim = rebase -i $(git getm)
+
+	## Resetting
+	##--------
+
+	# Reset
+	rs = reset
+
+	# Reset hard
+	rsh = reset --hard
+
+	# Reset soft
+	rss = reset --soft
+
+	## Stashing
+	##--------
+
+	# Apply stash (newest by default)
+	sa = "!f() { local stash_rev=stash@{${1:-0}}; git stash apply $stash_rev;  }; f"
+	
+	# Pop stash (newest by default)
+	sp = "!f() { local stash_rev=stash@{${1:-0}}; git stash pop $stash_rev;  }; f"
+	
+	# Save stash (includes untracked files)
+	ss = !git add . && git stash save
+	
+	# List all entries in the stash
+	sl = stash list
+	
+	# List all entries in the stash with the --stat option
+	# (I really hate having to do it this way. Currently, passing the --stat option to stash list will give way too many files)
+	sls = "!f() { limit=\"$1\"; [[ -z \"$limit\" ]] && limit=$(git log --format=\"%gd\" -g refs/stash | wc -l) && let limit-=1; for (( c=0; c<=$limit; c++ )); do echo \"stash@{$c}\"; git stash show stash@{$c}; echo \"---\"; done }; f"
+	
+	# Show stash
+	sh = "!f() { local stash_rev=stash@{${1:-0}}; git stash show $stash_rev;  }; f"
+	
+	# Show stash patch
+	shp = "!f() { local stash_rev=stash@{${1:-0}}; git stash show -p $stash_rev;  }; f"
+
+	## Submodules
+	##--------
+
+	# Update submodules
+	subu = "!f() { cd $(git rev-parse --show-toplevel) && git submodule update; }; f"
+
+	# Update submodules and initialize them
+	subi = "!f() { cd $(git rev-parse --show-toplevel) && git submodule update --init; }; f"
+
+	## Syncing
+	##--------
+
+	# Sync master from upstream to origin
+	# This alias will stash current changes, switch to master, sync, then switch back to the original branch and apply the stash
+	som = "!f() { local current_branch=$(git brn); local saved_index=0; local stash_save_result=`git stash save`; [[ $stash_save_result == *\"HEAD is now at\"* ]] && saved_index=1; master=$(git getm); git checkout $master && git sync-origin $master && git checkout $current_branch && ([[ $saved_index == 1 ]]) && git stash pop; }; f;"
+
+	# Sync current branch with changes from upstream/master to the current branch on origin
+	so = !git sync-origin $(git getm)
+	
+	# Sync current branch from upstream to origin
+	sbo = !git sync-origin $(git brn)
+	
+	# Update current branch from origin
+	ubo = !git pull origin $(git brn)
+	
+	# Update current branch from upstream
+	ubu = !git pull --rebase upstream $(git brn)
+
+[color]
+	ui = auto
+
+[core]
+	autocrlf = input
+	excludesfile = /Users/jon.mak/.gitignore_global
+	quotepath = false

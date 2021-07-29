@@ -1,0 +1,33 @@
+##### Customizations ####
+
+# Path to environment folder.
+export ENV_FOLDER=$CONFIG_FILES_ROOT/env
+
+# Path to oh-my-zsh root folder.
+export OH_MY_ZSH_ROOT=$CONFIG_FILES_ROOT/oh-my-zsh
+
+# Path to oh-my-zsh installation.
+export ZSH=$OH_MY_ZSH_ROOT/.oh-my-zsh
+
+# Set PATH enviornment variable
+export PATH=$PATH:/usr/local/sbin:/Users/jon.mak/configFiles/bin
+
+# Include global aliases.
+source $ENV_FOLDER/default
+
+# Activate zsh-completions.
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+  autoload -Uz compinit
+  compinit
+fi
+
+# Path to nvm folder
+export NVM_DIR="$HOME/.nvm"
+
+# Load nvm
+[ -s "$(brew --prefix)/opt/nvm/nvm.sh" ] && . "$(brew --prefix)/opt/nvm/nvm.sh"
+
+# Load nvm bash_completion
+[ -s "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" ] && . "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm"

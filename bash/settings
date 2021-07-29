@@ -1,0 +1,9 @@
+# Exports
+######
+
+# bash-completion
+# https://salsa.debian.org/debian/bash-completion
+export BASH_COMPLETION_PATH='$(brew --prefix)/etc/profile.d/bash_completion.sh'
+
+# Path
+export PATH=/Users/jon.mak/configFiles/bin:$PATH

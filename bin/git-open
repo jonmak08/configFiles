@@ -1,0 +1,222 @@
+#!/bin/bash
+# Argument = -m test -r server -p password -v
+
+usage()
+{
+cat << EOF
+usage: $0 options
+
+This script will open the files in the specified commit range
+
+OPTIONS:
+   -h      Show this message
+   -a      open all files (including binary)
+   -l      just return a list of the files to be open (useful for piping to other commands)
+   -o      Only open file extensions (pipe delimited)
+   -v      Verbose mode, basically prints a message for every file
+   -x      Exclude file extensions (pipe delimited)
+EOF
+}
+
+OPEN_ALL=0
+VERBOSE=0
+LIST=0
+EXTENSIONS=""
+ONLY_EXTENSIONS=""
+
+while getopts ":halo:vx:" OPTION
+do
+     case $OPTION in
+         h)
+             usage
+             exit 1
+             ;;
+         a)
+             OPEN_ALL=1
+             ;;
+         l)
+             LIST=1
+             ;;
+         o)
+             ONLY_EXTENSIONS=$OPTARG
+             ;;
+         v)
+             VERBOSE=$OPTARG
+             ;;
+         x)
+             EXTENSIONS=$OPTARG
+             ;;
+         ?)
+             usage
+             exit
+             ;;
+     esac
+done
+shift $(($OPTIND - 1))
+
+ref_spec=$(git get-custom-refspec $1);
+
+editor=`git config --get core.editor`;
+
+if [[ -z "$editor" ]]; then
+	echo 'No editor configuration could be found.';
+	echo 'Please set the core.editor setting in your git config';
+	echo 'e.g. by running: git config --global core.editor "/path/to/Applications/Text Editor"';
+	exit 1
+fi
+
+if [[ ! -e "$editor" ]]; then
+	echo "Please set core.editor to a valid application.";
+	echo "It is currently set to $editor";
+	exit 1;
+fi
+
+files=`git diff --pretty=format: --name-only --diff-filter=ACMRTUXB --relative $ref_spec`;
+
+useopen=`command -v open`;
+usecygwin=`command -v cygstart`;
+
+SAVEIFS=$IFS;
+IFS=$'\n';
+
+open_files=0
+total_files=$(echo "$files" | wc -l | awk {'print $1'})
+
+if [[ $OPEN_ALL == 0 ]]; then
+	PREFIX_RE=".*"
+	PREFIX_STANDARD="\."
+
+	if [[ -n $EXTENSIONS ]]; then
+		[[ $EXTENSIONS == *.* ]]  && PREFIX="$PREFIX_RE" || PREFIX="$PREFIX_STANDARD"
+
+		files=$(echo "$files" | grep -E -v "${PREFIX}(${EXTENSIONS})$")
+	elif [[ -n $ONLY_EXTENSIONS ]]; then
+		[[ $ONLY_EXTENSIONS == *.* ]]  && PREFIX="$PREFIX_RE" || PREFIX="$PREFIX_STANDARD"
+
+		files=$(echo "$files" | grep -E "${PREFIX}(${ONLY_EXTENSIONS})$")
+	fi
+fi
+
+if [[ $LIST == 1 ]]; then
+	echo "$files"
+	exit
+fi
+
+CONFIRM_OPEN=1
+MAX_FILES=20
+
+if [[ $total_files -gt $MAX_FILES ]]; then
+	requested_files=0
+	CONFIRM_OPEN=0
+
+	for i in $files; do
+		is_binary=0;
+
+		if [[ $OPEN_ALL == 0 && (-z "`file "$i"|grep text`") ]]; then
+			is_binary=1;
+		fi
+
+		if [[ -f "$i" && ($OPEN_ALL == 1 || $is_binary == 0) ]]; then
+			(( requested_files++ ))
+		fi
+	done
+
+	if [[ $requested_files -gt $MAX_FILES ]]; then
+		read -p "This will open $requested_files files. Are you sure? (y)es or (n)o: " confirm_files
+		[[ "$confirm_files" == "y" || "$confirm_files" == "yes" ]] && CONFIRM_OPEN=1
+	elif [[ $requested_files -gt 0 ]]; then
+		CONFIRM_OPEN=1
+	fi
+fi
+
+if [[ $CONFIRM_OPEN == 0 ]]; then
+	echo "Cancelled opening the files."
+	exit;
+fi
+
+if [[ -n $useopen ]]; then
+	files_to_open=()
+	for i in $files; do
+		is_binary=0;
+
+		open_message="Trying to open $i";
+
+		if [[ $OPEN_ALL == 0 ]]; then
+			if [[ -z "`file "$i"|grep text`" ]]; then
+				is_binary=1;
+			fi
+
+			if [[ $is_binary == 1 ]]; then
+				open_message="Ignoring $i because its binary";
+			fi
+		fi
+		# exclude=0
+
+		if [[ -f "$i" && ($OPEN_ALL == 1 || $is_binary == 0) ]]; then
+			# files_to_open="$files_to_open $i"
+			files_to_open=( "${files_to_open[@]}" "$i" )
+
+			(( open_files++ ))
+		fi
+
+		# if [[ (-n $re && ("$i" =~ $re)) || (-n $only_re && (! "$i" =~ $only_re)) ]]; then
+		# 	exclude=1
+		# 	open_message="Excluding $i because of the file type";
+		# fi
+
+		if [[ $VERBOSE == 1 ]]; then
+			echo $open_message;
+		fi
+
+		# if [[ (! "$i" =~ $re) && (-z $only_re || "$i" =~ $only_re) && -f "$i" && ($OPEN_ALL == 1 || $is_binary == 0) ]]; then
+	done
+
+	$useopen -a "$editor" "${files_to_open[@]}";
+	# echo "$files_to_open"
+
+# if [[ -n $useopen ]]; then
+# 	for i in $files; do
+# 		is_binary=0;
+
+# 		open_message="Trying to open $i";
+
+# 		if [[ $OPEN_ALL == 0 ]]; then
+# 			if [[ -z "`file "$i"|grep text`" ]]; then
+# 				is_binary=1;
+# 			fi
+
+# 			if [[ $is_binary == 1 ]]; then
+# 				open_message="Ignoring $i because its binary";
+# 			fi
+# 		fi
+# 		# exclude=0
+
+# 		if [[ -f "$i" && ($OPEN_ALL == 1 || $is_binary == 0) ]]; then
+# 			$useopen -a "$editor" "$i";
+
+# 			(( open_files++ ))
+# 		fi
+
+# 		# if [[ (-n $re && ("$i" =~ $re)) || (-n $only_re && (! "$i" =~ $only_re)) ]]; then
+# 		# 	exclude=1
+# 		# 	open_message="Excluding $i because of the file type";
+# 		# fi
+
+# 		if [[ $VERBOSE == 1 ]]; then
+# 			echo $open_message;
+# 		fi
+
+# 		# if [[ (! "$i" =~ $re) && (-z $only_re || "$i" =~ $only_re) && -f "$i" && ($OPEN_ALL == 1 || $is_binary == 0) ]]; then
+# 	done
+
+echo "Opened $open_files file(s) out of $total_files"
+
+elif [[ -n $usecygwin ]]; then
+	for i in "$files"; do
+		echo opening $i;
+
+		$usecygwin $editor $i;
+	done
+fi
+
+IFS=$SAVEIFS;
