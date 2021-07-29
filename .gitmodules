@@ -19,3 +19,6 @@
 [submodule "themes/visual-studio-code"]
 	path = themes/visual-studio-code
 	url = git@github.com:dracula/visual-studio-code.git
+[submodule "themes/zsh"]
+	path = themes/zsh
+	url = git@github.com:dracula/zsh.git
