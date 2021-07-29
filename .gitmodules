@@ -10,3 +10,6 @@
 [submodule "themes/sublime"]
 	path = themes/sublime
 	url = https://github.com/dracula/sublime.git
+[submodule "themes/terminal-app"]
+	path = themes/terminal-app
+	url = git@github.com:dracula/terminal-app.git
