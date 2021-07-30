@@ -32,3 +32,6 @@ if [ -f $BASH_COMPLETION_PATH ]; then
 fi
 
 #[[ -r $BASH_COMPLETION_PATH ]] && . $BASH_COMPLETION_PATH
+
+# Load RVM into a shell session as a function
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
