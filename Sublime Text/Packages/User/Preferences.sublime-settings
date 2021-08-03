@@ -1,0 +1,9 @@
+{
+	"color_scheme": "Packages/Dracula Color Scheme/Dracula.tmTheme",
+	"ignored_packages":
+	[
+		"Vintage",
+	],
+	"rulers": [80],
+	"theme": "auto",
+}
