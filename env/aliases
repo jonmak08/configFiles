@@ -1,3 +1,14 @@
+# Ardius
+######
+
+# mithrin
+# Shortcut to Mithrin Application Directory
+alias mithrin='cd $HOME/Projects/mithrin' 
+
+# mithrinst
+# Shortcut to open a new iTerm window to compile the Mithrin Application and start the local webserver
+alias mithrinst='iterm $HOME/Projects/mithrin bundle install && yarn && bin/rake db:migrate && yarn start' 
+
 # Utility
 ######
 
