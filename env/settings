@@ -2,7 +2,7 @@
 ######
 
 # Default Editor
-export EDITOR='subl -w'
+export EDITOR='mate -w'
 
 # Terminal emulator
 export TERM=xterm-256color
