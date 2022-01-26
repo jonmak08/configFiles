@@ -159,6 +159,9 @@
 	# Get the current branch name
 	brn = "!git branch $* | grep '^*' | sed 's/^* //'"
 
+	# Remove untracked files and folders
+	cln = "clean -fd"
+
 	# Cherry-pick
 	cp = cherry-pick
 
