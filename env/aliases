@@ -1,13 +1,25 @@
 # Ardius
 ######
 
+# db
+# Update Mithrin Application DB
+alias db='bin/rake db:migrate'
+
+# install
+# Install Mithrin Application Ruby and NPM dependencies
+alias install='bundle install && yarn'
+
 # mithrin
 # Shortcut to Mithrin Application Directory
 alias mithrin='cd $HOME/Projects/mithrin' 
 
-# mithrinst
+# start
 # Shortcut to open a new iTerm window to compile the Mithrin Application and start the local webserver
-alias mithrinst='iterm $HOME/Projects/mithrin bundle install && yarn && bin/rake db:migrate && yarn start' 
+alias start='iterm $HOME/Projects/mithrin yarn start'
+
+# update
+# Update Mithrin Application Ruby and NPM dependencies and DB updates
+alias update='bundle install && yarn && bin/rake db:migrate'
 
 # Utility
 ######
