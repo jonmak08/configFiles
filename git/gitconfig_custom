@@ -16,7 +16,7 @@
 
 	# "Refreshes" the current branch (deletes the local and remote, and recreates it)
 	refresh = "!f() { git co $(git getm) && git db-all $1; git cb $1; }; f"
-	
+
 	# Move all commits after the passed one to a new branch
 	# eg. git split 5c29ab4 custom-feature
 	split = "!f() { git checkout -b $2 && msg=$(git stash save) && git checkout - && git reset --hard $1 && git checkout $2 && [[ ! $msg =~ ^'No local changes to save'$ ]] && git stash pop; }; f"
@@ -26,33 +26,33 @@
 
 	## Committing
 	##--------
-	
+
 	# Commit
 	ci = commit
 
 	# Commit w/ message
 	cim = commit -m
-	
+
 	# Amend commit
 	cia = commit --amend
-	
+
 	# Amend commit w/message
 	ciam = commit --amend -m
-	
+
 	# Add changed files and then commit w/message
 	cam = commit -a -m
-	
+
 	# Commit and add files
 	ca = commit -a
-	
+
 	# These are the same as cam, ca and squish, except it adds new files as well
 	acam = !git add -A && git commit -m
 	aca = !git add -A && git commit
 	asquish = !git add -A && git commit --amend -C HEAD
-	
+
 	# Adds all changed files into the last commit
 	squish = commit -a --amend -C HEAD
-	
+
 	# Adds only staged files into the last commit
 	squeeze = commit --amend -C HEAD
 
@@ -108,22 +108,22 @@
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(cyan)<%an>%Creset' --abbrev-commit --date=relative
 
 	lgd = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(cyan)<%an>%Creset' --abbrev-commit --date=default
-	
+
 	# Log graph with the names of the files that have changed
 	lgst = !git lg --stat $@
-	
+
 	# Log graph with the changes between the current branch and master
 	lgm = !git lg $(git getm)..
-	
+
 	# Log graph with grepping on the log
 	lgg = "!f() { git lg --grep=\"$1\"; }; f"
-	
+
 	# Log graph with searching the changes
 	lgs = "!f() { git lg -S\"$1\"; }; f"
-	
+
 	# Log graph of just the latest commit
 	hd = !git --no-pager log --pretty=format:'%Cred%h%Creset - %s %Cgreen(%cr) %C(cyan)<%an>%Creset' --abbrev-commit --date=relative -1
-	
+
 	hdd = !git lgd -1
 	head = !git log -n1
 	tip = !git log --format=format:%h | head -1
@@ -137,7 +137,7 @@
 
 	# Merge abort
 	mga = merge --abort
-	
+
 	# Merge master into current branch
 	mm = !git merge $(git getm)
 
@@ -148,7 +148,7 @@
 	bopen = "!f() { local ref_spec=$(git get-custom-refspec $1); editor=`git config --get user.editor`;files=`git diff --pretty=format: --name-only $ref_spec`;useopen=`command -v open`; usecygwin=`command -v cygstart`; [[ -n $useopen ]] && open -a \"$editor\" $files && exit $?; [[ -n $usecygwin ]] && editor=$(cygpath -d $editor); for i in $files; do echo opening $i; $usecygwin $editor $i; done }; f"
 
 	# Open all files that are different from master
-	openm = "!f() { git open \"$@\" $(git getm)..; }; f"
+	openm = "!f() { git open diff \"$@\" $(git getm)..; }; f"
 
 	## Misc
 	##--------
@@ -158,7 +158,7 @@
 
 	# Get the current branch name
 	brn = "!git branch $* | grep '^*' | sed 's/^* //'"
-	
+
 	# Cherry-pick
 	cp = cherry-pick
 
@@ -227,7 +227,7 @@
 
 	# Push the master branch to upstream
 	pum = push upstream $(git getm)
-	
+
 	# Force push the current branch to origin
 	pbo = !git push -f origin $(git brn)
 
@@ -272,23 +272,23 @@
 
 	# Apply stash (newest by default)
 	sa = "!f() { local stash_rev=stash@{${1:-0}}; git stash apply $stash_rev;  }; f"
-	
+
 	# Pop stash (newest by default)
 	sp = "!f() { local stash_rev=stash@{${1:-0}}; git stash pop $stash_rev;  }; f"
-	
+
 	# Save stash (includes untracked files)
 	ss = !git add . && git stash save
-	
+
 	# List all entries in the stash
 	sl = stash list
-	
+
 	# List all entries in the stash with the --stat option
 	# (I really hate having to do it this way. Currently, passing the --stat option to stash list will give way too many files)
 	sls = "!f() { limit=\"$1\"; [[ -z \"$limit\" ]] && limit=$(git log --format=\"%gd\" -g refs/stash | wc -l) && let limit-=1; for (( c=0; c<=$limit; c++ )); do echo \"stash@{$c}\"; git stash show stash@{$c}; echo \"---\"; done }; f"
-	
+
 	# Show stash
 	sh = "!f() { local stash_rev=stash@{${1:-0}}; git stash show $stash_rev;  }; f"
-	
+
 	# Show stash patch
 	shp = "!f() { local stash_rev=stash@{${1:-0}}; git stash show -p $stash_rev;  }; f"
 
@@ -310,13 +310,13 @@
 
 	# Sync current branch with changes from upstream/master to the current branch on origin
 	so = !git sync-origin $(git getm)
-	
+
 	# Sync current branch from upstream to origin
 	sbo = !git sync-origin $(git brn)
-	
+
 	# Update current branch from origin
 	ubo = !git pull origin $(git brn)
-	
+
 	# Update current branch from upstream
 	ubu = !git pull --rebase upstream $(git brn)
 
@@ -325,5 +325,6 @@
 
 [core]
 	autocrlf = input
+	editor = code -w
 	excludesfile = /Users/jon.mak/.gitignore_global
 	quotepath = false
