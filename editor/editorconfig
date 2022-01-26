@@ -1,4 +1,4 @@
-# EditorConfig helps maintain consistent coding styles for multiple developers working on the same project across various editors and IDEs. 
+# EditorConfig helps maintain consistent coding styles for multiple developers working on the same project across various editors and IDEs.
 # See https://editorconfig.org/
 
 # top-most EditorConfig file
@@ -6,8 +6,8 @@ root = true
 
 [*]
 charset = utf-8
-indent_size = 4
-indent_style = tab
+indent_size = 2
+indent_style = space
 insert_final_newline = false
 trim_trailing_whitespace = true
 
