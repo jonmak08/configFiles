@@ -7,7 +7,7 @@ alias db='bin/rake db:migrate'
 
 # install
 # Install Mithrin Application Ruby and NPM dependencies
-alias install='bundle install && yarn'
+alias install='bundle install && rm -rf node_modules && yarn install'
 
 # mithrin
 # Shortcut to Mithrin Application Directory
