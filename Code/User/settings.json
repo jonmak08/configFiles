@@ -1,33 +1,88 @@
 {
+  // Tell VSCode to use the prettier standard & config when running formatting.
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "bracketPairColorizer.showBracketsInGutter": true,
   "bracketPairColorizer.showBracketsInRuler": true,
   "css.lint.ieHack": "warning",
   "css.lint.important": "warning",
   "css.lint.zeroUnits": "warning",
   "diffEditor.codeLens": true,
+  // Matching brackets will have the same color
+  "editor.bracketPairColorization.enabled": true,
+  // Code actions on save. You can see the available options by starting to type "source" in the JS object
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    // Adds missing imports on save
+    "source.addMissingImports": true,
+    // Executes all fixes such as missing a semicolon, other eslint complaints, etc.
+    "source.fixAll": true
   },
   "editor.cursorStyle": "block",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // fontLigatures are when multiple characters appear into a single character. Personally I prefer to just have the default behavior of the text
+  "editor.fontLigatures": false,
+  // Changes how large the font size will be in the editor
+  "editor.fontSize": 13,
+  // Formats using our formatter after pasting code
   "editor.formatOnPaste": true,
+  // Formats using our formatter after cmd + s (saving)
   "editor.formatOnSave": true,
+  "editor.guides.bracketPairs": true,
+  // Brightens a little bit the active level of indentation so you can see which level of indent you are on
+  "editor.guides.highlightActiveIndentation": true,
+  // When you edit an HTML tag the corresponding tag will get updated - only works in HTML files atm. As an intermediate "hack" you can use cmd + D twice while on a HTML tag or JSX/TSX element
+  "editor.linkedEditing": true,
+  // Disabled the right hand window showing where you are within the file. Personally I find it distracting but its personal preference.
+  "editor.minimap.enabled": false,
+  "editor.multiCursorModifier": "ctrlCmd",
   "editor.renderControlCharacters": true,
   "editor.renderWhitespace": "all",
   "editor.rulers": [80],
   "editor.suggest.shareSuggestSelections": true,
   "editor.suggestSelection": "recentlyUsedByPrefix",
   "editor.tabCompletion": "on",
+  // Change default tab size to 2 since its a generally accepted standard. It seems like the VSCode default is 4 for some reason
+  "editor.tabSize": 2,
   "eslint.alwaysShowStatus": true,
   "eslint.format.enable": true,
-  "eslint.validate": ["javascript"],
-  "files.trimFinalNewlines": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "graphql"
+  ],
+  // Trim final new line on save
+  "files.trimFinalNewlines": false,
+  // Trim trailing whitespace on save
   "files.trimTrailingWhitespace": true,
   "git.alwaysShowStagedChangesResourceGroup": true,
   "git.autoStash": true,
   "git.enableSmartCommit": true,
+  // Gitlens settings: all personal preference. I honestly don't even remember setting these.
+  "gitlens.blame.avatars": false,
+  "gitlens.blame.compact": false,
+  "gitlens.blame.format": "${author|10} ${date}",
+  "gitlens.blame.heatmap.enabled": false,
+  "gitlens.blame.highlight.locations": ["gutter", "line", "overview"],
+  "gitlens.codeLens.enabled": false,
+  // I remember setting this one. This disables the view of seeing the author within the code. I didn't want to constantly see the blame annotations as I'm typing.
+  // I see the blame annotation at the bottom right of my screen to the left of the current line / column info
+  "gitlens.currentLine.enabled": false,
+  "gitlens.defaultDateFormat": "DD/MM/YYYY",
+  "gitlens.defaultDateShortFormat": "DD/MM/YYYY",
+  "gitlens.hovers.currentLine.over": "line",
+  "gitlens.hovers.enabled": false,
+  "html.autoClosingTags": true,
   "html.format.indentHandlebars": true,
   "html.format.indentInnerHtml": true,
+  // these are needed so that when auto importing via autocomplete suggest or "quick fix", the correct absolute path import is provided as the path
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.suggest.autoImports": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  // Helps the Jest Runner extension. Jest Runner provides a tiny little UI with a "run" and "debug" button above jest tests so you can run that test with one click.
+  "jestrunner.jestCommand": "yarn test",
   "less.lint.duplicateProperties": "warning",
   "less.lint.idSelector": "warning",
   "less.lint.ieHack": "warning",
@@ -43,12 +98,28 @@
   "scss.lint.zeroUnits": "warning",
   "search.showLineNumbers": true,
   "search.smartCase": true,
+  // Safe to ignore
   "security.workspace.trust.untrustedFiles": "open",
   "sortLines.filterBlankLines": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
   "window.title": "${activeEditorShort}${separator}${rootName}${dirty}",
+  "window.zoomLevel": 1,
+  // Preferred color theme
   "workbench.colorTheme": "Dracula",
+  // Your last searched thing in the command palette will pop up and highlighted so that you don't need to type the same thing again if you close it
+  "workbench.commandPalette.preserveInput": true,
+  // I disabled all the "preview" stuff because I didn't really like the interface of previewing a block of code and I'd rather navigate to the file directly
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreviewFromCodeNavigation": false,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
   "workbench.editor.highlightModifiedTabs": true,
   "workbench.editor.pinnedTabSizing": "shrink",
-  "editor.multiCursorModifier": "ctrlCmd",
-  "window.zoomLevel": 1
+  // If there isnt enough room for the files display at the top, it will wrap the tabs rather than overflowing on one line
+  "workbench.editor.wrapTabs": true,
+  // This enables horizontal scrolling in the file explorer on the left side. Useful for highly nested files.
+  "workbench.list.horizontalScrolling": true,
+  // Your last searched thing in the file search will pop up and highlighted so that you don't need to type the same thing again if you close it
+  "workbench.quickOpen.preserveInput": true
 }
