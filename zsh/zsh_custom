@@ -12,6 +12,9 @@ export ZSH=$OH_MY_ZSH_ROOT/.oh-my-zsh
 # Set PATH enviornment variable
 export PATH=$PATH:/usr/local/sbin:/Users/jon.mak/configFiles/bin
 
+# Show Git diagnostic errors
+export GITSTATUS_LOG_LEVEL=DEBUG
+
 # Include global aliases.
 source $ENV_FOLDER/default
 
