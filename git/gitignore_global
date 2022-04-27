@@ -1,2 +1,5 @@
 *_private
 .DS_Store
+**/.env
+**/.idea/
+**/*.iml
