@@ -60,3 +60,19 @@ function gr {
 function resolve {
 	[ ! -h '$1' ] && echo '$1' || (local link='$(expr '$(command ls -ld -- '$1')' : '.*-> \(.*\)$')'; cd $(dirname $1); resolve '$link' | sed 's|^\([^/].*\)\$|$(dirname $1)/\1|');
 }
+
+# Ardius
+######
+
+# getnode
+# Return the process id of the file running on port 3035
+# Use lsof (List of Open Files)
+function getnode {
+	lsof -t -i:3035
+}
+
+# killnode
+# Kill the node process running on port 3035
+function killnode {
+	pkill $(getnode)
+}
