@@ -5,3 +5,10 @@
 [user]
 	email = 860951+jonmak08@users.noreply.github.com
 	name = Jonathan Mak
+	signingkey = A7DAA57B518DAA9C
+[gpg]
+	program = gpg
+[commit]
+	gpgsign = true
+[credential]
+	helper = osxkeychain
