@@ -14,9 +14,9 @@
   // Code actions on save. You can see the available options by starting to type "source" in the JS object
   "editor.codeActionsOnSave": {
     // Adds missing imports on save
-    "source.addMissingImports": true,
+    "source.addMissingImports": "explicit",
     // Executes all fixes such as missing a semicolon, other eslint complaints, etc.
-    "source.fixAll": true
+    "source.fixAll": "explicit"
   },
   "editor.cursorStyle": "block",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -110,8 +110,6 @@
   "workbench.colorTheme": "Dracula",
   // Your last searched thing in the command palette will pop up and highlighted so that you don't need to type the same thing again if you close it
   "workbench.commandPalette.preserveInput": true,
-  // I disabled all the "preview" stuff because I didn't really like the interface of previewing a block of code and I'd rather navigate to the file directly
-  "workbench.editor.enablePreview": false,
   "workbench.editor.enablePreviewFromCodeNavigation": false,
   "workbench.editor.enablePreviewFromQuickOpen": false,
   "workbench.editor.highlightModifiedTabs": true,
@@ -121,5 +119,6 @@
   // This enables horizontal scrolling in the file explorer on the left side. Useful for highly nested files.
   "workbench.list.horizontalScrolling": true,
   // Your last searched thing in the file search will pop up and highlighted so that you don't need to type the same thing again if you close it
-  "workbench.quickOpen.preserveInput": true
+  "workbench.quickOpen.preserveInput": true,
+  "githubPullRequests.pullBranch": "never"
 }
