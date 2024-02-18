@@ -3,11 +3,11 @@
 
 # db
 # Update Mithrin Application DB
-alias db='bin/rake db:migrate'
+alias dbA='bin/rake db:migrate'
 
 # install
 # Install Mithrin Application Ruby and NPM dependencies
-alias install='bundle install && rm -rf node_modules && yarn install'
+alias installA='bundle install && rm -rf node_modules && yarn install'
 
 # mithrin
 # Shortcut to Mithrin Application Directory
@@ -15,11 +15,26 @@ alias mithrin='cd $HOME/Projects/mithrin'
 
 # start
 # Shortcut to open a new iTerm window to compile the Mithrin Application and start the local webserver
-alias start='iterm $HOME/Projects/mithrin yarn start'
+alias startA='iterm $HOME/Projects/mithrin yarn start'
 
 # update
 # Update Mithrin Application Ruby and NPM dependencies and DB updates
-alias update='bundle install && yarn && bin/rake db:migrate'
+alias updateA='bundle install && yarn && bin/rake db:migrate'
+
+# Gusto
+######
+
+# resetDb
+# Reset ZenPayroll Application DB
+alias resetDb='bin/setup --reset-db'
+
+# zp
+# Shortcut to ZenPayroll Application Directory
+alias zenpayroll='cd $HOME/workspace/zenpayroll' 
+
+# startZp
+# Shortcut to open a new iTerm window to compile the Mithrin Application and start the local webserver
+alias startZp='iterm $HOME/workspace/zenpayroll bin/setup && bin/server'
 
 # Utility
 ######
