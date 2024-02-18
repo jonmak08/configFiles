@@ -4,5 +4,8 @@
 # Default Editor
 export EDITOR='mate -w'
 
+# Heroku Email
+export HEROKU_EMAIL='jon.mak@gusto.com'
+
 # Terminal emulator
 export TERM=xterm-256color
